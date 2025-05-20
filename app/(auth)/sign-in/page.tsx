@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { AuthForm } from "../_components";
+import { SignInForm } from "./components/form";
 
 export default function SignInPage() {
   return (
@@ -16,7 +16,7 @@ export default function SignInPage() {
             for free
           </p>
         </div>
-        <AuthForm mode="sign-in" />
+        <SignInForm />
       </div>
     </main>
   );

@@ -1,22 +1,22 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, integer, primaryKey } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
+import { pgTable, text, timestamp, integer, primaryKey } from "drizzle-orm/pg-core";
 
 const timestamps = {
-  createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
-  updatedAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).notNull().defaultNow(),
 };
 
 export const users = pgTable("users", {
-  id: text()
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text(),
-  username: text().unique(),
-  email: text().unique(),
-  emailVerified: timestamp({ mode: "date" }),
-  image: text(),
-  password: text(),
+  name: text("name"),
+  username: text("username").unique(),
+  email: text("email").unique(),
+  emailVerified: timestamp("email_verified", { mode: "date" }),
+  image: text("image"),
+  password: text("password"),
   ...timestamps,
 });
 
@@ -30,19 +30,19 @@ export type User = typeof users.$inferSelect;
 export const accounts = pgTable(
   "accounts",
   {
-    userId: text()
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    type: text().$type<AdapterAccountType>().notNull(),
-    provider: text().notNull(),
-    providerAccountId: text().notNull(),
-    refresh_token: text(),
-    access_token: text(),
-    expires_at: integer(),
-    token_type: text(),
-    scope: text(),
-    id_token: text(),
-    session_state: text(),
+    type: text("type").$type<AdapterAccountType>().notNull(),
+    provider: text("provider").notNull(),
+    providerAccountId: text("provider_account_id").notNull(),
+    refresh_token: text("refresh_token"),
+    access_token: text("access_token"),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
+    id_token: text("id_token"),
+    session_state: text("session_state"),
     ...timestamps,
   },
   account => ({
@@ -60,9 +60,9 @@ export const accountRelations = relations(accounts, ({ one }) => ({
 export const verificationTokens = pgTable(
   "verification_tokens",
   {
-    identifier: text().notNull(),
-    token: text().notNull(),
-    expires: timestamp({ mode: "date" }).notNull(),
+    identifier: text("identifier").notNull(),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
   },
   verificationToken => ({
     compositePk: primaryKey({ columns: [verificationToken.identifier, verificationToken.token] }),

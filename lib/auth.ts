@@ -1,18 +1,13 @@
+import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import Github from "next-auth/providers/github";
-import Resend from "next-auth/providers/resend";
+import Credentials from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 
 import db from "@/db";
 import { updateUser } from "@/lib/actions";
+import { signInSchema } from "@/lib/schemas";
 import { getUserByEmail, getUserById } from "@/lib/queries";
-
-const OAUTH_OPTIONS = { allowDangerousEmailAccountLinking: true };
-const RESEND_OPTIONS = {
-  from: `no-reply@${process.env.RESEND_DOMAIN}`,
-  apiKey: process.env.RESEND_KEY,
-};
 
 export const {
   handlers: { GET, POST },
@@ -21,7 +16,26 @@ export const {
   auth,
 } = NextAuth({
   adapter: DrizzleAdapter(db),
-  providers: [Google(OAUTH_OPTIONS), Github(OAUTH_OPTIONS), Resend(RESEND_OPTIONS)],
+  providers: [
+    Google({ allowDangerousEmailAccountLinking: true }),
+    Credentials({
+      async authorize(credentials) {
+        const validated = signInSchema.safeParse(credentials);
+        if (validated.success) {
+          const { email, password } = validated.data;
+
+          const user = await getUserByEmail(email);
+          if (!user || !user.password) return null;
+
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+          if (passwordsMatch) {
+            return user;
+          }
+        }
+        return null;
+      },
+    }),
+  ],
   events: {
     async linkAccount({ profile }) {
       if (profile.email) {
@@ -62,9 +76,20 @@ export const {
       session.user.name = token.name;
       return session;
     },
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") return true;
+
+      const existingUser = await getUserById(user.id!);
+      if (!existingUser) {
+        return false;
+      }
+
+      return true;
+    },
   },
   trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/sign-in" },
   debug: process.env.NODE_ENV === "development",
+  secret: process.env.AUTH_SECRET,
 });

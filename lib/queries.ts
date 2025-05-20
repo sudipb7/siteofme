@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 
 import db from "@/db";
 import { auth } from "@/lib/auth";
-import { users } from "@/db/schema";
+import { users, verificationTokens } from "@/db/schema";
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -61,6 +61,32 @@ export const currentUser = async () => {
     return user;
   } catch (error) {
     console.error("[ERROR >>> currentUser]", error);
+    return null;
+  }
+};
+
+export const getVerificationTokenByToken = async (token: string) => {
+  try {
+    const verificationToken = await db.query.verificationTokens.findFirst({
+      where: eq(verificationTokens.token, token),
+    });
+
+    return verificationToken;
+  } catch (error) {
+    console.error("[ERROR >>> getVerificationTokenByToken]", error);
+    return null;
+  }
+};
+
+export const getVerificationTokenByEmail = async (email: string) => {
+  try {
+    const verificationToken = await db.query.verificationTokens.findFirst({
+      where: eq(verificationTokens.identifier, email),
+    });
+
+    return verificationToken;
+  } catch (error) {
+    console.error("[ERROR >>> getVerificationTokenByEmail]", error);
     return null;
   }
 };
