@@ -4,7 +4,6 @@ import { Geist_Mono, Manrope } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
 import { QueryProvider } from "@/components/query-provider";
 
 const manrope = Manrope({
@@ -30,16 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(manrope.variable, geistMono.variable, "antialiased font-sans")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          storageKey="thesiteofme-theme"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryProvider>{children}</QueryProvider>
-          <Toaster richColors />
-        </ThemeProvider>
+        <QueryProvider>
+          {children} <Toaster richColors />
+        </QueryProvider>
       </body>
     </html>
   );

@@ -34,3 +34,13 @@ export const setPasswordSchema = z
   });
 
 export type SetPasswordInput = z.infer<typeof setPasswordSchema>;
+
+export const userSchema = z.object({
+  name: z.string().optional(),
+  username: z.string().optional(),
+  email: z.string({ required_error: "Email is required" }).email({ message: "Email is invalid" }),
+  image: z.string().optional(),
+  password: z.string().optional(),
+});
+
+export type UserInput = z.infer<typeof userSchema>;

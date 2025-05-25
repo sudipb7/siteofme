@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("ERROR >>> POST /api/auth/sign-in >>>", error);
+    console.log("[ERROR] >> POST: /api/auth/sign-in", error);
     if (error instanceof AuthError && error.type === "CredentialsSignin") {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
     }

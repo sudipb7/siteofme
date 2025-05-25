@@ -1,8 +1,9 @@
+import { eq } from "drizzle-orm";
+
 import db from "@/db";
 import { v4 as uuidv4 } from "uuid";
-import { getVerificationTokenByEmail } from "./queries";
 import { verificationTokens } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { getVerificationTokenByEmail } from "@/lib/queries";
 
 export const generateVerificationToken = async (email: string) => {
   const token = uuidv4();

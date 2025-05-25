@@ -5,6 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 
 import db from "@/db";
+import { users, accounts } from "@/db/schema";
 import { updateUser } from "@/lib/actions";
 import { signInSchema } from "@/lib/schemas";
 import { getUserByEmail, getUserById } from "@/lib/queries";
@@ -15,7 +16,10 @@ export const {
   signOut,
   auth,
 } = NextAuth({
-  adapter: DrizzleAdapter(db),
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: accounts,
+  }),
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({

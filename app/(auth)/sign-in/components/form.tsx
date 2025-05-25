@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { ComponentProps, useState } from "react";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Loader2, Mail } from "lucide-react";
+import { ComponentProps, useState, useTransition } from "react";
 
 import {
   Form,
@@ -17,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import { cn, handleClientError } from "@/lib/utils";
 import { Google } from "@/components/icons";
 import { useSignIn } from "../../lib/hooks";
 import { Input } from "@/components/ui/input";
@@ -26,6 +25,7 @@ import { signInSchema, SignInInput } from "@/lib/schemas";
 
 export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
   const router = useRouter();
+  const [isGoogleAuthPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<SignInInput>({
@@ -35,28 +35,32 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
 
   const { mutateAsync: signInUser } = useSignIn();
 
-  const isLoading = form.formState.isSubmitting;
+  const isLoading = form.formState.isSubmitting || isGoogleAuthPending;
+
+  async function onGoogleSignIn() {
+    startTransition(() => {
+      signIn("google", {
+        callbackUrl: "/app",
+      });
+    });
+  }
 
   async function onSubmit(values: SignInInput) {
     try {
       const res = await signInUser(values);
       if (res && "error" in res) {
-        toast.error(res.error);
+        handleClientError(res.error);
         return;
       }
 
-      toast.success(res?.message);
-      setTimeout(() => {
-        router.push("/sign-in/success");
-      }, 1500);
+      router.push("/app");
     } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong :(");
+      handleClientError(error);
     }
   }
 
   return (
-    <div className={cn("grid gap-3", className)} {...props}>
+    <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-4">
@@ -68,7 +72,6 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      className="bg-card"
                       placeholder="name@example.com"
                       type="email"
                       autoCapitalize="none"
@@ -91,17 +94,18 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
                     Password
                     <Link
                       href="/forgot-password"
-                      className="text-sm leading-none underline font-normal text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-xs leading-none underline font-medium text-muted-foreground hover:text-foreground transition-colors"
                     >
                       Forgot password?
                     </Link>
                   </FormLabel>
                   <FormControl>
-                    <div className="flex">
+                    <div className="relative">
                       <Input
-                        className="bg-card placeholder:tracking-tighter rounded-r-none z-10"
+                        className="pr-9 placeholder:tracking-tighter data-[show-password=false]:tracking-tighter"
                         placeholder="••••••••"
                         type={showPassword ? "text" : "password"}
+                        data-show-password={showPassword}
                         autoCapitalize="none"
                         autoComplete="password"
                         autoCorrect="off"
@@ -111,7 +115,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(prev => !prev)}
-                        className="min-h-full px-3 py-1.5 bg-accent border border-l-0 border-input rounded-r-md text-sm text-muted-foreground grid place-items-center"
+                        className="absolute inset-y-0 right-0 min-h-full px-3 py-1.5 text-sm text-muted-foreground grid place-items-center hover:text-foreground transition-colors"
                       >
                         {showPassword ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
                       </button>
@@ -123,7 +127,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
             />
           </div>
           <Button size="lg" type="submit" disabled={isLoading} className="w-full">
-            {isLoading && <Loader2 className="size-4 animate-spin" />}
+            {isLoading ? <Loader2 className="size-4 animate-spin" /> : <Mail className="size-4" />}
             Continue with email
           </Button>
         </form>
@@ -133,19 +137,21 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="px-2 text-muted-foreground bg-background">Or</span>
+          <span className="px-2 bg-background text-muted-foreground leading-none">Or</span>
         </div>
       </div>
       <Button
         type="button"
         size="lg"
         variant="outline"
-        onClick={() => {
-          signIn("google");
-        }}
+        onClick={onGoogleSignIn}
         disabled={isLoading}
       >
-        <Google className="h-4 w-4" />
+        {isGoogleAuthPending ? (
+          <Loader2 className="size-4 animate-spin" />
+        ) : (
+          <Google className="size-4" />
+        )}
         Continue with Google
       </Button>
     </div>

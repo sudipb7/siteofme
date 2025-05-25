@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { signOut } from "@/lib/auth";
 import { LogOut } from "lucide-react";
-import { redirect } from "next/navigation";
+
+import { signOut } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 
 export default async function MainAppPage() {
   return (
@@ -9,8 +9,7 @@ export default async function MainAppPage() {
       <form
         action={async () => {
           "use server";
-          await signOut();
-          redirect("/sign-in");
+          await signOut({ redirectTo: "/sign-in" });
         }}
       >
         <Button>
