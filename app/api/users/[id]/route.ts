@@ -5,10 +5,10 @@ import { userSchema } from "@/lib/schemas";
 import { getZodError } from "@/lib/utils";
 import { withUser } from "@/lib/with-user";
 
-export const PATCH = withUser(
+export const PATCH = withUser<{ id: string }>(
   async ({ user, req, params }) => {
     const reqBody = await req.json();
-    const { id } = params;
+    const { id } = await params;
 
     if (user.id !== id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

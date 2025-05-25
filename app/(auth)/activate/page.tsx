@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { verificationTokens } from "@/db/schema";
 import { currentUser, getVerificationTokenByToken } from "@/lib/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AccountActivationPage({
   searchParams,
 }: {

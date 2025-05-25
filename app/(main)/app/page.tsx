@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { currentUser } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function MainAppPage() {
   const user = await currentUser();
   return (
