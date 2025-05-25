@@ -6,7 +6,7 @@ const domain = process.env.NEXT_PUBLIC_SITE_URL;
 const fronEmail = `mail@${process.env.NEXT_PUBLIC_RESEND_DOMAIN}`;
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `${domain}/api/auth/verify-email?token=${token}`;
+  const confirmLink = `${domain}/activate?key=${token}`;
 
   await resend.emails.send({
     from: fronEmail,

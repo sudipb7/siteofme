@@ -2,10 +2,15 @@ import { LogOut } from "lucide-react";
 
 import { signOut } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { currentUser } from "@/lib/queries";
+import { cn } from "@/lib/utils";
 
 export default async function MainAppPage() {
+  const user = await currentUser();
   return (
-    <main className="min-h-full p-6 w-full">
+    <main
+      className={cn("p-6 w-full", user?.emailVerified ? "min-h-full" : "min-h-[calc(100dvh-3rem)]")}
+    >
       <form
         action={async () => {
           "use server";

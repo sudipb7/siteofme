@@ -39,6 +39,10 @@ export default auth(async req => {
     }
   }
 
+  if (nextUrl.pathname.startsWith("/activate") && !isLoggedIn) {
+    return NextResponse.redirect(new URL("/sign-in", nextUrl));
+  }
+
   return NextResponse.next();
 });
 
