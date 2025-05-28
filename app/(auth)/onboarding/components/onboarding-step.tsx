@@ -1,14 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { UsernameForm } from "./username";
 import { FullNameForm } from "./full-name";
-import { EmailVerificationMessage } from "./verification";
 import { useCurrentUser } from "@/hooks/queries";
-import { Loader2 } from "lucide-react";
+import { EmailVerificationMessage } from "./verification";
 
 export const OnboardingStep = () => {
+  const router = useRouter();
   const { data: userData, isLoading } = useCurrentUser();
 
   const currentOnboardingStep = useMemo(() => {
@@ -31,6 +33,12 @@ export const OnboardingStep = () => {
       return null;
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (currentOnboardingStep === null && !isLoading) {
+      router.push("/app");
+    }
+  }, [currentOnboardingStep, isLoading, router]);
 
   if (isLoading) {
     return (

@@ -74,7 +74,8 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
 
       const res = await checkUsername(username);
       if ("error" in res) {
-        form.setError("username", { message: res.error, type: "pattern" }, { shouldFocus: true });
+        // ! Hiding this temporarily to avoid showing 2 error messages
+        // form.setError("username", { message: res.error, type: "pattern" }, { shouldFocus: true });
         setIsUsernameAvailable(false);
         setUsernameResponse(res);
         return;

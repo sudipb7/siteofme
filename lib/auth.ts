@@ -5,9 +5,9 @@ import Credentials from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 
 import db from "@/db";
-import { users, accounts } from "@/db/schema";
 import { updateUser } from "@/lib/actions";
 import { signInSchema } from "@/lib/schemas";
+import { users, accounts } from "@/db/schema";
 import { getUserByEmail, getUserById } from "@/lib/queries";
 
 export const {
@@ -51,6 +51,12 @@ export const {
             ...(!user.image && profile.image && { image: profile.image }),
           });
         }
+      }
+    },
+    async signIn({ account, user }) {
+      if (account?.provider === "credentials") return;
+      if (user?.id) {
+        await updateUser(user.id, { emailVerified: new Date() });
       }
     },
   },
