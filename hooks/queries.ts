@@ -12,7 +12,7 @@ export function useCurrentUser() {
         const response = await get<APIResponse<{ user: User }>>("/users/current");
         return response?.data;
       } catch (error) {
-        handleAPIError(error);
+        return handleAPIError(error);
       }
     },
   });

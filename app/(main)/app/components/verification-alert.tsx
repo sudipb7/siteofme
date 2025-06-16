@@ -14,7 +14,7 @@ export const VerificationAlert = () => {
     try {
       const res = await resendVerificationMail();
       if (res && "error" in res) {
-        handleClientError(res.error);
+        handleClientError(res);
         return;
       }
       toast.success(res?.message);

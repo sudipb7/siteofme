@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Check, Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -13,9 +14,15 @@ import {
 } from "@/components/ui/form";
 import { User } from "@/db/schema";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { handleClientError } from "@/lib/utils";
 import { useUpdateUser } from "@/hooks/mutations";
+import { AnimatedButton } from "@/components/animated-button";
+
+const buttonStates = {
+  idle: "Continue",
+  loading: <Loader2 className="size-4 animate-spin" />,
+  success: <Check className="size-4" />,
+};
 
 interface FullNameFormProps {
   user: User;
@@ -35,6 +42,8 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
     },
   });
 
+  const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
+
   const name = form.watch("name");
   const isLoading = form.formState.isSubmitting;
 
@@ -42,6 +51,7 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
 
   async function onSubmit(values: FullNameFormValues) {
     try {
+      setButtonState("loading");
       const response = await updateUser({
         id: user.id,
         values: {
@@ -50,10 +60,12 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
         },
       });
       if (response && "error" in response) {
+        setButtonState("idle");
         handleClientError(response);
       }
     } catch (error) {
       handleClientError(error);
+      setButtonState("idle");
     }
   }
 
@@ -89,10 +101,13 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isLoading || !name} className="w-full">
-            {isLoading && <Loader2 className="size-4 animate-spin" />}
-            Continue
-          </Button>
+          <AnimatedButton
+            states={buttonStates}
+            currentState={buttonState}
+            disabled={isLoading || !name}
+            aria-label="Continue"
+            className="w-full"
+          />
         </form>
       </Form>
     </>

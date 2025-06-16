@@ -12,7 +12,7 @@ export const useSignUp = () => {
         const response = await post<SignUpInput, BaseAPIResponse>("/auth/sign-up", values);
         return response?.data;
       } catch (error) {
-        handleAPIError(error);
+        return handleAPIError(error);
       }
     },
   });
@@ -25,7 +25,7 @@ export const useSignIn = () => {
         const response = await post<SignInInput, BaseAPIResponse>("/auth/sign-in", values);
         return response?.data;
       } catch (error) {
-        handleAPIError(error);
+        return handleAPIError(error);
       }
     },
   });

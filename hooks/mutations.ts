@@ -17,7 +17,7 @@ export function useUpdateUser() {
         );
         return response?.data;
       } catch (error) {
-        handleAPIError(error);
+        return handleAPIError(error);
       }
     },
     onSuccess(data) {

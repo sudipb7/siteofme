@@ -14,7 +14,7 @@ export function useResendVerificationMail() {
         );
         return res?.data;
       } catch (error) {
-        handleAPIError(error);
+        return handleAPIError(error);
       }
     },
   });

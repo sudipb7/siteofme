@@ -1,10 +1,10 @@
 import { ZodError } from "zod";
+import { toast } from "sonner";
 import { isAxiosError } from "axios";
 import { twMerge } from "tailwind-merge";
 import { clsx, type ClassValue } from "clsx";
 
 import type { BaseAPIResponse } from "@/types";
-import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,6 +19,8 @@ export function handleAPIError(error: unknown) {
     return error.response?.data as BaseAPIResponse;
   } else if (error instanceof Error) {
     return { error: error.message } as BaseAPIResponse;
+  } else if (error && typeof error === "object" && "error" in error) {
+    return error as BaseAPIResponse;
   } else {
     return { error: "Something went wrong :(" } as BaseAPIResponse;
   }

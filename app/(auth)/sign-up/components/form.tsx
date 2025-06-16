@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Eye, EyeOff, Loader2, Mail, X } from "lucide-react";
+import { Check, Eye, EyeOff, Loader2, X } from "lucide-react";
 import { ComponentProps, useEffect, useState, useTransition } from "react";
 
 import {
@@ -16,20 +16,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cn, handleClientError } from "@/lib/utils";
 import { useSignUp } from "../../lib/hooks";
 import { Google } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { useCheckUsername } from "../lib/hooks";
 import { Button } from "@/components/ui/button";
 import type { BaseAPIResponse } from "@/types";
+import { cn, handleClientError } from "@/lib/utils";
+import { AnimatedButton } from "@/components/animated-button";
 import { signUpSchema, type SignUpInput } from "@/lib/schemas";
+
+const buttonStates = {
+  idle: "Continue with Email",
+  loading: <Loader2 className="size-4 animate-spin" />,
+  success: <Check className="size-4" />,
+};
 
 export const SignUpForm = ({ className, ...props }: ComponentProps<"div">) => {
   const router = useRouter();
   const [isGoogleAuthPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+  const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
   const [usernameResponse, setUsernameResponse] = useState<BaseAPIResponse | null>(null);
 
   const form = useForm<SignUpInput>({
@@ -57,15 +65,23 @@ export const SignUpForm = ({ className, ...props }: ComponentProps<"div">) => {
         return;
       }
 
+      setButtonState("loading");
+
       const res = await registerUser(values);
       if (res && "error" in res) {
-        toast.error(res.error);
+        setButtonState("idle");
+        handleClientError(res);
         return;
       }
 
-      router.push("/onboarding");
+      setButtonState("success");
+
+      setTimeout(() => {
+        router.push("/onboarding");
+      }, 1000);
     } catch (error) {
       handleClientError(error);
+      setButtonState("idle");
     }
   }
 
@@ -209,10 +225,13 @@ export const SignUpForm = ({ className, ...props }: ComponentProps<"div">) => {
               )}
             />
           </div>
-          <Button type="submit" disabled={isLoading} className="w-full">
-            {isLoading ? <Loader2 className="size-4 animate-spin" /> : <Mail className="size-4" />}
-            Continue with email
-          </Button>
+          <AnimatedButton
+            states={buttonStates}
+            currentState={buttonState}
+            disabled={isLoading}
+            aria-label="Continue with Email"
+            className="w-full"
+          />
         </form>
       </Form>
       <div className="relative">

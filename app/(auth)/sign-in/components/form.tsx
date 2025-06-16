@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Loader2, Mail } from "lucide-react";
+import { Check, Eye, EyeOff, Loader2 } from "lucide-react";
 import { ComponentProps, useState, useTransition } from "react";
 
 import {
@@ -16,17 +16,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cn, handleClientError } from "@/lib/utils";
 import { Google } from "@/components/icons";
 import { useSignIn } from "../../lib/hooks";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn, handleClientError } from "@/lib/utils";
 import { signInSchema, SignInInput } from "@/lib/schemas";
+import { AnimatedButton } from "@/components/animated-button";
+
+const buttonStates = {
+  idle: "Continue with Email",
+  loading: <Loader2 className="size-4 animate-spin" />,
+  success: <Check className="size-4" />,
+};
 
 export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
   const router = useRouter();
   const [isGoogleAuthPending, startTransition] = useTransition();
+
   const [showPassword, setShowPassword] = useState(false);
+  const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
 
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
@@ -47,15 +56,22 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
 
   async function onSubmit(values: SignInInput) {
     try {
+      setButtonState("loading");
       const res = await signInUser(values);
       if (res && "error" in res) {
-        handleClientError(res.error);
+        setButtonState("idle");
+        handleClientError(res);
         return;
       }
 
-      router.push("/app");
+      setButtonState("success");
+
+      setTimeout(() => {
+        router.push("/app");
+      }, 1000);
     } catch (error) {
       handleClientError(error);
+      setButtonState("idle");
     }
   }
 
@@ -126,10 +142,13 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
               )}
             />
           </div>
-          <Button type="submit" disabled={isLoading} className="w-full">
-            {isLoading ? <Loader2 className="size-4 animate-spin" /> : <Mail className="size-4" />}
-            Continue with email
-          </Button>
+          <AnimatedButton
+            states={buttonStates}
+            currentState={buttonState}
+            disabled={isLoading}
+            aria-label="Continue with Email"
+            className="w-full"
+          />
         </form>
       </Form>
       <div className="relative">

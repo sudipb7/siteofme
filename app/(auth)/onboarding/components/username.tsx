@@ -15,11 +15,17 @@ import {
 import { User } from "@/db/schema";
 import { BaseAPIResponse } from "@/types";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { handleClientError } from "@/lib/utils";
 import { useUpdateUser } from "@/hooks/mutations";
 import { SignUpInput, signUpSchema } from "@/lib/schemas";
 import { useCheckUsername } from "../../sign-up/lib/hooks";
+import { AnimatedButton } from "@/components/animated-button";
+
+const buttonStates = {
+  idle: "Continue",
+  loading: <Loader2 className="size-4 animate-spin" />,
+  success: <Check className="size-4" />,
+};
 
 interface UsernameFormProps {
   user: User;
@@ -28,6 +34,7 @@ interface UsernameFormProps {
 export const UsernameForm = ({ user }: UsernameFormProps) => {
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
   const [usernameResponse, setUsernameResponse] = useState<BaseAPIResponse | null>(null);
+  const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
 
   const form = useForm<Pick<SignUpInput, "username">>({
     resolver: zodResolver(signUpSchema.pick({ username: true })),
@@ -48,6 +55,8 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
         return;
       }
 
+      setButtonState("loading");
+
       const response = await updateUser({
         id: user.id,
         values: {
@@ -56,9 +65,11 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
         },
       });
       if (response && "error" in response) {
+        setButtonState("idle");
         handleClientError(response);
       }
     } catch (error) {
+      setButtonState("idle");
       handleClientError(error);
     }
   }
@@ -153,14 +164,13 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
+          <AnimatedButton
+            states={buttonStates}
+            currentState={buttonState}
             disabled={isLoading || isCheckingUsername || !username}
+            aria-label="Continue"
             className="w-full"
-          >
-            {isLoading && <Loader2 className="size-4 animate-spin" />}
-            Continue
-          </Button>
+          />
         </form>
       </Form>
     </>

@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LinkIcon, Mail, Settings, User } from "lucide-react";
+import { LinkIcon, LogOut, Mail, Settings, User } from "lucide-react";
 
+import { signOut } from "@/lib/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,6 +50,19 @@ export const AppHeader = async () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-foreground">
                   <Mail className="size-4" /> Contact us
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut({ redirectTo: "/" });
+                    }}
+                  >
+                    <button type="submit" className="flex items-center gap-x-2">
+                      <LogOut /> <span>Log out</span>
+                    </button>
+                  </form>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
