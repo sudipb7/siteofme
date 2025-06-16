@@ -18,8 +18,6 @@ export const OnboardingStep = () => {
       return null;
     }
 
-    // ! Will need to update types in future
-    // @ts-expect-error - Works as of now, but need to check it once
     const user = userData.data.user;
     if (!user) {
       return null;
