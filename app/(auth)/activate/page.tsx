@@ -34,14 +34,14 @@ export default async function AccountActivationPage({
     return (
       <main className="flex w-full min-h-dvh flex-col items-center justify-center p-6">
         <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-semibold">Oops! Something went wrong</h1>
-            <p className="font-medium text-muted-foreground leading-tight">
+          <div className="space-y-1">
+            <h1 className="heading_primary">Oops! Something went wrong</h1>
+            <p className="description">
               Looks like your verification link has expired or isn&apos;t working. No worries though
               - you can try again by requesting a new one.
             </p>
           </div>
-          <Button size="lg" className="w-full" asChild>
+          <Button className="w-full" asChild>
             <Link href="/">Back to home</Link>
           </Button>
         </div>
@@ -57,14 +57,14 @@ export default async function AccountActivationPage({
   return (
     <main className="flex w-full min-h-dvh flex-col items-center justify-center p-6">
       <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-semibold">All set! You&apos;ve secured your username!</h1>
-          <p className="font-medium text-muted-foreground leading-tight">
+        <div className="space-y-1">
+          <h1 className="heading_primary">All set! You&apos;ve secured your username!</h1>
+          <p className="description">
             Thanks for verifying your email. Your username is securely yours, and no one else can
             claim it.
           </p>
         </div>
-        <Button size="lg" className="w-full" asChild>
+        <Button className="w-full" asChild>
           <Link href="/app">Start creating</Link>
         </Button>
       </div>

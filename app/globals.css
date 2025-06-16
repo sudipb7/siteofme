@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-geist);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -87,5 +87,11 @@
   }
   body {
     @apply min-h-full bg-background text-foreground flex;
+  }
+  .heading_primary {
+    @apply text-2xl font-semibold tracking-tight leading-tight;
+  }
+  .description {
+    @apply font-medium text-muted-foreground leading-tight text-sm;
   }
 }

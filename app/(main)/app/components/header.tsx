@@ -1,10 +1,18 @@
-import { currentUser } from "@/lib/queries";
-import { redirect } from "next/navigation";
 import React from "react";
-import { VerificationAlert } from "./verification-alert";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { LinkIcon, Mail, Settings, User } from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { currentUser } from "@/lib/queries";
 import { Button } from "@/components/ui/button";
-import { LinkIcon, User } from "lucide-react";
+import { VerificationAlert } from "./verification-alert";
 
 export const AppHeader = async () => {
   const user = await currentUser();
@@ -22,14 +30,28 @@ export const AppHeader = async () => {
               siteof.me/{user.username}
             </Link>
           </div>
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-3">
             <Button variant="secondary" size="sm">
               <LinkIcon className="size-4" />
             </Button>
             <Button size="sm">Publish</Button>
-            <Button variant="secondary" size="sm">
-              <User className="size-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary" size="sm">
+                  <User className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <p className="font-medium text-sm px-2 py-1">{user.email}</p>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-foreground">
+                  <Settings className="size-4" /> Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-foreground">
+                  <Mail className="size-4" /> Contact us
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>

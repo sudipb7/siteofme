@@ -1,6 +1,7 @@
-import { Check, Loader2, X } from "lucide-react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Check, Loader2, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -12,14 +13,13 @@ import {
   FormControl,
 } from "@/components/ui/form";
 import { User } from "@/db/schema";
-import { Input } from "@/components/ui/input";
-import { handleClientError } from "@/lib/utils";
-import { SignUpInput, signUpSchema } from "@/lib/schemas";
 import { BaseAPIResponse } from "@/types";
-import { useCheckUsername } from "../../sign-up/lib/hooks";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { handleClientError } from "@/lib/utils";
 import { useUpdateUser } from "@/hooks/mutations";
+import { SignUpInput, signUpSchema } from "@/lib/schemas";
+import { useCheckUsername } from "../../sign-up/lib/hooks";
 
 interface UsernameFormProps {
   user: User;
@@ -100,11 +100,9 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
 
   return (
     <>
-      <div className="space-y-2">
-        <h1 className="text-3xl font-semibold">Where should we host your site?</h1>
-        <p className="font-medium text-muted-foreground leading-tight">
-          We&apos;ll use this username to host your site.
-        </p>
+      <div className="space-y-1">
+        <h1 className="heading_primary">Where should we host your site?</h1>
+        <p className="description">We&apos;ll use this username to host your site.</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -156,7 +154,6 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
             )}
           />
           <Button
-            size="lg"
             type="submit"
             disabled={isLoading || isCheckingUsername || !username}
             className="w-full"

@@ -60,7 +60,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cn("grid gap-5", className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-4">
@@ -126,7 +126,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
               )}
             />
           </div>
-          <Button size="lg" type="submit" disabled={isLoading} className="w-full">
+          <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? <Loader2 className="size-4 animate-spin" /> : <Mail className="size-4" />}
             Continue with email
           </Button>
@@ -140,13 +140,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
           <span className="px-2 bg-background text-muted-foreground leading-none">Or</span>
         </div>
       </div>
-      <Button
-        type="button"
-        size="lg"
-        variant="outline"
-        onClick={onGoogleSignIn}
-        disabled={isLoading}
-      >
+      <Button type="button" variant="outline" onClick={onGoogleSignIn} disabled={isLoading}>
         {isGoogleAuthPending ? (
           <Loader2 className="size-4 animate-spin" />
         ) : (

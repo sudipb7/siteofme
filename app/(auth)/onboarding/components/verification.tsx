@@ -1,7 +1,8 @@
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 import { User } from "@/db/schema";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 interface EmailVerificationMessageProps {
   user: User;
@@ -22,17 +23,17 @@ export const EmailVerificationMessage = ({ user }: EmailVerificationMessageProps
 
   return (
     <>
-      <div className="space-y-2">
-        <h1 className="text-3xl font-semibold">
+      <div className="space-y-1">
+        <h1 className="heading_primary">
           Hi {user.name}!
           <br />
           Verify, and it&apos;s yours.
         </h1>
-        <p className="font-medium text-muted-foreground leading-tight">
+        <p className="description">
           You have 48 hours to verify your account by clicking the link sent to your email
         </p>
       </div>
-      <Button size="lg" className="w-full" onClick={handleOnClick}>
+      <Button className="w-full" onClick={handleOnClick}>
         Start creating
       </Button>
     </>

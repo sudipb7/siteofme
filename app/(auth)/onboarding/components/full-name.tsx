@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { User } from "@/db/schema";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { handleClientError } from "@/lib/utils";
 import { useUpdateUser } from "@/hooks/mutations";
 
@@ -59,15 +59,13 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
 
   return (
     <>
-      <div className="space-y-2">
-        <h1 className="text-3xl font-semibold">
+      <div className="space-y-1">
+        <h1 className="heading_primary">
           You&apos;ve made it through!
           <br />
           But what should we call you?
         </h1>
-        <p className="font-medium text-muted-foreground leading-tight">
-          No worries, we&apos;ll keep your name to ourselves
-        </p>
+        <p className="description">No worries, we&apos;ll keep your name to ourselves</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -91,7 +89,7 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
               </FormItem>
             )}
           />
-          <Button size="lg" type="submit" disabled={isLoading || !name} className="w-full">
+          <Button type="submit" disabled={isLoading || !name} className="w-full">
             {isLoading && <Loader2 className="size-4 animate-spin" />}
             Continue
           </Button>
