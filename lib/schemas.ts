@@ -1,22 +1,19 @@
 import { z } from "zod";
 
 export const signInSchema = z.object({
-  email: z
-    .string({ message: "Email is required" })
-    .min(1, { message: "Email is required" })
-    .email({ message: "Email is invalid" }),
-  password: z
-    .string({ required_error: "Password is required" })
-    .min(6, { message: "Password should be at least 6 characters" }),
+  email: z.string().min(1, { message: "Email is required" }).email({ message: "Email is invalid" }),
+  password: z.string().min(6, { message: "Password should be at least 6 characters" }),
 });
 
 export type SignInInput = z.infer<typeof signInSchema>;
 
 export const signUpSchema = signInSchema.extend({
   username: z
-    .string({ required_error: "Username is required" })
-    .min(3, { message: "Username must be at least 3 characters" })
-    .regex(/^[a-zA-Z0-9]+$/, { message: "Username must contain only letters and numbers" }),
+    .string()
+    .min(5, { message: "5 characters look better as username 🖐" })
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message: "You are already so special, why a special character? 😉",
+    }),
 });
 
 export type SignUpInput = z.infer<typeof signUpSchema>;
@@ -38,7 +35,7 @@ export type SetPasswordInput = z.infer<typeof setPasswordSchema>;
 export const userSchema = z.object({
   name: z.string().optional(),
   username: z.string().optional(),
-  email: z.string({ required_error: "Email is required" }).email({ message: "Email is invalid" }),
+  email: z.string().min(1, { message: "Email is required" }).email({ message: "Email is invalid" }),
   image: z.string().optional(),
   password: z.string().optional(),
 });
