@@ -32,7 +32,11 @@ const buttonStates = {
   success: <Check className="size-4" />,
 };
 
-export const SignUpForm = ({ className, ...props }: ComponentProps<"div">) => {
+export const SignUpForm = ({
+  className,
+  slug,
+  ...props
+}: ComponentProps<"div"> & { slug?: string }) => {
   const router = useRouter();
   const [isGoogleAuthPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
@@ -42,7 +46,7 @@ export const SignUpForm = ({ className, ...props }: ComponentProps<"div">) => {
 
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { email: "", username: "", password: "" },
+    defaultValues: { email: "", username: slug || "", password: "" },
   });
 
   const { mutateAsync: registerUser } = useSignUp();

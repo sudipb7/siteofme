@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-geist);
+  --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -44,7 +44,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.725rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -86,7 +86,7 @@
     @apply h-full not-motion-reduce:scroll-smooth;
   }
   body {
-    @apply min-h-full bg-background text-foreground flex;
+    @apply min-h-full bg-background text-foreground;
   }
   .heading_primary {
     @apply text-2xl font-semibold tracking-tight leading-tight;

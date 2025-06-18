@@ -1,13 +1,13 @@
 import { Toaster } from "sonner";
 import type { Metadata } from "next";
-import { Geist_Mono, Geist } from "next/font/google";
+import { Geist_Mono, Manrope } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/query-provider";
 
-const geist = Geist({
-  variable: "--font-geist",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(geist.variable, geistMono.variable, "antialiased font-sans")}>
+      <body className={cn(manrope.variable, geistMono.variable, "antialiased font-sans")}>
         <QueryProvider>
           {children} <Toaster richColors />
         </QueryProvider>

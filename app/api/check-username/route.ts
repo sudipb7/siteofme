@@ -19,10 +19,16 @@ export async function POST(req: NextRequest) {
 
     const user = await db.select().from(users).where(eq(users.username, username)).limit(1);
     if (user.length > 0) {
-      return NextResponse.json({ error: "Already claimed. Try another one." }, { status: 400 });
+      return NextResponse.json(
+        { error: "This username is already taken, you’re a little late.😐" },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ message: "This one is meant to be yours." }, { status: 200 });
+    return NextResponse.json(
+      { message: "It’s available... this username is available! 😃" },
+      { status: 200 }
+    );
   } catch (error) {
     console.log("[ERROR] >> POST: /api/check-username", error);
     return NextResponse.json({ error: "Something went wrong :(" }, { status: 500 });
