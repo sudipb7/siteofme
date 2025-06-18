@@ -94,12 +94,12 @@ export const GetYourUsername = () => {
     <div>
       <div
         onClick={() => inputRef?.current?.focus()}
-        className="rounded-2xl py-2.5 px-4 flex items-center gap-x-2 mx-auto w-fit mt-8 border shadow hover:shadow-lg hover:border-foreground/25 focus-within:border-foreground/25 focus-visible:border-foreground/25 transition-all"
+        className="rounded-2xl py-2.5 px-4 flex items-center gap-x-2 mx-auto w-fit mt-8 border shadow-sm hover:border-foreground/25 focus-within:border-foreground/25 focus-visible:border-foreground/25 transition-all"
       >
         <div className="flex items-center">
           <div className="flex items-center gap-x-1.5">
             <div className="h-10 w-10 relative overflow-hidden">
-              <Image src="/logo-mark.png" fill alt="SiteOf Logo" className="object-contain" />
+              <Image src="/logo.png" fill alt="SiteOf Logo" className="object-contain" />
             </div>
             <span className="font-medium text-lg">siteof.me/</span>
           </div>

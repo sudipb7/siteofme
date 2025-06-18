@@ -12,7 +12,7 @@ importers:
         version: 1.9.1
       "@hookform/resolvers":
         specifier: ^5.0.1
-        version: 5.1.1(react-hook-form@7.58.0(react@19.1.0))
+        version: 5.1.1(react-hook-form@7.58.1(react@19.1.0))
       "@neondatabase/serverless":
         specifier: ^1.0.0
         version: 1.0.1
@@ -69,7 +69,7 @@ importers:
         version: 19.1.0(react@19.1.0)
       react-hook-form:
         specifier: ^7.56.3
-        version: 7.58.0(react@19.1.0)
+        version: 7.58.1(react@19.1.0)
       resend:
         specifier: ^4.5.1
         version: 4.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -87,7 +87,7 @@ importers:
         version: 11.1.0
       zod:
         specifier: ^3.24.4
-        version: 3.25.65
+        version: 3.25.67
     devDependencies:
       "@eslint/eslintrc":
         specifier: ^3
@@ -3758,10 +3758,10 @@ packages:
       sass:
         optional: true
 
-  oauth4webapi@3.5.2:
+  oauth4webapi@3.5.3:
     resolution:
       {
-        integrity: sha512-VYz5BaP3izIrUc1GAVzIoz4JnljiW0YAUFObMBwsqDnfHxz2sjLu3W7/8vE8Ms9IbMewN9+1kcvhY3tMscAeGQ==,
+        integrity: sha512-2bnHosmBLAQpXNBLOvaJMyMkr4Yya5ohE5Q9jqyxiN+aa7GFCzvDN1RRRMrp0NkfqRR2MTaQNkcSUCCjILD9oQ==,
       }
 
   object-assign@4.1.1:
@@ -3894,10 +3894,10 @@ packages:
       }
     engines: { node: ">=4.0.0" }
 
-  pg-protocol@1.10.0:
+  pg-protocol@1.10.1:
     resolution:
       {
-        integrity: sha512-IpdytjudNuLv8nhlHs/UrVBhU0e78J0oIS/0AVdTbWxSOkFUVdsHC/NrorO6nXsQNDTT1kzDSOMJubBQviX18Q==,
+        integrity: sha512-9YS3ZonDj0Lxny//aF0ITPdfrEPgKWCJvONsSXAaIUhgpzlzl5JgaZNlbTFxvYNfm2terGEnHeOSUlF6qRGBzw==,
       }
 
   pg-types@2.2.0:
@@ -4046,10 +4046,10 @@ packages:
     peerDependencies:
       react: ^19.1.0
 
-  react-hook-form@7.58.0:
+  react-hook-form@7.58.1:
     resolution:
       {
-        integrity: sha512-zGijmEed35oNfOfy7ub99jfjkiLhHwA3dl5AgyKdWC6QQzhnc7tkWewSa+T+A2EpLrc6wo5DUoZctS9kufWJjA==,
+        integrity: sha512-Lml/KZYEEFfPhUVgE0RdCVpnC4yhW+PndRhbiTtdvSlQTL8IfVR+iQkBjLIvmmc6+GGoVeM11z37ktKFPAb0FA==,
       }
     engines: { node: ">=18.0.0" }
     peerDependencies:
@@ -4679,10 +4679,10 @@ packages:
       }
     engines: { node: ">=10" }
 
-  zod@3.25.65:
+  zod@3.25.67:
     resolution:
       {
-        integrity: sha512-kMyE2qsXK1p+TAvO7zsf5wMFiCejU3obrUDs9bR1q5CBKykfvp7QhhXrycUylMoOow0iEUSyjLlZZdCsHwSldQ==,
+        integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==,
       }
 
 snapshots:
@@ -4697,7 +4697,7 @@ snapshots:
     dependencies:
       "@panva/hkdf": 1.2.1
       jose: 6.0.11
-      oauth4webapi: 3.5.2
+      oauth4webapi: 3.5.3
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
 
@@ -4943,10 +4943,10 @@ snapshots:
 
   "@floating-ui/utils@0.2.9": {}
 
-  "@hookform/resolvers@5.1.1(react-hook-form@7.58.0(react@19.1.0))":
+  "@hookform/resolvers@5.1.1(react-hook-form@7.58.1(react@19.1.0))":
     dependencies:
       "@standard-schema/utils": 0.3.0
-      react-hook-form: 7.58.0(react@19.1.0)
+      react-hook-form: 7.58.1(react@19.1.0)
 
   "@humanfs/core@0.19.1": {}
 
@@ -5496,7 +5496,7 @@ snapshots:
   "@types/pg@8.15.4":
     dependencies:
       "@types/node": 20.19.1
-      pg-protocol: 1.10.0
+      pg-protocol: 1.10.1
       pg-types: 2.2.0
 
   "@types/react-dom@19.1.6(@types/react@19.1.8)":
@@ -6846,7 +6846,7 @@ snapshots:
       - "@babel/core"
       - babel-plugin-macros
 
-  oauth4webapi@3.5.2: {}
+  oauth4webapi@3.5.3: {}
 
   object-assign@4.1.1: {}
 
@@ -6932,7 +6932,7 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
-  pg-protocol@1.10.0: {}
+  pg-protocol@1.10.1: {}
 
   pg-types@2.2.0:
     dependencies:
@@ -7001,7 +7001,7 @@ snapshots:
       react: 19.1.0
       scheduler: 0.26.0
 
-  react-hook-form@7.58.0(react@19.1.0):
+  react-hook-form@7.58.1(react@19.1.0):
     dependencies:
       react: 19.1.0
 
@@ -7490,4 +7490,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@3.25.65: {}
+  zod@3.25.67: {}

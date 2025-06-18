@@ -25,7 +25,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ message: "It’s available... this username is available! 😃" }, { status: 200 });
+    return NextResponse.json(
+      { message: "It’s available... this username is available! 😃" },
+      { status: 200 }
+    );
   } catch (error) {
     console.log("[ERROR] >> POST: /api/check-username", error);
     return NextResponse.json({ error: "Something went wrong :(" }, { status: 500 });
