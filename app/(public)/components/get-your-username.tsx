@@ -6,6 +6,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { signUpSchema } from "@/lib/schemas";
 import { AnimatedText } from "@/components/animated-text";
 import { AnimatedButton } from "@/components/animated-button";
 import { useCheckUsername } from "@/app/(auth)/sign-up/lib/hooks";
@@ -16,10 +17,11 @@ const buttonStates = {
 };
 
 const textStates = {
-  idle: "Claim your username before it’s too late!",
-  available: "It’s available... this username is available! 😃",
-  unavailable: "This username is already taken, you’re a little late.😐",
+  idle: "Claim your username before it's too late!",
+  available: "It's available... this username is available! 😃",
+  unavailable: "This username is already taken, you're a little late.😐",
   invalid: "5 characters look better as username 🖐",
+  special: "You are already so special, why a special character? 😉",
 };
 
 export const GetYourUsername = () => {
@@ -46,8 +48,13 @@ export const GetYourUsername = () => {
 
   useEffect(() => {
     const checkUsernameAvailability = async () => {
-      if (username.length < 5) {
-        setTextState("invalid");
+      const validated = signUpSchema.pick({ username: true }).safeParse({ username });
+      if (!validated.success) {
+        if (validated.error.errors.some(error => error.message.includes("special"))) {
+          setTextState("special");
+        } else {
+          setTextState("invalid");
+        }
         return;
       }
 
@@ -93,8 +100,17 @@ export const GetYourUsername = () => {
   return (
     <div>
       <div
+        data-unavailable={textState === "unavailable"}
+        data-invalid={textState === "invalid" || textState === "special"}
+        data-valid={textState === "available"}
         onClick={() => inputRef?.current?.focus()}
-        className="rounded-2xl py-2.5 px-4 flex items-center gap-x-2 mx-auto w-fit mt-8 border shadow-sm hover:border-foreground/25 focus-within:border-foreground/25 focus-visible:border-foreground/25 transition-all"
+        className={cn(
+          "rounded-2xl py-2.5 px-4 flex items-center gap-x-2 mx-auto w-fit mt-8 border shadow-sm transition-all",
+          "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+          "data-[invalid=true]:ring-warning-foreground/20 data-[invalid=true]:border-warning-foreground",
+          "data-[unavailable=true]:ring-destructive/20 data-[unavailable=true]:border-destructive",
+          "data-[valid=true]:border-success-foreground data-[valid=true]:ring-success-foreground/50"
+        )}
       >
         <div className="flex items-center">
           <div className="flex items-center gap-x-1.5">
@@ -133,9 +149,9 @@ export const GetYourUsername = () => {
         states={textStates}
         className={cn(
           "description mt-3",
-          textState === "available" && "text-green-600",
+          textState === "available" && "text-success-foreground",
           textState === "unavailable" && "text-destructive",
-          textState === "invalid" && "text-destructive"
+          ["invalid", "special"].includes(textState) && "text-warning-foreground"
         )}
       />
     </div>

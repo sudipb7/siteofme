@@ -1,10 +1,11 @@
 import { Toaster } from "sonner";
-import type { Metadata } from "next";
 import { Geist_Mono, Manrope } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/query-provider";
+
+export { BASE_METADATA as metadata, VIEWPORT as viewport } from "@/lib/metadata";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -16,11 +17,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Tell your story | Site of me",
-  description: "Tell your story and share your thoughts.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(manrope.variable, geistMono.variable, "antialiased font-sans")}>
+      <body className={cn(manrope.variable, geistMono.variable, "antialiased font-manrope")}>
         <QueryProvider>
           {children} <Toaster richColors />
         </QueryProvider>

@@ -1,5 +1,11 @@
 import { Header } from "@/components/header";
 import { SignUpForm } from "./components/form";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export const metadata = generatePageMetadata({
+  title: "Sign up",
+  description: "Create your own personal mini-site.",
+});
 
 export default async function SignUpPage({
   searchParams,
