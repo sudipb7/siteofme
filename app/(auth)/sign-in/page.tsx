@@ -1,7 +1,13 @@
 import Link from "next/link";
 
-import { SignInForm } from "./components/form";
 import { Header } from "@/components/header";
+import { SignInForm } from "./components/form";
+import { generatePageMetadata } from "@/lib/metadata";
+
+export const metadata = generatePageMetadata({
+  title: "Sign in",
+  description: "Sign in to your personal mini-site.",
+});
 
 export default function SignInPage() {
   return (

@@ -6,7 +6,13 @@ import db from "@/db";
 import { updateUser } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { verificationTokens } from "@/db/schema";
+import { generatePageMetadata } from "@/lib/metadata";
 import { currentUser, getVerificationTokenByToken } from "@/lib/queries";
+
+export const metadata = generatePageMetadata({
+  title: "Activate your account",
+  description: "Activate your account to get started.",
+});
 
 export const dynamic = "force-dynamic";
 

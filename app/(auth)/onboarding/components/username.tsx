@@ -138,7 +138,7 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
                     ) : usernameResponse && "message" in usernameResponse ? (
                       <span className="text-xs text-muted-foreground font-medium flex items-center gap-x-1 leading-none">
                         {usernameResponse?.message}
-                        <Check className="h-3.5 w-3.5 text-green-600" />
+                        <Check className="h-3.5 w-3.5 text-success-foreground" />
                       </span>
                     ) : null
                   ) : null}
