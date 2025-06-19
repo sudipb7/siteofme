@@ -1,4 +1,10 @@
+import { generatePageMetadata } from "@/lib/metadata";
 import { OnboardingStep } from "./components/onboarding-step";
+
+export const metadata = generatePageMetadata({
+  title: "Just a few more steps",
+  description: "Complete your profile to get started.",
+});
 
 export default async function OnboardingPage() {
   return (
