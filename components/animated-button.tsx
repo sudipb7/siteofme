@@ -18,7 +18,7 @@ export const AnimatedButton = ({
   ...props
 }: AnimatedButtonProps) => {
   return (
-    <Button {...props} disabled={disabled} className={cn("disabled:opacity-100", className)}>
+    <Button {...props} disabled={disabled} className={cn("", className)}>
       <AnimatePresence initial={false} mode="popLayout">
         <motion.span
           key={currentState}

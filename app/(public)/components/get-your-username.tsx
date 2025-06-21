@@ -26,7 +26,6 @@ const textStates = {
 
 export const GetYourUsername = () => {
   const [username, setUsername] = useState("");
-  const [isValid, setIsValid] = useState(false);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
   const [textState, setTextState] = useState<keyof typeof textStates>("idle");
   const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
@@ -63,10 +62,8 @@ export const GetYourUsername = () => {
       const res = await checkUsername(username);
       if ("error" in res) {
         setIsUsernameAvailable(false);
-        setIsValid(false);
         setTextState("unavailable");
       } else {
-        setIsValid(true);
         setIsUsernameAvailable(true);
         setTextState("available");
       }
@@ -90,6 +87,9 @@ export const GetYourUsername = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         handleRedirect();
+      }
+      if (e.key === "Escape") {
+        inputRef.current?.blur();
       }
     };
 
@@ -135,13 +135,13 @@ export const GetYourUsername = () => {
           variant="secondary"
           className={cn(
             "border bg-background disabled:!opacity-75",
-            isValid && !isCheckingUsername
+            textState === "available"
               ? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
               : "hover:bg-background hover:border-foreground/25"
           )}
           currentState={buttonState}
           states={buttonStates}
-          disabled={isCheckingUsername || !isValid || !username}
+          disabled={textState !== "available"}
         />
       </div>
       <AnimatedText
