@@ -218,7 +218,7 @@ export const SignUpForm = ({
                       <button
                         type="button"
                         onClick={() => setShowPassword(prev => !prev)}
-                        className="absolute inset-y-0 right-0 min-h-full rounded-md px-3 py-1.5 text-sm text-muted-foreground grid place-items-center hover:text-foreground outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all"
+                        className="absolute inset-y-0 right-0 min-h-full rounded-md px-3 py-1.5 text-sm text-muted-foreground grid place-items-center hover:text-foreground outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1.5px] transition-all"
                       >
                         {showPassword ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
                       </button>

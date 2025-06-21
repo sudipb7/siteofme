@@ -100,13 +100,16 @@ export const GetYourUsername = () => {
   return (
     <div>
       <div
+        role="button"
+        onFocus={() => inputRef?.current?.focus()}
+        tabIndex={0}
         data-unavailable={textState === "unavailable"}
         data-invalid={textState === "invalid" || textState === "special"}
         data-valid={textState === "available"}
         onClick={() => inputRef?.current?.focus()}
         className={cn(
-          "rounded-2xl py-2.5 px-4 flex items-center gap-x-2 mx-auto w-fit mt-8 border shadow-sm transition-all",
-          "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+          "rounded-xl py-2 px-2.5 flex items-center gap-x-2 w-fit mt-6 border outline-none transition-all",
+          "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[1.5px]",
           "data-[invalid=true]:ring-warning-foreground/20 data-[invalid=true]:border-warning-foreground",
           "data-[unavailable=true]:ring-destructive/20 data-[unavailable=true]:border-destructive",
           "data-[valid=true]:border-success-foreground data-[valid=true]:ring-success-foreground/50"
@@ -114,16 +117,16 @@ export const GetYourUsername = () => {
       >
         <div className="flex items-center">
           <div className="flex items-center gap-x-1.5">
-            <div className="h-10 w-10 relative overflow-hidden">
+            <div className="h-8 w-8 relative overflow-hidden">
               <Image src="/logo.png" fill alt="SiteOf Logo" className="object-contain" />
             </div>
-            <span className="font-medium text-lg">siteof.me/</span>
+            <span className="font-medium text-base">siteof.me/</span>
           </div>
           <input
             ref={inputRef}
             value={username}
             onChange={e => setUsername(e.target.value)}
-            className="w-full max-w-xs text-lg font-medium outline-none h-full"
+            className="w-full max-w-xs text-base font-medium outline-none h-full"
             placeholder="username"
             autoComplete="username"
             autoCapitalize="off"

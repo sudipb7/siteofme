@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export const Header = () => {
   return (
     <header className="sticky top-0 inset-x-0 z-50 bg-background supports-[backdrop-filter]:bg-background/80 supports-[backdrop-filter]:backdrop-blur-sm h-14">
-      <div className="max-w-xl mx-auto px-4 h-full w-full">
+      <div className="max-w-lg mx-auto px-4 h-full w-full">
         <nav className="flex items-center justify-between h-full gap-x-2">
           <Link href="/" className="flex items-center gap-x-1.5">
             <Image
