@@ -38,10 +38,10 @@ export default async function AccountActivationPage({
     verificationToken.expires < new Date()
   ) {
     return (
-      <main className="flex w-full min-h-dvh flex-col items-center justify-center p-6">
+      <main className="flex w-full min-h-dvh flex-col items-center justify-center p-4">
         <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
-          <div className="space-y-1">
-            <h1 className="heading_primary">Oops! Something went wrong</h1>
+          <div className="space-y-2">
+            <h1 className="heading_secondary">Oops! Something went wrong</h1>
             <p className="description">
               Looks like your verification link has expired or isn&apos;t working. No worries though
               - you can try again by requesting a new one.
@@ -61,10 +61,10 @@ export default async function AccountActivationPage({
   ]);
 
   return (
-    <main className="flex w-full min-h-dvh flex-col items-center justify-center p-6">
+    <main className="flex w-full min-h-dvh flex-col items-center justify-center p-4">
       <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
-        <div className="space-y-1">
-          <h1 className="heading_primary">All set! You&apos;ve secured your username!</h1>
+        <div className="space-y-2">
+          <h1 className="heading_secondary">All set! You&apos;ve secured your username!</h1>
           <p className="description">
             Thanks for verifying your email. Your username is securely yours, and no one else can
             claim it.

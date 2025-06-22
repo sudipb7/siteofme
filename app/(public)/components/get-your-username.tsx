@@ -151,7 +151,7 @@ export const GetYourUsername = () => {
         currentState={textState}
         states={textStates}
         className={cn(
-          "description mt-3",
+          "description text-sm mt-3",
           textState === "available" && "text-success-foreground",
           textState === "unavailable" && "text-destructive",
           ["invalid", "special"].includes(textState) && "text-warning-foreground"

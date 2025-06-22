@@ -23,8 +23,8 @@ export const EmailVerificationMessage = ({ user }: EmailVerificationMessageProps
 
   return (
     <>
-      <div className="space-y-1">
-        <h1 className="heading_primary">
+      <div className="space-y-2">
+        <h1 className="heading_secondary">
           Hi {user.name}!
           <br />
           Verify, and it&apos;s yours.

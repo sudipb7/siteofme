@@ -71,8 +71,8 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
 
   return (
     <>
-      <div className="space-y-1">
-        <h1 className="heading_primary">
+      <div className="space-y-2">
+        <h1 className="heading_secondary">
           You&apos;ve made it through!
           <br />
           But what should we call you?

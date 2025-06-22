@@ -18,9 +18,9 @@ export default async function SignUpPage({
     <>
       <Header />
       <main className="flex w-full min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center p-4">
-        <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
-          <div className="space-y-1">
-            <h1 className="heading_primary">Create the &ldquo;site of you&rdquo;</h1>
+        <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-md">
+          <div className="space-y-2">
+            <h1 className="heading_secondary">Create the &ldquo;site of you&rdquo;</h1>
             <p className="description">
               You are just three empty fields away from creating your own personal mini-site.
             </p>
