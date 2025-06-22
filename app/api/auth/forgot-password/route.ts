@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
     }
 
     const { email } = validated.data;
-    console.log(email);
 
     const user = await getUserByEmail(email);
     if (!user) {
