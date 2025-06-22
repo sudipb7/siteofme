@@ -21,6 +21,14 @@ export const WHY_CHOOSE_SITEOF_ME = [
   },
 ];
 
+export const USERNAME_TEXT_STATES = {
+  idle: "Claim your username before it's too late!",
+  available: "It's available... this username is available! 😃",
+  unavailable: "This username is already taken, you're a little late.😐",
+  invalid: "5 characters look better as username 🖐",
+  special: "You are already so special, why a special character? 😉",
+};
+
 export const SITE_CONFIG = {
   name: "siteof.me",
   url: process.env.NEXT_PUBLIC_SITE_URL,

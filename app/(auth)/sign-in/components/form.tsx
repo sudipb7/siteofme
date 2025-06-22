@@ -110,7 +110,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
                     Password
                     <Link
                       href="/forgot-password"
-                      className="text-xs leading-none underline font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm leading-none underline font-medium text-muted-foreground hover:text-foreground transition-colors"
                     >
                       Forgot password?
                     </Link>

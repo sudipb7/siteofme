@@ -95,9 +95,12 @@
     @apply min-h-full bg-background text-foreground;
   }
   .heading_primary {
+    @apply text-3xl font-semibold tracking-tight leading-tight;
+  }
+  .heading_secondary {
     @apply text-2xl font-semibold tracking-tight leading-tight;
   }
   .description {
-    @apply font-medium text-muted-foreground leading-tight text-sm;
+    @apply font-medium text-muted-foreground leading-tight text-base;
   }
 }

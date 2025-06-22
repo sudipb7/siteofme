@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Eye, EyeOff, Loader2, X } from "lucide-react";
+import { Check, Eye, EyeOff, Loader2 } from "lucide-react";
 import { ComponentProps, useEffect, useState, useTransition } from "react";
 
 import {
@@ -21,8 +21,9 @@ import { Google } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { useCheckUsername } from "../lib/hooks";
 import { Button } from "@/components/ui/button";
-import type { BaseAPIResponse } from "@/types";
 import { cn, handleClientError } from "@/lib/utils";
+import { USERNAME_TEXT_STATES } from "@/lib/constants";
+import { AnimatedText } from "@/components/animated-text";
 import { AnimatedButton } from "@/components/animated-button";
 import { signUpSchema, type SignUpInput } from "@/lib/schemas";
 
@@ -41,8 +42,8 @@ export const SignUpForm = ({
   const [isGoogleAuthPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+  const [textState, setTextState] = useState<keyof typeof USERNAME_TEXT_STATES>("idle");
   const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
-  const [usernameResponse, setUsernameResponse] = useState<BaseAPIResponse | null>(null);
 
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
@@ -89,12 +90,18 @@ export const SignUpForm = ({
     }
   }
 
-  const { mutateAsync: checkUsername, isPending: isCheckingUsername } = useCheckUsername();
+  const { mutateAsync: checkUsername } = useCheckUsername();
 
   useEffect(() => {
     const checkUsernameAvailability = async () => {
-      const result = await form.trigger("username");
-      if (!result) {
+      const validated = signUpSchema.pick({ username: true }).safeParse({ username });
+      if (!validated.success) {
+        if (validated.error.errors.some(error => error.message.includes("special"))) {
+          setTextState("special");
+        } else {
+          setTextState("invalid");
+        }
+        setIsUsernameAvailable(false);
         return;
       }
 
@@ -102,20 +109,20 @@ export const SignUpForm = ({
       if ("error" in res) {
         form.setError("username", { message: res.error, type: "pattern" }, { shouldFocus: true });
         setIsUsernameAvailable(false);
-        setUsernameResponse(res);
-        return;
+        setTextState("unavailable");
       } else {
+        form.clearErrors("username");
         setIsUsernameAvailable(true);
-        setUsernameResponse(res);
+        setTextState("available");
       }
     };
 
     const timeout = setTimeout(() => {
-      if (username && username.length >= 3) {
+      if (username) {
         checkUsernameAvailability();
       } else {
+        setTextState("idle");
         setIsUsernameAvailable(false);
-        setUsernameResponse(null);
       }
     }, 350);
 
@@ -133,27 +140,7 @@ export const SignUpForm = ({
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center justify-between gap-x-2">
-                    Username
-                    {username.length >= 3 ? (
-                      isCheckingUsername ? (
-                        <span className="text-xs text-muted-foreground font-medium flex items-center gap-x-1 leading-none">
-                          Checking...
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
-                        </span>
-                      ) : usernameResponse && "error" in usernameResponse ? (
-                        <span className="text-xs text-muted-foreground font-medium flex items-center gap-x-1 leading-none">
-                          {usernameResponse.error}
-                          <X className="h-3.5 w-3.5 text-red-600" />
-                        </span>
-                      ) : usernameResponse && "message" in usernameResponse ? (
-                        <span className="text-xs text-muted-foreground font-medium flex items-center gap-x-1 leading-none">
-                          {usernameResponse?.message}
-                          <Check className="h-3.5 w-3.5 text-success-foreground" />
-                        </span>
-                      ) : null
-                    ) : null}
-                  </FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <span className="text-sm min-h-full absolute inset-y-0 left-0 grid place-items-center pl-3 pointer-events-none leading-none">
@@ -171,7 +158,18 @@ export const SignUpForm = ({
                       />
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  {textState !== "idle" && (
+                    <AnimatedText
+                      currentState={textState}
+                      states={USERNAME_TEXT_STATES}
+                      className={cn(
+                        "description text-sm",
+                        textState === "available" && "text-success-foreground",
+                        textState === "unavailable" && "text-destructive",
+                        ["invalid", "special"].includes(textState) && "text-warning-foreground"
+                      )}
+                    />
+                  )}
                 </FormItem>
               )}
             />
@@ -218,7 +216,7 @@ export const SignUpForm = ({
                       <button
                         type="button"
                         onClick={() => setShowPassword(prev => !prev)}
-                        className="absolute inset-y-0 right-0 min-h-full rounded-md px-3 py-1.5 text-sm text-muted-foreground grid place-items-center hover:text-foreground outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all"
+                        className="absolute inset-y-0 right-0 min-h-full rounded-md px-3 py-1.5 text-sm text-muted-foreground grid place-items-center hover:text-foreground outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1.5px] transition-all"
                       >
                         {showPassword ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
                       </button>
@@ -232,7 +230,7 @@ export const SignUpForm = ({
           <AnimatedButton
             states={buttonStates}
             currentState={buttonState}
-            disabled={isLoading}
+            disabled={!isUsernameAvailable || isLoading || buttonState === "loading"}
             aria-label="Continue with Email"
             className="w-full"
           />
