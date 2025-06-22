@@ -19,10 +19,10 @@ export const MainAppPageClient = ({ user }: MainAppPageClientProps) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col-reverse md:flex-row h-full">
+    <>
+      <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} />
       <MobileLayout user={user} activeTab={activeTab} />
       <DesktopLayout user={user} />
-      <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} />
-    </div>
+    </>
   );
 };

@@ -1,21 +1,11 @@
 import { Toaster } from "sonner";
-import { Geist_Mono, Manrope } from "next/font/google";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { geistMono, manrope } from "@/lib/fonts";
 import { QueryProvider } from "@/components/query-provider";
 
 export { BASE_METADATA as metadata, VIEWPORT as viewport } from "@/lib/metadata";
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function RootLayout({
   children,
