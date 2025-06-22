@@ -18,7 +18,7 @@ export default async function SignUpPage({
     <>
       <Header />
       <main className="flex w-full min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center p-4">
-        <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-md">
+        <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
           <div className="space-y-2">
             <h1 className="heading_secondary">Create the &ldquo;site of you&rdquo;</h1>
             <p className="description">

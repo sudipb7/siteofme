@@ -30,3 +30,35 @@ export const useSignIn = () => {
     },
   });
 };
+
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: async (values: Pick<SignInInput, "email">) => {
+      try {
+        const response = await post<Pick<SignInInput, "email">, BaseAPIResponse>(
+          "/auth/forgot-password",
+          values
+        );
+        return response?.data;
+      } catch (error) {
+        return handleAPIError(error);
+      }
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: async (values: Pick<SignInInput, "password"> & { token: string }) => {
+      try {
+        const response = await post<
+          Pick<SignInInput, "password"> & { token: string },
+          BaseAPIResponse
+        >("/auth/reset-password", values);
+        return response?.data;
+      } catch (error) {
+        return handleAPIError(error);
+      }
+    },
+  });
+};

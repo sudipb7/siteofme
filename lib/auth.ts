@@ -55,8 +55,8 @@ export const {
     },
     async signIn({ account, user }) {
       if (account?.provider === "credentials") return;
-      if (user?.id) {
-        await updateUser(user.id, { emailVerified: new Date() });
+      if (user?.id && user.email) {
+        await updateUser(user.id, { emailVerified: new Date(), email: user.email });
       }
     },
   },
