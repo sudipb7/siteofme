@@ -35,7 +35,7 @@ export default function HomePage() {
             <div className="space-y-2" key={reason.title}>
               <div className="text-2xl">{reason.icon}</div>
               <h3 className="heading_primary text-lg">{reason.title}</h3>
-              <p className="description max-md:text-sm max-md:text-balance">{reason.description}</p>
+              <p className="description text-sm max-md:text-balance">{reason.description}</p>
             </div>
           ))}
         </div>

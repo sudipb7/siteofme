@@ -56,7 +56,7 @@ export default async function AccountActivationPage({
   }
 
   await Promise.all([
-    updateUser(user.id, { emailVerified: new Date() }),
+    updateUser(user.id, { emailVerified: new Date(), email: user.email }),
     db.delete(verificationTokens).where(eq(verificationTokens.token, key)),
   ]);
 
