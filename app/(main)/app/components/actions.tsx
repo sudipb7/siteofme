@@ -27,10 +27,12 @@ export const HeaderActions = ({ user }: { user: User }) => {
 
   return (
     <div className="flex items-center gap-x-3">
-      <Button variant="secondary" size="sm" onClick={handleOnLinkCopy}>
+      <Button variant="secondary" size="sm" onClick={handleOnLinkCopy} aria-label="Copy link">
         <LinkIcon className="size-4" />
       </Button>
-      <Button size="sm">Publish</Button>
+      <Button size="sm" aria-label="Publish">
+        Publish
+      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="sm">

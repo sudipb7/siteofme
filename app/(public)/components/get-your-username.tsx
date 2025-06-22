@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { signUpSchema } from "@/lib/schemas";
+import { USERNAME_TEXT_STATES } from "@/lib/constants";
 import { AnimatedText } from "@/components/animated-text";
 import { AnimatedButton } from "@/components/animated-button";
 import { useCheckUsername } from "@/app/(auth)/sign-up/lib/hooks";
@@ -16,18 +17,10 @@ const buttonStates = {
   loading: <Loader2 className="size-4 animate-spin" />,
 };
 
-const textStates = {
-  idle: "Claim your username before it's too late!",
-  available: "It's available... this username is available! 😃",
-  unavailable: "This username is already taken, you're a little late.😐",
-  invalid: "5 characters look better as username 🖐",
-  special: "You are already so special, why a special character? 😉",
-};
-
 export const GetYourUsername = () => {
   const [username, setUsername] = useState("");
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
-  const [textState, setTextState] = useState<keyof typeof textStates>("idle");
+  const [textState, setTextState] = useState<keyof typeof USERNAME_TEXT_STATES>("idle");
   const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
 
   const router = useRouter();
@@ -149,7 +142,7 @@ export const GetYourUsername = () => {
       </div>
       <AnimatedText
         currentState={textState}
-        states={textStates}
+        states={USERNAME_TEXT_STATES}
         className={cn(
           "description text-sm mt-3",
           textState === "available" && "text-success-foreground",

@@ -22,22 +22,15 @@ import { Input } from "@/components/ui/input";
 import { useCheckUsername } from "../lib/hooks";
 import { Button } from "@/components/ui/button";
 import { cn, handleClientError } from "@/lib/utils";
-import { AnimatedButton } from "@/components/animated-button";
+import { USERNAME_TEXT_STATES } from "@/lib/constants";
 import { AnimatedText } from "@/components/animated-text";
+import { AnimatedButton } from "@/components/animated-button";
 import { signUpSchema, type SignUpInput } from "@/lib/schemas";
 
 const buttonStates = {
   idle: "Continue with Email",
   loading: <Loader2 className="size-4 animate-spin" />,
   success: <Check className="size-4" />,
-};
-
-const textStates = {
-  idle: "Claim your username before it's too late!",
-  available: "It's available... this username is available! 😃",
-  unavailable: "This username is already taken, you're a little late.😐",
-  invalid: "5 characters look better as username 🖐",
-  special: "You are already so special, why a special character? 😉",
 };
 
 export const SignUpForm = ({
@@ -49,7 +42,7 @@ export const SignUpForm = ({
   const [isGoogleAuthPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
-  const [textState, setTextState] = useState<keyof typeof textStates>("idle");
+  const [textState, setTextState] = useState<keyof typeof USERNAME_TEXT_STATES>("idle");
   const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
 
   const form = useForm<SignUpInput>({
@@ -168,7 +161,7 @@ export const SignUpForm = ({
                   {textState !== "idle" && (
                     <AnimatedText
                       currentState={textState}
-                      states={textStates}
+                      states={USERNAME_TEXT_STATES}
                       className={cn(
                         "description text-sm",
                         textState === "available" && "text-success-foreground",

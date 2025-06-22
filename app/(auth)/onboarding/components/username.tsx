@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/form";
 import { User } from "@/db/schema";
 import { Input } from "@/components/ui/input";
-import { cn, handleClientError } from "@/lib/utils";
 import { useUpdateUser } from "@/hooks/mutations";
+import { cn, handleClientError } from "@/lib/utils";
+import { USERNAME_TEXT_STATES } from "@/lib/constants";
 import { AnimatedText } from "@/components/animated-text";
 import { SignUpInput, signUpSchema } from "@/lib/schemas";
 import { useCheckUsername } from "../../sign-up/lib/hooks";
@@ -27,21 +28,13 @@ const buttonStates = {
   success: <Check className="size-4" />,
 };
 
-const textStates = {
-  idle: "Claim your username before it's too late!",
-  available: "It's available... this username is available! 😃",
-  unavailable: "This username is already taken, you're a little late.😐",
-  invalid: "5 characters look better as username 🖐",
-  special: "You are already so special, why a special character? 😉",
-};
-
 interface UsernameFormProps {
   user: User;
 }
 
 export const UsernameForm = ({ user }: UsernameFormProps) => {
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
-  const [textState, setTextState] = useState<keyof typeof textStates>("idle");
+  const [textState, setTextState] = useState<keyof typeof USERNAME_TEXT_STATES>("idle");
   const [buttonState, setButtonState] = useState<keyof typeof buttonStates>("idle");
 
   const form = useForm<Pick<SignUpInput, "username">>({
@@ -164,7 +157,7 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
           {textState !== "idle" && (
             <AnimatedText
               currentState={textState}
-              states={textStates}
+              states={USERNAME_TEXT_STATES}
               className={cn(
                 "description text-sm",
                 textState === "available" && "text-success-foreground",
