@@ -18,7 +18,7 @@ export const AppHeader = async () => {
       <header className="h-14 border-b w-full bg-background sticky top-0 z-30 inset-x-0">
         <div className="min-h-full flex items-center justify-between px-4">
           <div>
-            <Link href="/app" className="flex items-center gap-x-2">
+            <Link href="/app" className="flex items-center gap-x-1.5 sm:gap-x-2">
               <Image
                 src="/logo.png"
                 alt="Siteof Logo"
@@ -28,7 +28,8 @@ export const AppHeader = async () => {
                 quality={100}
                 className="object-contain min-h-9 max-w-9 "
               />
-              <span className="font-medium text-sm">siteof.me/{user.username}</span>
+              <span className="font-semibold sm:hidden">siteof.me</span>
+              <span className="font-medium text-sm max-sm:hidden">siteof.me/{user.username}</span>
             </Link>
           </div>
           <HeaderActions user={user} />

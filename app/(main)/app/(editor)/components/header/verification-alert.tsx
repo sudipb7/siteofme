@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 import { handleClientError } from "@/lib/utils";
-import { useResendVerificationMail } from "../lib/hooks";
+import { useResendVerificationMail } from "../../lib/hooks";
 
 export const VerificationAlert = () => {
   const [isSent, setIsSent] = useState(false);

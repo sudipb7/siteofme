@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { eq } from "drizzle-orm";
 
 import db from "@/db";
@@ -46,7 +47,7 @@ export const getUserByUsername = async (username: string) => {
   }
 };
 
-export const currentUser = async () => {
+export const currentUser = cache(async () => {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -63,7 +64,7 @@ export const currentUser = async () => {
     console.error("[ERROR >>> currentUser]", error);
     return null;
   }
-};
+});
 
 export const getVerificationTokenByToken = async (token: string) => {
   try {
