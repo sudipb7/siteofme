@@ -30,9 +30,9 @@ export const FONT_FAMILY = {
 } as const;
 
 export const FONT_SIZE = {
-  S: 14,
+  S: 16,
   M: 18,
-  L: 24,
+  L: 20,
 } as const;
 
 export const BACKGROUND_COLOR = {
@@ -54,4 +54,3 @@ export const COLOR = {
   BLACK: "#000000",
   WHITE: "#ffffff",
 } as const;
-
