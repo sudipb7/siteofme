@@ -41,7 +41,6 @@ export const ForgotPasswordForm = ({ className, ...props }: ComponentProps<"div"
 
   async function onSubmit(values: ForgotPasswordInput) {
     try {
-      console.log(values);
       setButtonState("loading");
 
       const res = await forgotPassword(values);
