@@ -1,8 +1,9 @@
 import { Resend } from "resend";
+import { SITE_URL } from "./constants";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const domain = process.env.NEXT_PUBLIC_SITE_URL;
+const domain = SITE_URL;
 const fromEmail = `no-reply@${process.env.NEXT_PUBLIC_RESEND_DOMAIN}`;
 
 export const sendVerificationEmail = async (email: string, token: string) => {

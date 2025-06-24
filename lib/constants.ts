@@ -1,3 +1,5 @@
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+
 export const WHY_CHOOSE_SITEOF_ME = [
   {
     icon: "⚡",
@@ -31,13 +33,13 @@ export const USERNAME_TEXT_STATES = {
 
 export const SITE_CONFIG = {
   name: "siteof.me",
-  url: process.env.NEXT_PUBLIC_SITE_URL,
+  url: SITE_URL,
   logo: "/logo.png",
   favicon: "/favicon.ico",
   shortDescription: 'Go beyond the links. Tell your "story", beautifully.',
   description:
     'Create a "site of you" — a mini-site built around "you". Not just where to find you, but "who you are".',
-  ogImage: `${process.env.NEXT_PUBLIC_SITE_URL}/opengraph-image.png`,
+  ogImage: `${SITE_URL}/opengraph-image.png`,
   links: {
     twitter: "https://x.com/sudipcodes",
   },

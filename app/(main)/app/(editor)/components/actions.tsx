@@ -13,11 +13,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SITE_URL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 
 export const HeaderActions = ({ user }: { user: User }) => {
   const handleOnLinkCopy = () => {
-    navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_SITE_URL}/${user.username}`);
+    navigator.clipboard.writeText(`${SITE_URL}/${user.username}`);
     toast.info("Link copied to clipboard");
   };
 
