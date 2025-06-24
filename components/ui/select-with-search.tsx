@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useState } from "react";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -41,17 +41,18 @@ export const SelectWithSearch = ({
   searchPlaceholder = "Search...",
   emptyMessage = "No option found.",
   label,
-  className,
+  className = "",
   disabled = false,
 }: SelectWithSearchProps) => {
   const id = useId();
+  const [open, setOpen] = useState(false);
 
   const selectedOption = options.find(option => option.value === value);
 
   return (
     <div className={cn("space-y-2", className)}>
       {label && <Label htmlFor={id}>{label}</Label>}
-      <Popover>
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             id={id}
@@ -83,9 +84,11 @@ export const SelectWithSearch = ({
                   <CommandItem
                     key={option.value}
                     value={option.value}
+                    style={{ fontFamily: `var(--font-${option.value})` }}
                     onSelect={currentValue => {
                       const selectedValue = currentValue === value ? "" : currentValue;
                       onValueChange?.(selectedValue);
+                      setOpen(false);
                     }}
                   >
                     {option.label}

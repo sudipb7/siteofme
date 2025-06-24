@@ -1,11 +1,13 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useEditorStore } from "../../../lib/store";
 import { BACKGROUND_COLOR } from "@/app/(main)/lib/constants";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export const BackgroundSection = () => {
+  const [open, setOpen] = useState(false);
   const { backgroundColor, setBackgroundColor } = useEditorStore();
 
   const colorOptions = useMemo(
@@ -27,7 +29,7 @@ export const BackgroundSection = () => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="md:text-sm text-base font-medium">Color</span>
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" className="gap-2">
                 <div className="size-4 rounded-sm border" style={{ backgroundColor }} />
@@ -39,8 +41,14 @@ export const BackgroundSection = () => {
                 {colorOptions.map(({ color, name }) => (
                   <button
                     key={color}
-                    onClick={() => setBackgroundColor(color)}
-                    className="size-8 rounded-md border focus-visible:ring-[1.5px] focus-visible:ring-ring/50 focus-visible:ring-offset-background outline-none transition-all"
+                    onClick={() => {
+                      setBackgroundColor(color);
+                      setOpen(false);
+                    }}
+                    className={cn(
+                      "size-8 rounded-md focus-visible:ring-[1.5px] focus-visible:ring-ring/50 focus-visible:ring-offset-background outline-none transition-all",
+                      color === "#ffffff" && "border"
+                    )}
                     style={{ backgroundColor: color }}
                     title={name}
                     aria-label={`Set background to ${name}`}
