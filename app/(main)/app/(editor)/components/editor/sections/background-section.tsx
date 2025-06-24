@@ -15,7 +15,7 @@ export const BackgroundSection = () => {
       Object.entries(BACKGROUND_COLOR).map(([key, value]) => ({
         color: value,
         name: key
-          .replace("_", " ")
+          .replaceAll("_", " ")
           .toLowerCase()
           .replace(/\b\w/g, l => l.toUpperCase()),
       })),

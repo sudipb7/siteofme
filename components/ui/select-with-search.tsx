@@ -31,11 +31,14 @@ interface SelectWithSearchProps {
   label?: string;
   className?: string;
   disabled?: boolean;
+  isFontFamilySelect?: boolean;
+  isModal?: boolean;
 }
 
 export const SelectWithSearch = ({
   options,
   value = "",
+  isFontFamilySelect = false,
   onValueChange,
   placeholder = "Select option",
   searchPlaceholder = "Search...",
@@ -43,6 +46,7 @@ export const SelectWithSearch = ({
   label,
   className = "",
   disabled = false,
+  isModal = false,
 }: SelectWithSearchProps) => {
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -52,14 +56,14 @@ export const SelectWithSearch = ({
   return (
     <div className={cn("space-y-2", className)}>
       {label && <Label htmlFor={id}>{label}</Label>}
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={setOpen} modal={isModal}>
         <PopoverTrigger asChild>
           <Button
             id={id}
             variant="outline"
             role="combobox"
             disabled={disabled}
-            className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]"
+            className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[1.5px]"
           >
             <span className={cn("truncate", !selectedOption && "text-muted-foreground")}>
               {selectedOption?.label || placeholder}
@@ -80,21 +84,25 @@ export const SelectWithSearch = ({
             <CommandList>
               <CommandEmpty>{emptyMessage}</CommandEmpty>
               <CommandGroup>
-                {options.map(option => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    style={{ fontFamily: `var(--font-${option.value})` }}
-                    onSelect={currentValue => {
-                      const selectedValue = currentValue === value ? "" : currentValue;
-                      onValueChange?.(selectedValue);
-                      setOpen(false);
-                    }}
-                  >
-                    {option.label}
-                    {value === option.value && <CheckIcon size={16} className="ml-auto" />}
-                  </CommandItem>
-                ))}
+                {options
+                  .sort((a, b) => a.label.localeCompare(b.label))
+                  .map(option => (
+                    <CommandItem
+                      key={option.value}
+                      value={option.value}
+                      {...(isFontFamilySelect && {
+                        style: { fontFamily: `var(--font-${option.value})` },
+                      })}
+                      onSelect={currentValue => {
+                        const selectedValue = currentValue === value ? "" : currentValue;
+                        onValueChange?.(selectedValue);
+                        setOpen(false);
+                      }}
+                    >
+                      {option.label}
+                      {value === option.value && <CheckIcon size={16} className="ml-auto" />}
+                    </CommandItem>
+                  ))}
               </CommandGroup>
             </CommandList>
           </Command>

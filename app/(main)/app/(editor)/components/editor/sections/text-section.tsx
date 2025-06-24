@@ -1,16 +1,25 @@
 import { useMemo } from "react";
-import { AlignLeft, AlignCenter, AlignRight, ChevronDown } from "lucide-react";
+import {
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  // ChevronDown
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
+// import { Button } from "@/components/ui/button";
 import { useEditorStore } from "../../../lib/store";
-import { FONT_FAMILY, FONT_SIZE, COLOR } from "@/app/(main)/lib/constants";
+import {
+  FONT_FAMILY,
+  FONT_SIZE,
+  //  COLOR
+} from "@/app/(main)/lib/constants";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { SelectWithSearch, type SelectOption } from "@/components/ui/select-with-search";
 
@@ -20,8 +29,8 @@ export const TextSection = () => {
     setFontFamily,
     fontSize,
     setFontSize,
-    color,
-    setColor,
+    // color,
+    // setColor,
     textAlign,
     setTextAlign,
   } = useEditorStore();
@@ -31,24 +40,24 @@ export const TextSection = () => {
       Object.entries(FONT_FAMILY).map(([key, value]) => ({
         value: value,
         label: key
-          .replace("_", " ")
+          .replaceAll("_", " ")
           .toLowerCase()
           .replace(/\b\w/g, l => l.toUpperCase()),
       })),
     []
   );
 
-  const colorOptions: SelectOption[] = useMemo(
-    () =>
-      Object.entries(COLOR).map(([key, value]) => ({
-        value: value,
-        label: key
-          .replace("_", " ")
-          .toLowerCase()
-          .replace(/\b\w/g, l => l.toUpperCase()),
-      })),
-    []
-  );
+  // const colorOptions: SelectOption[] = useMemo(
+  //   () =>
+  //     Object.entries(COLOR).map(([key, value]) => ({
+  //       value: value,
+  //       label: key
+  //         .replaceAll("_", " ")
+  //         .toLowerCase()
+  //         .replace(/\b\w/g, l => l.toUpperCase()),
+  //     })),
+  //   []
+  // );
 
   return (
     <div className="space-y-2.5 border-b px-4 py-6">
@@ -59,6 +68,7 @@ export const TextSection = () => {
           <span className="md:text-sm text-base font-medium">Font</span>
           <div className="w-40">
             <SelectWithSearch
+              isFontFamilySelect
               options={fontOptions}
               value={fontFamily}
               onValueChange={setFontFamily}
@@ -121,7 +131,7 @@ export const TextSection = () => {
           </ToggleGroup>
         </div>
 
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <span className="text-sm font-medium">Color</span>
           <div className="w-40">
             <DropdownMenu>
@@ -142,7 +152,7 @@ export const TextSection = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

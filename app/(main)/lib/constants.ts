@@ -1,3 +1,19 @@
+import {
+  Discord,
+  Medium,
+  Web,
+  Tiktok,
+  GitHub,
+  LinkedIn,
+  X,
+  YouTube,
+  Twitch,
+  BuyMeACoffee,
+  Pinterest,
+  Dribbble,
+  Instagram,
+} from "@/components/icons";
+
 export const FONT_FAMILY = {
   LORA: "lora",
   INTER: "inter",
@@ -53,4 +69,36 @@ export const BACKGROUND_COLOR = {
 export const COLOR = {
   BLACK: "#000000",
   WHITE: "#ffffff",
+} as const;
+
+export const SOCIAL_PLATFORMS = {
+  INSTAGRAM: "instagram",
+  X: "x",
+  LINKEDIN: "linkedin",
+  GITHUB: "github",
+  YOUTUBE: "youtube",
+  DISCORD: "discord",
+  PINTEREST: "pinterest",
+  TWITCH: "twitch",
+  TIKTOK: "tiktok",
+  DRIBBBLE: "dribbble",
+  BUY_ME_A_COFFEE: "buy_me_a_coffee",
+  MEDIUM: "medium",
+  WEBSITE: "website",
+} as const;
+
+export const PLATFORM_ICONS = {
+  [SOCIAL_PLATFORMS.INSTAGRAM]: Instagram,
+  [SOCIAL_PLATFORMS.X]: X,
+  [SOCIAL_PLATFORMS.LINKEDIN]: LinkedIn,
+  [SOCIAL_PLATFORMS.GITHUB]: GitHub,
+  [SOCIAL_PLATFORMS.YOUTUBE]: YouTube,
+  [SOCIAL_PLATFORMS.TIKTOK]: Tiktok,
+  [SOCIAL_PLATFORMS.WEBSITE]: Web,
+  [SOCIAL_PLATFORMS.MEDIUM]: Medium,
+  [SOCIAL_PLATFORMS.TWITCH]: Twitch,
+  [SOCIAL_PLATFORMS.BUY_ME_A_COFFEE]: BuyMeACoffee,
+  [SOCIAL_PLATFORMS.PINTEREST]: Pinterest,
+  [SOCIAL_PLATFORMS.DRIBBBLE]: Dribbble,
+  [SOCIAL_PLATFORMS.DISCORD]: Discord,
 } as const;

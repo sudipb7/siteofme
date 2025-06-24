@@ -3,6 +3,7 @@ import { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { BackgroundSection } from "./sections/background-section";
 import { TextSection } from "./sections/text-section";
+import { SocialIconsSection } from "./sections/social-icons-section";
 
 interface EditorProps {
   className?: string;
@@ -18,6 +19,7 @@ export const Editor = ({ className, style }: EditorProps) => {
       <div>
         <BackgroundSection />
         <TextSection />
+        <SocialIconsSection />
       </div>
     </div>
   );

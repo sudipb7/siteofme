@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: `Welcome to the site of, ${username}` }, { status: 200 });
   } catch (error) {
-    console.log("[ERROR] >> POST: /api/auth/sign-up", error);
+    console.error("[ERROR] >> POST: /api/auth/sign-up", error);
     if (error instanceof AuthError && error.type === "CredentialsSignin") {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
     }

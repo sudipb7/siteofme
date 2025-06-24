@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "Password reset successfully" }, { status: 200 });
   } catch (error) {
-    console.log("[ERROR] >> POST: /api/auth/reset-password", error);
+    console.error("[ERROR] >> POST: /api/auth/reset-password", error);
     return NextResponse.json({ error: "Something went wrong :(" }, { status: 500 });
   }
 }

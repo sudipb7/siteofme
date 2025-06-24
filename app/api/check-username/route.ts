@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("[ERROR] >> POST: /api/check-username", error);
+    console.error("[ERROR] >> POST: /api/check-username", error);
     return NextResponse.json({ error: "Something went wrong :(" }, { status: 500 });
   }
 }
