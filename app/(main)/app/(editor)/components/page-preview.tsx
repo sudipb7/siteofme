@@ -1,12 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { User } from "@/db/schema";
+import { TipTapEditor } from "./tiptap";
 import { useEditorStore } from "../lib/store";
-import { getContentMinHeight } from "../lib/utils";
-import { PLATFORM_ICONS } from "@/app/(main)/lib/constants";
 import { Button } from "@/components/ui/button";
+import { getContentMinHeight } from "../lib/utils";
+import { FONT_SIZE, PLATFORM_ICONS } from "@/app/(main)/lib/constants";
 
 interface PagePreviewProps {
   user: User;
@@ -15,6 +18,7 @@ interface PagePreviewProps {
 }
 
 export const PagePreview = ({ user, isMobile = false, className }: PagePreviewProps) => {
+  const [mounted, setMounted] = useState(false);
   const {
     backgroundColor,
     color,
@@ -29,6 +33,47 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
     const IconComponent = PLATFORM_ICONS[platform as keyof typeof PLATFORM_ICONS];
     return IconComponent;
   };
+
+  const width = useMemo(() => {
+    switch (fontSize) {
+      case FONT_SIZE.S:
+        return "24rem";
+
+      case FONT_SIZE.M:
+        return "28rem";
+
+      case FONT_SIZE.L:
+        return "32rem";
+
+      default:
+        return "28rem";
+    }
+  }, [fontSize]);
+
+  useEffect(() => {
+    if (!mounted) {
+      setMounted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!mounted) {
+    return (
+      <main
+        style={{
+          backgroundColor,
+          color,
+          fontSize: `${fontSize}px`,
+          fontFamily: `var(--font-${fontFamily})`,
+          textAlign,
+          minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),
+        }}
+        className={cn("flex-1 p-4 w-full flex items-center justify-center", className)}
+      >
+        <Loader2 className="animate-spin size-8" />
+      </main>
+    );
+  }
 
   return (
     <main
@@ -46,16 +91,17 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
       )}
     >
       <div className="flex-1 flex items-center justify-center">
-        <div className="max-w-sm w-full mx-auto space-y-4">
-          <p>Hey there, I am John Doe.</p>
-          <p>
-            I am a full-time Software Engineer and part-time Indie Hacker with strong design sense.
-          </p>
-          <p>Don&apos;t forget to visit my portfolio and X.</p>
-
+        <div
+          className="mx-auto"
+          style={{
+            minWidth: width,
+            maxWidth: width,
+          }}
+        >
+          <TipTapEditor />
           {socialIcons.length > 0 && (
             <div
-              className="flex gap-1.5 pt-2"
+              className="flex gap-3 mt-8 md:mt-10 px-4"
               style={{
                 justifyContent:
                   socialIconsAlignment === "left"
@@ -85,8 +131,8 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
           )}
         </div>
       </div>
-      <div className="md:hidden border-t pt-4 flex flex-col items-center justify-center w-full border-muted-foreground/50">
-        <Link href="/" className="flex items-center gap-x-1.5">
+      <div className="md:hidden border-t pt-4 flex flex-col items-center w-full border-muted-foreground/40 flex-1 max-h-28">
+        <Link href="/" className="flex items-end gap-x-1.5">
           <Image
             src="/logo.png"
             alt="Siteof Logo"
@@ -94,9 +140,12 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
             height={100}
             priority
             quality={100}
-            className="object-contain min-h-8 max-w-8"
+            className="object-contain min-h-7 max-w-7 -mb-0.5"
           />
-          <span className="font-medium text-base">siteof.me</span>
+          <div className="flex flex-col font-manrope">
+            <span className="text-[10px] text-muted-foreground">powered by</span>
+            <span className="font-medium text-base">siteof.me</span>
+          </div>
         </Link>
       </div>
       <div className="max-md:hidden fixed bottom-8 right-8">
@@ -110,7 +159,7 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
             quality={100}
             className="object-contain min-h-8 max-w-8"
           />
-          <span className="font-medium text-base">siteof.me</span>
+          <span className="font-medium text-base font-manrope">siteof.me</span>
         </Link>
       </div>
     </main>
