@@ -10,6 +10,9 @@ import {
   Open_Sans,
   Roboto,
   Roboto_Mono,
+  Space_Mono,
+  Poppins,
+  Space_Grotesk,
 } from "next/font/google";
 
 export const manrope = Manrope({
@@ -76,4 +79,22 @@ export const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"],
+});
+
+export const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+export const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+export const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });

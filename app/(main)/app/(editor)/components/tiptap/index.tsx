@@ -1,12 +1,15 @@
 import { useCallback } from "react";
+import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
-import { BoldIcon, ItalicIcon, StrikethroughIcon } from "lucide-react";
 import { useEditor, EditorContent, BubbleMenu, Editor } from "@tiptap/react";
 
+import { cn } from "@/lib/utils";
 import { useEditorStore } from "../../lib/store";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useLinkState } from "./hooks";
+import { createLinkHandlers } from "./link-handlers";
+import { BubbleMenuContent } from "./bubble-menu-content";
 
-export const TipTapEditor = () => {
+export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: boolean }) => {
   const { content, setContent } = useEditorStore();
 
   const editor = useEditor({
@@ -34,12 +37,54 @@ export const TipTapEditor = () => {
         gapcursor: false,
         hardBreak: false,
       }),
+      Link.configure({
+        autolink: true,
+        linkOnPaste: true,
+        openOnClick: openLinkOnClick,
+        defaultProtocol: "https",
+        protocols: ["http", "https"],
+        HTMLAttributes: {
+          class: cn("underline underline-offset-2", openLinkOnClick && "cursor-pointer"),
+        },
+        isAllowedUri: (url, ctx) => {
+          try {
+            const parsedUrl = url.includes(":")
+              ? new URL(url)
+              : new URL(`${ctx.defaultProtocol}://${url}`);
+
+            if (!ctx.defaultValidate(parsedUrl.href)) {
+              return false;
+            }
+
+            const disallowedProtocols = ["ftp", "file", "mailto"];
+            const protocol = parsedUrl.protocol.replace(":", "");
+
+            if (disallowedProtocols.includes(protocol)) {
+              return false;
+            }
+
+            const allowedProtocols = ctx.protocols.map(p => (typeof p === "string" ? p : p.scheme));
+
+            if (!allowedProtocols.includes(protocol)) {
+              return false;
+            }
+
+            return true;
+          } catch {
+            return false;
+          }
+        },
+      }),
     ],
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
+      console.log(editor.getHTML());
       setContent(editor.getHTML());
     },
   });
+
+  const linkState = useLinkState(editor);
+  const linkHandlers = createLinkHandlers(editor, linkState);
 
   const getActiveFormats = () => {
     if (!editor) return [];
@@ -76,34 +121,50 @@ export const TipTapEditor = () => {
 
   return (
     <>
-      <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-        <ToggleGroup
-          type="multiple"
-          value={getActiveFormats()}
-          onValueChange={values => handleFormatChange(values, editor)}
-        >
-          <ToggleGroupItem
-            value="bold"
-            aria-label="Toggle bold"
-            className="border bg-background hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-accent data-[state=on]:text-accent-foreground md:h-8 h-9 px-3"
-          >
-            <BoldIcon className="size-5 md:size-4" />
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="italic"
-            aria-label="Toggle italic"
-            className="border-y bg-background hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-accent data-[state=on]:text-accent-foreground md:h-8 h-9 px-3"
-          >
-            <ItalicIcon className="size-5 md:size-4" />
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="strike"
-            aria-label="Toggle strikethrough"
-            className="border bg-background hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-accent data-[state=on]:text-accent-foreground md:h-8 h-9 px-3"
-          >
-            <StrikethroughIcon className="size-5 md:size-4" />
-          </ToggleGroupItem>
-        </ToggleGroup>
+      <BubbleMenu
+        editor={editor}
+        tippyOptions={{ duration: 100 }}
+        shouldShow={({ editor, state }) => {
+          const { selection } = state;
+          const { empty } = selection;
+
+          if (empty && !editor.isActive("link")) {
+            if (linkState.isAddingLink) {
+              linkState.setIsAddingLink(false);
+              linkState.setAddLinkUrl("");
+              linkState.setSavedSelection(null);
+            }
+            if (linkState.isEditingLink) {
+              linkState.setIsEditingLink(false);
+            }
+            return false;
+          }
+
+          if (linkState.isAddingLink) {
+            return true;
+          }
+
+          if (!openLinkOnClick && editor.isActive("link")) {
+            if (!linkState.isEditingLink) {
+              const currentUrl = editor.getAttributes("link").href || "";
+              linkState.setEditLinkUrl(currentUrl);
+            }
+            return true;
+          }
+
+          return !empty;
+        }}
+      >
+        <div className="flex items-center p-1 rounded-lg border bg-background shadow-sm">
+          <BubbleMenuContent
+            editor={editor}
+            openLinkOnClick={openLinkOnClick}
+            linkState={linkState}
+            handlers={linkHandlers}
+            getActiveFormats={getActiveFormats}
+            handleFormatChange={handleFormatChange}
+          />
+        </div>
       </BubbleMenu>
       <EditorContent editor={editor} />
     </>

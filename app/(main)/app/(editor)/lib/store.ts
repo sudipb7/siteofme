@@ -31,22 +31,21 @@ export const useEditorStore = create<EditorStore>(set => ({
   color: COLOR.BLACK,
   backgroundColor: BACKGROUND_COLOR.CREAM,
   fontSize: FONT_SIZE.M,
-  fontFamily: FONT_FAMILY.MANROPE,
+  fontFamily: FONT_FAMILY.SPACE_GROTESK,
   textAlign: "left",
   socialIcons: [
     {
       id: "3ef024c7-934e-4823-ba54-7efcf714c8df",
       platform: "website",
-      url: "https://example.com",
+      url: "https://sudip.codes",
     },
     {
       id: "953f397a-7199-432a-844e-c5ebc68fb585",
       platform: "x",
-      url: "https://x.com/john_doe",
+      url: "https://x.com/sudipcodes",
     },
   ],
-  content:
-    "<p>Hey there, I am <strong>John Doe.</strong></p><p>I am a full-time <strong>Software Engineer</strong> and part-time <strong><em>Indie Hacker</em></strong> with strong <em>design</em> sense.</p><p>Don't forget to visit my portfolio and X.</p>",
+  content: `<p>Hey there, I am <strong>Sudip Biswas.</strong></p><p>I am a full-time Software Engineer and part-time <em>Indie Hacker</em> with interest in creating <strong><em>"consumer products"</em></strong>.</p><p>Don't forget to visit my <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://sudip.codes">portfolio</a> and <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://x.com/sudipcodes">X</a>.</p>`,
   socialIconsAlignment: "left",
   setColor: (color: string) => set({ color }),
   setBackgroundColor: (color: string) => set({ backgroundColor: color }),

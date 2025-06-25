@@ -5,9 +5,10 @@ import { cn } from "@/lib/utils";
 import { User } from "@/db/schema";
 import { useEditorStore } from "../lib/store";
 import { getContentMinHeight } from "../lib/utils";
-import { PLATFORM_ICONS } from "@/app/(main)/lib/constants";
+import { FONT_SIZE, PLATFORM_ICONS } from "@/app/(main)/lib/constants";
 import { Button } from "@/components/ui/button";
 import { TipTapEditor } from "./tiptap";
+import { useMemo } from "react";
 
 interface PagePreviewProps {
   user: User;
@@ -31,6 +32,22 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
     return IconComponent;
   };
 
+  const width = useMemo(() => {
+    switch (fontSize) {
+      case FONT_SIZE.S:
+        return "24rem";
+
+      case FONT_SIZE.M:
+        return "28rem";
+
+      case FONT_SIZE.L:
+        return "32rem";
+
+      default:
+        return "28rem";
+    }
+  }, [fontSize]);
+
   return (
     <main
       style={{
@@ -47,7 +64,13 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
       )}
     >
       <div className="flex-1 flex items-center justify-center">
-        <div className="max-w-sm min-w-sm mx-auto">
+        <div
+          className="mx-auto"
+          style={{
+            minWidth: width,
+            maxWidth: width,
+          }}
+        >
           <TipTapEditor />
           {socialIcons.length > 0 && (
             <div

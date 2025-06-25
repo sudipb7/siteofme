@@ -26,7 +26,10 @@ export const FONT_FAMILY = {
   OPEN_SANS: "open-sans",
   ROBOTO: "roboto",
   ROBOTO_MONO: "roboto-mono",
-  // * Below will be premium fonts
+  POPPINS: "poppins",
+  SPACE_MONO: "space-mono",
+  SPACE_GROTESK: "space-grotesk",
+  // * Below will be released later
   // ARCHIVO: "archivo",
   // NOTO_SERIF: "noto-serif",
   // NOTO_SANS: "noto-sans",
@@ -35,14 +38,11 @@ export const FONT_FAMILY = {
   // IBM_PLEX_MONO: "ibm-plex-mono",
   // IBM_PLEX_SANS: "ibm-plex-sans",
   // PLUS_JAKARTA_SANS: "plus-jakarta-sans",
-  // POPPINS: "poppins",
   // PT_SERIF: "pt-serif",
   // PT_SANS: "pt-sans",
   // REDDIT_MONO: "reddit-mono",
   // REDDIT_SANS: "reddit-sans",
   // RUBIK: "rubik",
-  // SPACE_MONO: "space-mono",
-  // SPACE_GROTESK: "space-grotesk",
 } as const;
 
 export const FONT_SIZE = {
