@@ -29,7 +29,7 @@ export const AppHeader = async () => {
                 className="object-contain min-h-9 max-w-9 "
               />
               <span className="font-semibold sm:hidden">siteof.me</span>
-              <span className="font-medium text-sm max-sm:hidden">siteof.me/{user.username}</span>
+              <span className="font-semibold text-sm max-sm:hidden">siteof.me/{user.username}</span>
             </Link>
           </div>
           <HeaderActions user={user} />

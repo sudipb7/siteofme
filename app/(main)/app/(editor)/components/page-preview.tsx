@@ -1,14 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { User } from "@/db/schema";
+import { TipTapEditor } from "./tiptap";
 import { useEditorStore } from "../lib/store";
+import { Button } from "@/components/ui/button";
 import { getContentMinHeight } from "../lib/utils";
 import { FONT_SIZE, PLATFORM_ICONS } from "@/app/(main)/lib/constants";
-import { Button } from "@/components/ui/button";
-import { TipTapEditor } from "./tiptap";
-import { useMemo } from "react";
 
 interface PagePreviewProps {
   user: User;
@@ -17,6 +18,7 @@ interface PagePreviewProps {
 }
 
 export const PagePreview = ({ user, isMobile = false, className }: PagePreviewProps) => {
+  const [mounted, setMounted] = useState(false);
   const {
     backgroundColor,
     color,
@@ -47,6 +49,31 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
         return "28rem";
     }
   }, [fontSize]);
+
+  useEffect(() => {
+    if (!mounted) {
+      setMounted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!mounted) {
+    return (
+      <main
+        style={{
+          backgroundColor,
+          color,
+          fontSize: `${fontSize}px`,
+          fontFamily: `var(--font-${fontFamily})`,
+          textAlign,
+          minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),
+        }}
+        className={cn("flex-1 p-4 w-full flex items-center justify-center", className)}
+      >
+        <Loader2 className="animate-spin size-8" />
+      </main>
+    );
+  }
 
   return (
     <main
