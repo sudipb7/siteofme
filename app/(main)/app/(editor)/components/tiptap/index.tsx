@@ -32,7 +32,6 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
         listItem: false,
         horizontalRule: false,
         orderedList: false,
-        history: false,
         dropcursor: false,
         gapcursor: false,
         hardBreak: false,
@@ -78,7 +77,6 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
     ],
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      console.log(editor.getHTML());
       setContent(editor.getHTML());
     },
   });
