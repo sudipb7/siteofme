@@ -89,7 +89,7 @@ export const SocialIconsSection = () => {
               Add
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="!max-w-md">
             <DialogHeader>
               <DialogTitle>Add Social Icon</DialogTitle>
             </DialogHeader>

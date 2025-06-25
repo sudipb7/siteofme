@@ -65,7 +65,13 @@ export const SelectWithSearch = ({
             disabled={disabled}
             className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[1.5px]"
           >
-            <span className={cn("truncate", !selectedOption && "text-muted-foreground")}>
+            <span
+              {...(isFontFamilySelect &&
+                selectedOption && {
+                  style: { fontFamily: `var(--font-${selectedOption?.value})` },
+                })}
+              className={cn("truncate", !selectedOption && "text-muted-foreground")}
+            >
               {selectedOption?.label || placeholder}
             </span>
             <ChevronDownIcon
@@ -94,8 +100,7 @@ export const SelectWithSearch = ({
                         style: { fontFamily: `var(--font-${option.value})` },
                       })}
                       onSelect={currentValue => {
-                        const selectedValue = currentValue === value ? "" : currentValue;
-                        onValueChange?.(selectedValue);
+                        onValueChange?.(currentValue);
                         setOpen(false);
                       }}
                     >
