@@ -7,6 +7,7 @@ import { useEditorStore } from "../lib/store";
 import { getContentMinHeight } from "../lib/utils";
 import { PLATFORM_ICONS } from "@/app/(main)/lib/constants";
 import { Button } from "@/components/ui/button";
+import { TipTapEditor } from "./tiptap";
 
 interface PagePreviewProps {
   user: User;
@@ -46,16 +47,11 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
       )}
     >
       <div className="flex-1 flex items-center justify-center">
-        <div className="max-w-sm w-full mx-auto space-y-4">
-          <p>Hey there, I am John Doe.</p>
-          <p>
-            I am a full-time Software Engineer and part-time Indie Hacker with strong design sense.
-          </p>
-          <p>Don&apos;t forget to visit my portfolio and X.</p>
-
+        <div className="max-w-sm min-w-sm mx-auto">
+          <TipTapEditor />
           {socialIcons.length > 0 && (
             <div
-              className="flex gap-1.5 pt-2"
+              className="flex gap-3 mt-8 md:mt-10 px-4"
               style={{
                 justifyContent:
                   socialIconsAlignment === "left"
@@ -85,8 +81,8 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
           )}
         </div>
       </div>
-      <div className="md:hidden border-t pt-4 flex flex-col items-center justify-center w-full border-muted-foreground/50">
-        <Link href="/" className="flex items-center gap-x-1.5">
+      <div className="md:hidden border-t pt-4 flex flex-col items-center w-full border-muted-foreground/40 flex-1 max-h-28">
+        <Link href="/" className="flex items-end gap-x-1.5">
           <Image
             src="/logo.png"
             alt="Siteof Logo"
@@ -94,9 +90,12 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
             height={100}
             priority
             quality={100}
-            className="object-contain min-h-8 max-w-8"
+            className="object-contain min-h-7 max-w-7 -mb-0.5"
           />
-          <span className="font-medium text-base">siteof.me</span>
+          <div className="flex flex-col font-manrope">
+            <span className="text-[10px] text-muted-foreground">powered by</span>
+            <span className="font-medium text-base">siteof.me</span>
+          </div>
         </Link>
       </div>
       <div className="max-md:hidden fixed bottom-8 right-8">
@@ -110,7 +109,7 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
             quality={100}
             className="object-contain min-h-8 max-w-8"
           />
-          <span className="font-medium text-base">siteof.me</span>
+          <span className="font-medium text-base font-manrope">siteof.me</span>
         </Link>
       </div>
     </main>

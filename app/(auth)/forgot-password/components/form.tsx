@@ -57,8 +57,8 @@ export const ForgotPasswordForm = ({ className, ...props }: ComponentProps<"div"
         setButtonState("idle");
       }, 5000);
     } catch (error) {
-      console.error("Error sending reset email:", error);
       setButtonState("idle");
+      handleClientError(error);
     }
   }
 

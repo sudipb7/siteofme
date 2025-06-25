@@ -70,7 +70,11 @@ export const SelectWithSearch = ({
                 selectedOption && {
                   style: { fontFamily: `var(--font-${selectedOption?.value})` },
                 })}
-              className={cn("truncate", !selectedOption && "text-muted-foreground")}
+              className={cn(
+                "truncate",
+                isFontFamilySelect && "font-medium",
+                !selectedOption && "text-muted-foreground"
+              )}
             >
               {selectedOption?.label || placeholder}
             </span>
@@ -103,6 +107,7 @@ export const SelectWithSearch = ({
                         onValueChange?.(currentValue);
                         setOpen(false);
                       }}
+                      className={cn("font-normal", isFontFamilySelect && "font-medium")}
                     >
                       {option.label}
                       {value === option.value && <CheckIcon size={16} className="ml-auto" />}

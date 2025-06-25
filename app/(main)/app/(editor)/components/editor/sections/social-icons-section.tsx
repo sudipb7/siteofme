@@ -89,7 +89,7 @@ export const SocialIconsSection = () => {
               Add
             </Button>
           </DialogTrigger>
-          <DialogContent className="!max-w-md">
+          <DialogContent className="!max-w-md" aria-describedby="add-social-icon-dialog">
             <DialogHeader>
               <DialogTitle>Add Social Icon</DialogTitle>
             </DialogHeader>
