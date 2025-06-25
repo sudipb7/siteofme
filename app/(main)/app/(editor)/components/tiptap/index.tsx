@@ -83,7 +83,6 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
       }
 
       debounceTimerRef.current = setTimeout(() => {
-        console.log("saving");
         setContent(editor.getHTML());
       }, 300);
     },
