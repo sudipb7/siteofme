@@ -1,6 +1,6 @@
-import { useCallback } from "react";
 import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
+import { useCallback, useRef, useEffect } from "react";
 import { useEditor, EditorContent, BubbleMenu, Editor } from "@tiptap/react";
 
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { BubbleMenuContent } from "./bubble-menu-content";
 
 export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: boolean }) => {
   const { content, setContent } = useEditorStore();
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const editor = useEditor({
     content,
@@ -77,12 +78,27 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
     ],
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      debounceTimerRef.current = setTimeout(() => {
+        console.log("saving");
+        setContent(editor.getHTML());
+      }, 300);
     },
   });
 
   const linkState = useLinkState(editor);
   const linkHandlers = createLinkHandlers(editor, linkState);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   const getActiveFormats = () => {
     if (!editor) return [];
