@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useEditorStore } from "../../../lib/store";
 import { BACKGROUND_COLOR } from "@/app/(main)/lib/constants";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 
 export const BackgroundSection = () => {
   const [open, setOpen] = useState(false);
@@ -46,7 +46,7 @@ export const BackgroundSection = () => {
                       setOpen(false);
                     }}
                     className={cn(
-                      "size-8 rounded-md focus-visible:ring-[1.5px] focus-visible:ring-ring/50 focus-visible:ring-offset-background outline-none transition-all",
+                      "size-8 rounded-md focus-visible:ring-[1.5px] hover:opacity-85 focus-visible:ring-ring/50 focus-visible:ring-offset-background outline-none transition-all",
                       color === "#ffffff" && "border"
                     )}
                     style={{ backgroundColor: color }}
