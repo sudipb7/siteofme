@@ -1,6 +1,8 @@
 import { create } from "zustand";
+import { Site } from "@/db/schema";
 import { COLOR, BACKGROUND_COLOR, FONT_SIZE, FONT_FAMILY } from "../../../lib/constants";
 import type { TextAlign } from "./types";
+import { mapSiteToStoreFormat } from "./utils";
 
 export interface SocialIcon {
   id: string;
@@ -10,29 +12,31 @@ export interface SocialIcon {
 
 interface EditorStore {
   backgroundColor: string;
-  setBackgroundColor: (color: string) => void;
   color: string;
-  setColor: (color: string) => void;
   fontSize: number;
-  setFontSize: (size: number) => void;
   fontFamily: string;
-  setFontFamily: (family: string) => void;
   textAlign: TextAlign;
-  setTextAlign: (align: TextAlign) => void;
   socialIcons: SocialIcon[];
-  setSocialIcons: (icons: SocialIcon[]) => void;
   socialIconsAlignment: TextAlign;
-  setSocialIconsAlignment: (align: TextAlign) => void;
   content: string;
+  isHydrated: boolean;
+  setBackgroundColor: (color: string) => void;
+  setColor: (color: string) => void;
+  setFontSize: (size: number) => void;
+  setFontFamily: (family: string) => void;
+  setTextAlign: (align: TextAlign) => void;
+  setSocialIcons: (icons: SocialIcon[]) => void;
+  setSocialIconsAlignment: (align: TextAlign) => void;
   setContent: (content: string) => void;
+  hydrate: (site: Site | null) => void;
 }
 
-export const useEditorStore = create<EditorStore>(set => ({
+const getDefaultState = () => ({
   color: COLOR.BLACK,
   backgroundColor: BACKGROUND_COLOR.CREAM,
   fontSize: FONT_SIZE.M,
   fontFamily: FONT_FAMILY.SPACE_GROTESK,
-  textAlign: "left",
+  textAlign: "left" as TextAlign,
   socialIcons: [
     {
       id: "3ef024c7-934e-4823-ba54-7efcf714c8df",
@@ -44,9 +48,15 @@ export const useEditorStore = create<EditorStore>(set => ({
       platform: "x",
       url: "https://x.com/sudipcodes",
     },
-  ],
+  ] as SocialIcon[],
   content: `<p>Hey there, I am <strong>Sudip Biswas.</strong></p><p>I am a full-time Software Engineer and part-time <em>Indie Hacker</em> with interest in creating <strong><em>"consumer products"</em></strong>.</p><p>Don't forget to visit my <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://sudip.codes">portfolio</a> and <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://x.com/sudipcodes">X</a>.</p>`,
-  socialIconsAlignment: "left",
+  socialIconsAlignment: "left" as TextAlign,
+});
+
+export const useEditorStore = create<EditorStore>((set, get) => ({
+  ...getDefaultState(),
+  isHydrated: false,
+
   setColor: (color: string) => set({ color }),
   setBackgroundColor: (color: string) => set({ backgroundColor: color }),
   setFontSize: (size: number) => set({ fontSize: size }),
@@ -55,4 +65,14 @@ export const useEditorStore = create<EditorStore>(set => ({
   setSocialIcons: (icons: SocialIcon[]) => set({ socialIcons: icons }),
   setSocialIconsAlignment: (align: TextAlign) => set({ socialIconsAlignment: align }),
   setContent: (content: string) => set({ content }),
+
+  hydrate: (site: Site | null) => {
+    if (get().isHydrated) return;
+
+    const siteData = mapSiteToStoreFormat(site);
+    set({
+      ...siteData,
+      isHydrated: true,
+    });
+  },
 }));

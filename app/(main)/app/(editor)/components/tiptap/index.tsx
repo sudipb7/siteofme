@@ -1,20 +1,41 @@
 import Link from "@tiptap/extension-link";
 import StarterKit from "@tiptap/starter-kit";
-import { useCallback, useRef, useEffect } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import { useEditor, EditorContent, BubbleMenu, Editor } from "@tiptap/react";
 
 import { cn } from "@/lib/utils";
+import { Site } from "@/db/schema";
 import { useEditorStore } from "../../lib/store";
+import { mapSiteToStoreFormat } from "../../lib/utils";
 import { useLinkState } from "./hooks";
 import { createLinkHandlers } from "./link-handlers";
 import { BubbleMenuContent } from "./bubble-menu-content";
 
-export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: boolean }) => {
-  const { content, setContent } = useEditorStore();
+interface TipTapEditorProps {
+  openLinkOnClick?: boolean;
+  site?: Site | null;
+}
+
+export const TipTapEditor = ({ openLinkOnClick = false, site }: TipTapEditorProps) => {
+  const [isMounted, setIsMounted] = useState(false);
+  const [editorReady, setEditorReady] = useState(false);
+  const storeState = useEditorStore();
+  const { setContent } = storeState;
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const getInitialContent = () => {
+    if (storeState.isHydrated) {
+      return storeState.content;
+    }
+
+    const siteData = mapSiteToStoreFormat(site || null);
+    return siteData.content;
+  };
+
+  const currentContent = getInitialContent();
+
   const editor = useEditor({
-    content,
+    content: currentContent,
     autofocus: true,
     editable: true,
     editorProps: {
@@ -77,6 +98,9 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
       }),
     ],
     immediatelyRender: false,
+    onCreate: () => {
+      setEditorReady(true);
+    },
     onUpdate: ({ editor }) => {
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
@@ -87,6 +111,16 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
       }, 300);
     },
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (editor && storeState.isHydrated && editor.getHTML() !== storeState.content) {
+      editor.commands.setContent(storeState.content);
+    }
+  }, [editor, storeState.isHydrated, storeState.content]);
 
   const linkState = useLinkState(editor);
   const linkHandlers = createLinkHandlers(editor, linkState);
@@ -128,8 +162,13 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
     }
   }, []);
 
-  if (!editor) {
-    return <EditorContent editor={editor} />;
+  if (!isMounted || !editor || !editorReady) {
+    return (
+      <div
+        className="outline-none space-y-4 p-4 min-h-[1em]"
+        dangerouslySetInnerHTML={{ __html: currentContent }}
+      />
+    );
   }
 
   return (
