@@ -6,6 +6,7 @@ import db from "@/db";
 import { users } from "@/db/schema";
 import { auth, signIn } from "@/lib/auth";
 import { getZodError } from "@/lib/utils";
+import { createSite } from "@/lib/actions";
 import { signUpSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/lib/queries";
 import { sendVerificationEmail } from "@/lib/mail";
@@ -33,11 +34,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email already in use!" }, { status: 400 });
     }
 
-    await db.insert(users).values({
-      email,
-      username,
-      password: hashedPassword,
-    });
+    const newUser = (
+      await db
+        .insert(users)
+        .values({
+          email,
+          username,
+          password: hashedPassword,
+        })
+        .returning()
+    )[0];
 
     const verificationToken = await generateVerificationToken(email);
     await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
@@ -47,6 +53,11 @@ export async function POST(req: NextRequest) {
       password,
       redirect: false,
     });
+
+    const site = await createSite(username, newUser.id);
+    if (!site) {
+      return NextResponse.json({ error: "Failed to create site" }, { status: 500 });
+    }
 
     return NextResponse.json({ message: `Welcome to the site of, ${username}` }, { status: 200 });
   } catch (error) {

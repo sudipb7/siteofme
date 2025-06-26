@@ -41,3 +41,10 @@ export const userSchema = z.object({
 });
 
 export type UserInput = z.infer<typeof userSchema>;
+
+export const createSiteSchema = z.object({
+  slug: z.string().min(1, { message: "Slug is required" }),
+  userId: z.string().min(1, { message: "User ID is required" }),
+});
+
+export type CreateSiteInput = z.infer<typeof createSiteSchema>;
