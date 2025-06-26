@@ -15,6 +15,13 @@
       "when": 1750581345996,
       "tag": "0001_loud_hydra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750908942808,
+      "tag": "0002_daily_wolfpack",
+      "breakpoints": true
     }
   ]
 }
