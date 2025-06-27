@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
+import { getZodError } from "@/lib/utils";
 import { withUser } from "@/lib/with-user";
-import { createSite } from "@/lib/actions";
 import { getSiteBySlug } from "@/lib/queries";
 import { createSiteSchema } from "@/lib/schemas";
-import { getZodError } from "@/lib/utils";
+import { createSite, createSiteDraft } from "@/lib/actions";
 
 export const POST = withUser(
   async ({ user, req }) => {
@@ -29,6 +29,8 @@ export const POST = withUser(
     if (!site) {
       return NextResponse.json({ error: "Failed to create site" }, { status: 500 });
     }
+
+    await createSiteDraft(site);
 
     return NextResponse.json(
       { data: { site }, message: "Site created successfully" },

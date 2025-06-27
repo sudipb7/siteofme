@@ -1,7 +1,10 @@
+import debounce from "lodash.debounce";
+
 import { Site } from "@/db/schema";
 import { LAYOUT_HEIGHTS } from "./constants";
 import { FONT_SIZE, BACKGROUND_COLOR, COLOR, FONT_FAMILY } from "../../../lib/constants";
-import type { SocialIcon } from "./store";
+import { patch } from "@/lib/api";
+import { useEditorStore, type SocialIcon } from "./store";
 import type { TextAlign } from "./types";
 
 export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean = false) => {
@@ -21,6 +24,10 @@ export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean 
 export const mapSiteToStoreFormat = (site: Site | null) => {
   if (!site) {
     return {
+      id: "",
+      version: 0,
+      slug: "",
+      userId: "",
       backgroundColor: BACKGROUND_COLOR.CREAM,
       color: COLOR.BLACK,
       fontSize: FONT_SIZE.M,
@@ -44,6 +51,10 @@ export const mapSiteToStoreFormat = (site: Site | null) => {
   }
 
   return {
+    id: site.id,
+    version: site.version,
+    slug: site.slug,
+    userId: site.userId,
     backgroundColor: site.backgroundColor,
     color: site.color,
     fontSize: FONT_SIZE[site.fontSize as keyof typeof FONT_SIZE],
@@ -54,3 +65,13 @@ export const mapSiteToStoreFormat = (site: Site | null) => {
     content: site.content,
   };
 };
+
+export const debouncedSave = debounce(async (state: Partial<Site>) => {
+  const setIsSaving = useEditorStore.getState().setIsSaving;
+  try {
+    setIsSaving(true);
+    await patch("/sites/drafts", state);
+  } finally {
+    setIsSaving(false);
+  }
+}, 500);

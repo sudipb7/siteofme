@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 
 import db from "@/db";
 import { auth } from "@/lib/auth";
-import { sites, users, verificationTokens } from "@/db/schema";
+import { redis } from "@/lib/redis";
+import { Site, sites, users, verificationTokens } from "@/db/schema";
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -116,6 +117,20 @@ export const getSiteByUserId = async (userId: string) => {
     return site;
   } catch (error) {
     console.error("[ERROR >>> getSiteByUserId]", error);
+    return null;
+  }
+};
+
+export const getSiteDraftByUserName = async (username: string) => {
+  try {
+    const draft = await redis.get(`site:${username}`);
+    if (!draft) {
+      return null;
+    }
+
+    return draft as Site;
+  } catch (error) {
+    console.error("[ERROR >>> getSiteDraftByUserName]", error);
     return null;
   }
 };

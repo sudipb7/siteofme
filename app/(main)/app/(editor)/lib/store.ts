@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { Site } from "@/db/schema";
-import { COLOR, BACKGROUND_COLOR, FONT_SIZE, FONT_FAMILY } from "../../../lib/constants";
 import type { TextAlign } from "./types";
-import { mapSiteToStoreFormat } from "./utils";
+import { debouncedSave, mapSiteToStoreFormat } from "./utils";
+import { COLOR, BACKGROUND_COLOR, FONT_SIZE, FONT_FAMILY } from "../../../lib/constants";
 
 export interface SocialIcon {
   id: string;
@@ -20,6 +20,16 @@ interface EditorStore {
   socialIconsAlignment: TextAlign;
   content: string;
   isHydrated: boolean;
+  version: number;
+  slug: string;
+  isSaving: boolean;
+  id: string;
+  userId: string;
+  setId: (id: string) => void;
+  setVersion: (version: number) => void;
+  setSlug: (slug: string) => void;
+  setIsSaving: (isSaving: boolean) => void;
+  setUserId: (userId: string) => void;
   setBackgroundColor: (color: string) => void;
   setColor: (color: string) => void;
   setFontSize: (size: number) => void;
@@ -31,8 +41,9 @@ interface EditorStore {
   hydrate: (site: Site | null) => void;
 }
 
-const getDefaultState = () => ({
+export const useEditorStore = create<EditorStore>((set, get) => ({
   color: COLOR.BLACK,
+  id: "",
   backgroundColor: BACKGROUND_COLOR.CREAM,
   fontSize: FONT_SIZE.M,
   fontFamily: FONT_FAMILY.SPACE_GROTESK,
@@ -51,12 +62,16 @@ const getDefaultState = () => ({
   ] as SocialIcon[],
   content: `<p>Hey there, I am <strong>Sudip Biswas.</strong></p><p>I am a full-time Software Engineer and part-time <em>Indie Hacker</em> with interest in creating <strong><em>"consumer products"</em></strong>.</p><p>Don't forget to visit my <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://sudip.codes">portfolio</a> and <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://x.com/sudipcodes">X</a>.</p>`,
   socialIconsAlignment: "left" as TextAlign,
-});
-
-export const useEditorStore = create<EditorStore>((set, get) => ({
-  ...getDefaultState(),
   isHydrated: false,
-
+  version: 0,
+  slug: "",
+  userId: "",
+  isSaving: false,
+  setId: (id: string) => set({ id }),
+  setIsSaving: (isSaving: boolean) => set({ isSaving }),
+  setVersion: (version: number) => set({ version }),
+  setSlug: (slug: string) => set({ slug }),
+  setUserId: (userId: string) => set({ userId }),
   setColor: (color: string) => set({ color }),
   setBackgroundColor: (color: string) => set({ backgroundColor: color }),
   setFontSize: (size: number) => set({ fontSize: size }),
@@ -65,7 +80,6 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   setSocialIcons: (icons: SocialIcon[]) => set({ socialIcons: icons }),
   setSocialIconsAlignment: (align: TextAlign) => set({ socialIconsAlignment: align }),
   setContent: (content: string) => set({ content }),
-
   hydrate: (site: Site | null) => {
     if (get().isHydrated) return;
 
@@ -76,3 +90,42 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     });
   },
 }));
+
+useEditorStore.subscribe(state => {
+  const {
+    backgroundColor,
+    color,
+    fontSize,
+    fontFamily,
+    textAlign,
+    socialIcons,
+    socialIconsAlignment,
+    content,
+    version,
+    slug,
+    userId,
+    id,
+    isHydrated,
+  } = state;
+
+  if (!isHydrated) {
+    return;
+  }
+
+  debouncedSave({
+    id,
+    backgroundColor,
+    color,
+    fontSize: Object.entries(FONT_SIZE).find(
+      ([_, value]) => value === fontSize // eslint-disable-line @typescript-eslint/no-unused-vars
+    )?.[0] as keyof typeof FONT_SIZE,
+    fontFamily,
+    textAlign,
+    socialIcons,
+    socialIconsAlignment,
+    content,
+    version,
+    slug,
+    userId,
+  });
+});
