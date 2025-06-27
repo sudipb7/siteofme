@@ -13,7 +13,7 @@ export interface SocialIcon {
 interface EditorStore {
   backgroundColor: string;
   color: string;
-  fontSize: number;
+  fontSize: keyof typeof FONT_SIZE;
   fontFamily: string;
   textAlign: TextAlign;
   socialIcons: SocialIcon[];
@@ -32,7 +32,7 @@ interface EditorStore {
   setUserId: (userId: string) => void;
   setBackgroundColor: (color: string) => void;
   setColor: (color: string) => void;
-  setFontSize: (size: number) => void;
+  setFontSize: (size: keyof typeof FONT_SIZE) => void;
   setFontFamily: (family: string) => void;
   setTextAlign: (align: TextAlign) => void;
   setSocialIcons: (icons: SocialIcon[]) => void;
@@ -74,7 +74,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   setUserId: (userId: string) => set({ userId }),
   setColor: (color: string) => set({ color }),
   setBackgroundColor: (color: string) => set({ backgroundColor: color }),
-  setFontSize: (size: number) => set({ fontSize: size }),
+  setFontSize: (size: keyof typeof FONT_SIZE) => set({ fontSize: size }),
   setFontFamily: (family: string) => set({ fontFamily: family }),
   setTextAlign: (align: TextAlign) => set({ textAlign: align }),
   setSocialIcons: (icons: SocialIcon[]) => set({ socialIcons: icons }),
@@ -91,41 +91,35 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   },
 }));
 
-useEditorStore.subscribe(state => {
-  const {
-    backgroundColor,
-    color,
-    fontSize,
-    fontFamily,
-    textAlign,
-    socialIcons,
-    socialIconsAlignment,
-    content,
-    version,
-    slug,
-    userId,
-    id,
-    isHydrated,
-  } = state;
+let prevState = {};
 
-  if (!isHydrated) {
+useEditorStore.subscribe(state => {
+  const currentState = {
+    backgroundColor: state.backgroundColor,
+    color: state.color,
+    fontSize: state.fontSize,
+    fontFamily: state.fontFamily,
+    textAlign: state.textAlign,
+    socialIcons: state.socialIcons,
+    socialIconsAlignment: state.socialIconsAlignment,
+    content: state.content,
+    version: state.version,
+    slug: state.slug,
+    userId: state.userId,
+    id: state.id,
+    isHydrated: state.isHydrated,
+    isSaving: state.isSaving,
+  };
+
+  if (JSON.stringify(currentState) === JSON.stringify(prevState)) {
     return;
   }
 
-  debouncedSave({
-    id,
-    backgroundColor,
-    color,
-    fontSize: Object.entries(FONT_SIZE).find(
-      ([_, value]) => value === fontSize // eslint-disable-line @typescript-eslint/no-unused-vars
-    )?.[0] as keyof typeof FONT_SIZE,
-    fontFamily,
-    textAlign,
-    socialIcons,
-    socialIconsAlignment,
-    content,
-    version,
-    slug,
-    userId,
-  });
+  prevState = currentState;
+
+  if (!state.isHydrated) {
+    return;
+  }
+
+  debouncedSave(currentState);
 });

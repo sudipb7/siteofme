@@ -54,6 +54,19 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     return IconComponent;
   };
 
+  const fontSizeInPx = useMemo(() => {
+    switch (fontSize) {
+      case FONT_SIZE.S:
+        return "16px`";
+      case FONT_SIZE.M:
+        return "18px";
+      case FONT_SIZE.L:
+        return "20px";
+      default:
+        return "18px";
+    }
+  }, [fontSize]);
+
   const maxWidth = useMemo(() => {
     switch (fontSize) {
       case FONT_SIZE.S:
@@ -75,7 +88,7 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
       style={{
         backgroundColor,
         color,
-        fontSize: `${fontSize}px`,
+        fontSize: fontSizeInPx,
         fontFamily: `var(--font-${fontFamily})`,
         textAlign,
         minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),

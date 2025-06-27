@@ -47,9 +47,9 @@ export const FONT_FAMILY = {
 } as const;
 
 export const FONT_SIZE = {
-  S: 16,
-  M: 18,
-  L: 20,
+  S: "S",
+  M: "M",
+  L: "L",
 } as const;
 
 export const BACKGROUND_COLOR = {
@@ -104,25 +104,14 @@ export const PLATFORM_ICONS = {
   [SOCIAL_PLATFORMS.DISCORD]: Discord,
 } as const;
 
-export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId"> = {
+export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
   color: COLOR.BLACK,
   backgroundColor: BACKGROUND_COLOR.CREAM,
   fontSize: "M",
   fontFamily: FONT_FAMILY.SPACE_GROTESK,
   textAlign: "left",
-  socialIcons: [
-    {
-      id: "3ef024c7-934e-4823-ba54-7efcf714c8df",
-      platform: "website",
-      url: "https://sudip.codes",
-    },
-    {
-      id: "953f397a-7199-432a-844e-c5ebc68fb585",
-      platform: "x",
-      url: "https://x.com/sudipcodes",
-    },
-  ],
-  content: `<p>Hey there, I am <strong>Sudip Biswas.</strong></p><p>I am a full-time Software Engineer and part-time <em>Indie Hacker</em> with interest in creating <strong><em>"consumer products"</em></strong>.</p><p>Don't forget to visit my <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://sudip.codes">portfolio</a> and <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://x.com/sudipcodes">X</a>.</p>`,
+  socialIcons: [],
+  content: `<p>👋 Hey there! This is your <strong>siteof.me</strong> — a space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic</em> thoughts, and add <a href="https://your-link.com" target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What do you love building? Let people know!</p>`,
   socialIconsAlignment: "left",
   version: 0,
 };

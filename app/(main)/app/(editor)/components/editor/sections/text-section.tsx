@@ -82,7 +82,7 @@ export const TextSection = () => {
           <ToggleGroup
             type="single"
             value={fontSize.toString()}
-            onValueChange={value => value && setFontSize(Number(value))}
+            onValueChange={value => value && setFontSize(value as keyof typeof FONT_SIZE)}
           >
             {Object.entries(FONT_SIZE).map(([key, size], index) => (
               <ToggleGroupItem
