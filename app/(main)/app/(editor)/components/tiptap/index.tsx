@@ -19,7 +19,7 @@ export const TipTapEditor = ({ openLinkOnClick = false }: { openLinkOnClick?: bo
     editable: true,
     editorProps: {
       attributes: {
-        class: "outline-none space-y-4 p-4",
+        class: "outline-none space-y-4",
         placeholder: "Start typing...",
       },
     },
