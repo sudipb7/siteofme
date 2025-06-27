@@ -40,7 +40,7 @@ export const TipTapEditor = ({ openLinkOnClick = false, site }: TipTapEditorProp
     editable: true,
     editorProps: {
       attributes: {
-        class: "outline-none space-y-4 p-4",
+        class: "outline-none space-y-4",
         placeholder: "Start typing...",
       },
     },
@@ -165,7 +165,7 @@ export const TipTapEditor = ({ openLinkOnClick = false, site }: TipTapEditorProp
   if (!isMounted || !editor || !editorReady) {
     return (
       <div
-        className="outline-none space-y-4 p-4 min-h-[1em]"
+        className="outline-none space-y-4 min-h-[1em]"
         dangerouslySetInnerHTML={{ __html: currentContent }}
       />
     );

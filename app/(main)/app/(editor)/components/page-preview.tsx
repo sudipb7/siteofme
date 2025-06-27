@@ -54,7 +54,7 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     return IconComponent;
   };
 
-  const width = useMemo(() => {
+  const maxWidth = useMemo(() => {
     switch (fontSize) {
       case FONT_SIZE.S:
         return "24rem";
@@ -85,18 +85,12 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
         className
       )}
     >
-      <div className="flex-1 flex items-center justify-center">
-        <div
-          className="mx-auto"
-          style={{
-            minWidth: width,
-            maxWidth: width,
-          }}
-        >
-          <TipTapEditor site={site} />
+      <div className="w-full flex-1 flex items-center justify-center">
+        <div className="w-full" style={{ maxWidth }}>
+          <TipTapEditor />
           {socialIcons.length > 0 && (
             <div
-              className="flex gap-3 mt-8 md:mt-10 px-4"
+              className="flex gap-3 mt-8 md:mt-10"
               style={{
                 justifyContent:
                   socialIconsAlignment === "left"
