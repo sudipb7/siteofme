@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 import { User, Site } from "@/db/schema";
@@ -8,7 +7,7 @@ import { TipTapEditor } from "./tiptap";
 import { useEditorStore } from "../lib/store";
 import { Button } from "@/components/ui/button";
 import { getContentMinHeight, mapSiteToStoreFormat } from "../lib/utils";
-import { FONT_SIZE, PLATFORM_ICONS } from "@/app/(main)/lib/constants";
+import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
 
 interface PagePreviewProps {
   user: User;
@@ -54,41 +53,12 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     return IconComponent;
   };
 
-  const fontSizeInPx = useMemo(() => {
-    switch (fontSize) {
-      case FONT_SIZE.S:
-        return "16px`";
-      case FONT_SIZE.M:
-        return "18px";
-      case FONT_SIZE.L:
-        return "20px";
-      default:
-        return "18px";
-    }
-  }, [fontSize]);
-
-  const maxWidth = useMemo(() => {
-    switch (fontSize) {
-      case FONT_SIZE.S:
-        return "24rem";
-
-      case FONT_SIZE.M:
-        return "28rem";
-
-      case FONT_SIZE.L:
-        return "32rem";
-
-      default:
-        return "28rem";
-    }
-  }, [fontSize]);
-
   return (
     <main
       style={{
         backgroundColor,
         color,
-        fontSize: fontSizeInPx,
+        fontSize: `${FONT_SIZE_VALUES[fontSize]}px`,
         fontFamily: `var(--font-${fontFamily})`,
         textAlign,
         minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),
@@ -99,7 +69,7 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
       )}
     >
       <div className="w-full flex-1 flex items-center justify-center">
-        <div className="w-full" style={{ maxWidth }}>
+        <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}>
           <TipTapEditor site={site || null} />
           {socialIcons.length > 0 && (
             <div

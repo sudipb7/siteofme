@@ -52,6 +52,24 @@ export const FONT_SIZE = {
   L: "L",
 } as const;
 
+export const FONT_SIZE_VALUES = {
+  S: 16,
+  M: 18,
+  L: 22,
+} as const;
+
+export const MAX_CONTENT_WIDTH = {
+  S: 24,
+  M: 28,
+  L: 32,
+} as const;
+
+export const ALIGNMENT = {
+  LEFT: "left",
+  CENTER: "center",
+  RIGHT: "right",
+} as const;
+
 export const BACKGROUND_COLOR = {
   WHITE: "#ffffff",
   LIGHT_GRAY: "#e6e6e6",
@@ -105,13 +123,14 @@ export const PLATFORM_ICONS = {
 } as const;
 
 export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
+  version: 0,
   color: COLOR.BLACK,
   backgroundColor: BACKGROUND_COLOR.CREAM,
-  fontSize: "M",
-  fontFamily: FONT_FAMILY.SPACE_GROTESK,
-  textAlign: "left",
+  textAlign: ALIGNMENT.LEFT,
+  fontFamily: FONT_FAMILY.MERRIWEATHER,
+  fontSize: FONT_SIZE.M,
+  content:
+    '<p>Hey there! 👋🏻</p><p>This is your site — a space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic</em> thoughts, and add <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://your-link.com">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What you do? Let people know!</p>',
   socialIcons: [],
-  content: `<p>👋 Hey there! This is your <strong>siteof.me</strong> — a space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic</em> thoughts, and add <a href="https://your-link.com" target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What do you love building? Let people know!</p>`,
-  socialIconsAlignment: "left",
-  version: 0,
+  socialIconsAlignment: ALIGNMENT.LEFT,
 };

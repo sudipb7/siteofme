@@ -165,7 +165,7 @@ export const TipTapEditor = ({ openLinkOnClick = false, site }: TipTapEditorProp
   if (!isMounted || !editor || !editorReady) {
     return (
       <div
-        className="outline-none space-y-4 min-h-[1em]"
+        className="outline-none space-y-4"
         dangerouslySetInnerHTML={{ __html: currentContent }}
       />
     );
