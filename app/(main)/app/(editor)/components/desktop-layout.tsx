@@ -16,7 +16,7 @@ export const DesktopLayout = ({ user, site }: DesktopLayoutProps) => {
       className="max-md:hidden flex-1 flex"
       style={{ minHeight: contentHeight, maxHeight: contentHeight }}
     >
-      <Editor />
+      <Editor site={site} />
       <PagePreview user={user} site={site} isMobile={false} />
     </div>
   );

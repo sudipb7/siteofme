@@ -16,7 +16,7 @@ export const MobileLayout = ({ user, site, activeTab }: MobileLayoutProps) => {
   return (
     <div className="flex-1 md:hidden">
       {activeTab === TABS.EDITOR ? (
-        <Editor className="max-w-none w-full" style={{ minHeight: editorHeight }} />
+        <Editor className="max-w-none w-full" style={{ minHeight: editorHeight }} site={site} />
       ) : (
         <PagePreview user={user} site={site} isMobile />
       )}

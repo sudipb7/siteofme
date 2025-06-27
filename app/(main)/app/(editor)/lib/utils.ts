@@ -4,7 +4,7 @@ import { Site } from "@/db/schema";
 import { LAYOUT_HEIGHTS } from "./constants";
 import { FONT_SIZE, BACKGROUND_COLOR, COLOR, FONT_FAMILY } from "../../../lib/constants";
 import { patch } from "@/lib/api";
-import { useEditorStore, type SocialIcon } from "./store";
+import { EditorState, useEditorStore, type SocialIcon } from "./store";
 import type { TextAlign } from "./types";
 
 export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean = false) => {
@@ -21,7 +21,9 @@ export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean 
     : `calc(${baseHeight} - ${LAYOUT_HEIGHTS.VERIFICATION_ALERT})`;
 };
 
-export const mapSiteToStoreFormat = (site: Site | null) => {
+export const mapSiteToStoreFormat = (
+  site: Site | null
+): Omit<EditorState, "isHydrated" | "isSaving"> => {
   if (!site) {
     return {
       id: "",

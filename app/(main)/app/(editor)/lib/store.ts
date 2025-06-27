@@ -10,7 +10,7 @@ export interface SocialIcon {
   url: string;
 }
 
-interface EditorStore {
+export type EditorState = {
   backgroundColor: string;
   color: string;
   fontSize: keyof typeof FONT_SIZE;
@@ -25,6 +25,9 @@ interface EditorStore {
   isSaving: boolean;
   id: string;
   userId: string;
+};
+
+type EditorSetters = {
   setId: (id: string) => void;
   setVersion: (version: number) => void;
   setSlug: (slug: string) => void;
@@ -39,7 +42,9 @@ interface EditorStore {
   setSocialIconsAlignment: (align: TextAlign) => void;
   setContent: (content: string) => void;
   hydrate: (site: Site | null) => void;
-}
+};
+
+interface EditorStore extends EditorState, EditorSetters {}
 
 export const useEditorStore = create<EditorStore>((set, get) => ({
   color: COLOR.BLACK,

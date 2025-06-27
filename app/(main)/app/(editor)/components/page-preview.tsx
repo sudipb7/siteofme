@@ -100,7 +100,7 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     >
       <div className="w-full flex-1 flex items-center justify-center">
         <div className="w-full" style={{ maxWidth }}>
-          <TipTapEditor />
+          <TipTapEditor site={site || null} />
           {socialIcons.length > 0 && (
             <div
               className="flex gap-3 mt-8 md:mt-10"

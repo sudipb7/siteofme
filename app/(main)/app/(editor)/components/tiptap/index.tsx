@@ -13,7 +13,7 @@ import { BubbleMenuContent } from "./bubble-menu-content";
 
 interface TipTapEditorProps {
   openLinkOnClick?: boolean;
-  site?: Site | null;
+  site: Site | null;
 }
 
 export const TipTapEditor = ({ openLinkOnClick = false, site }: TipTapEditorProps) => {
