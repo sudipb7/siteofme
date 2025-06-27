@@ -107,8 +107,6 @@ useEditorStore.subscribe(state => {
     slug: state.slug,
     userId: state.userId,
     id: state.id,
-    isHydrated: state.isHydrated,
-    isSaving: state.isSaving,
   };
 
   if (JSON.stringify(currentState) === JSON.stringify(prevState)) {
