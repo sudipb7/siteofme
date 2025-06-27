@@ -92,6 +92,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
 }));
 
 let prevState = {};
+let isInitialHydration = true;
 
 useEditorStore.subscribe(state => {
   const currentState = {
@@ -115,7 +116,14 @@ useEditorStore.subscribe(state => {
 
   prevState = currentState;
 
+  // Skip save if not hydrated
   if (!state.isHydrated) {
+    return;
+  }
+
+  // Skip save during initial hydration
+  if (isInitialHydration) {
+    isInitialHydration = false;
     return;
   }
 
