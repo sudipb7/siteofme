@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/form";
 import { User } from "@/db/schema";
 import { Input } from "@/components/ui/input";
-import { useUpdateUser } from "@/hooks/mutations";
 import { cn, handleClientError } from "@/lib/utils";
 import { USERNAME_TEXT_STATES } from "@/lib/constants";
 import { AnimatedText } from "@/components/animated-text";
 import { SignUpInput, signUpSchema } from "@/lib/schemas";
 import { useCheckUsername } from "../../sign-up/lib/hooks";
 import { AnimatedButton } from "@/components/animated-button";
+import { useCreateSite, useUpdateUser } from "@/hooks/mutations";
 
 const buttonStates = {
   idle: "Continue",
@@ -45,6 +45,7 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
   });
 
   const { mutateAsync: updateUser } = useUpdateUser();
+  const { mutateAsync: createSite } = useCreateSite();
 
   const username = form.watch("username");
   const isLoading = form.formState.isSubmitting;
@@ -68,6 +69,12 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
       if (response && "error" in response) {
         setButtonState("idle");
         handleClientError(response);
+      }
+
+      const siteResponse = await createSite({ slug: values.username, userId: user.id });
+      if (siteResponse && "error" in siteResponse) {
+        setButtonState("idle");
+        handleClientError(siteResponse);
       }
     } catch (error) {
       setButtonState("idle");

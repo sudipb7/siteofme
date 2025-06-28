@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu";
 // import { Button } from "@/components/ui/button";
-import { useEditorStore } from "../../../lib/store";
+import { EditorState } from "../../../lib/store";
 import {
   FONT_FAMILY,
   FONT_SIZE,
@@ -23,17 +23,18 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { SelectWithSearch, type SelectOption } from "@/components/ui/select-with-search";
 
-export const TextSection = () => {
-  const {
-    fontFamily,
-    setFontFamily,
-    fontSize,
-    setFontSize,
-    // color,
-    // setColor,
-    textAlign,
-    setTextAlign,
-  } = useEditorStore();
+export const TextSection = ({
+  state,
+  setFontFamily,
+  setFontSize,
+  setTextAlign,
+}: {
+  state: Omit<EditorState, "isHydrated" | "isSaving">;
+  setFontFamily: (fontFamily: string) => void;
+  setFontSize: (fontSize: keyof typeof FONT_SIZE) => void;
+  setTextAlign: (textAlign: "left" | "center" | "right") => void;
+}) => {
+  const { fontFamily, fontSize, textAlign } = state;
 
   const fontOptions: SelectOption[] = useMemo(
     () =>
@@ -82,7 +83,7 @@ export const TextSection = () => {
           <ToggleGroup
             type="single"
             value={fontSize.toString()}
-            onValueChange={value => value && setFontSize(Number(value))}
+            onValueChange={value => value && setFontSize(value as keyof typeof FONT_SIZE)}
           >
             {Object.entries(FONT_SIZE).map(([key, size], index) => (
               <ToggleGroupItem

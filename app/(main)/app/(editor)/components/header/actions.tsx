@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { LinkIcon, LogOut, Mail, Settings, UserIcon } from "lucide-react";
 
-import { User } from "@/db/schema";
+import type { User } from "@/db/schema";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +16,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_URL } from "@/lib/constants";
+import { handleClientError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useEditorStore } from "../../lib/store";
+import { usePublishSite } from "../../lib/hooks";
 
 export const HeaderActions = ({ user }: { user: User }) => {
+  const router = useRouter();
+  const store = useEditorStore();
+  const { mutateAsync: publishSite, isPending } = usePublishSite();
+
   const handleOnLinkCopy = () => {
     navigator.clipboard.writeText(`${SITE_URL}/${user.username}`);
     toast.info("Link copied to clipboard");
@@ -26,12 +35,57 @@ export const HeaderActions = ({ user }: { user: User }) => {
     await signOut({ redirectTo: "/" });
   };
 
+  const handleOnPublish = async () => {
+    try {
+      const payload = {
+        backgroundColor: store.backgroundColor,
+        color: store.color,
+        content: store.content,
+        fontFamily: store.fontFamily,
+        fontSize: store.fontSize,
+        id: store.id,
+        slug: store.slug,
+        socialIcons: store.socialIcons,
+        socialIconsAlignment: store.socialIconsAlignment,
+        version: store.version,
+        textAlign: store.textAlign,
+        userId: store.userId,
+      };
+      const response = await publishSite(payload);
+      if ("error" in response) {
+        handleClientError(response.error);
+        return;
+      }
+      if (store.version === 0) {
+        confetti({
+          particleCount: 400,
+          spread: 300,
+          gravity: 0.7,
+          origin: { y: 0.5, x: 0.5 },
+        });
+      }
+      store.setVersion(payload.version + 1);
+      router.refresh();
+      toast.success("Your site is published successfully", {
+        action: {
+          label: "View site",
+          onClick: () => {
+            window.open(`${SITE_URL}/${user.username}`, "_blank");
+            toast.dismiss();
+          },
+        },
+      });
+    } catch (error) {
+      handleClientError(error);
+    }
+  };
+
   return (
     <div className="flex items-center gap-x-3">
       <Button variant="secondary" size="sm" onClick={handleOnLinkCopy} aria-label="Copy link">
         <LinkIcon className="size-4" />
       </Button>
-      <Button size="sm" aria-label="Publish">
+      <Button size="sm" aria-label="Publish" onClick={handleOnPublish} disabled={isPending}>
         Publish
       </Button>
       <DropdownMenu>

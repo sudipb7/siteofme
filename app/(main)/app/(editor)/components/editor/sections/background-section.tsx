@@ -2,13 +2,19 @@ import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useEditorStore } from "../../../lib/store";
+import { EditorState } from "../../../lib/store";
 import { BACKGROUND_COLOR } from "@/app/(main)/lib/constants";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-export const BackgroundSection = () => {
+export const BackgroundSection = ({
+  state,
+  setBackgroundColor,
+}: {
+  state: Omit<EditorState, "isHydrated" | "isSaving">;
+  setBackgroundColor: (color: string) => void;
+}) => {
+  const { backgroundColor } = state;
   const [open, setOpen] = useState(false);
-  const { backgroundColor, setBackgroundColor } = useEditorStore();
 
   const colorOptions = useMemo(
     () =>

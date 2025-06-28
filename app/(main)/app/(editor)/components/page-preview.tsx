@@ -1,24 +1,43 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Loader2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { User } from "@/db/schema";
+import { User, Site } from "@/db/schema";
 import { TipTapEditor } from "./tiptap";
 import { useEditorStore } from "../lib/store";
 import { Button } from "@/components/ui/button";
-import { getContentMinHeight } from "../lib/utils";
-import { FONT_SIZE, PLATFORM_ICONS } from "@/app/(main)/lib/constants";
+import { getContentMinHeight, mapSiteToStoreFormat } from "../lib/utils";
+import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
 
 interface PagePreviewProps {
   user: User;
+  site: Site | null;
   isMobile?: boolean;
   className?: string;
 }
 
-export const PagePreview = ({ user, isMobile = false, className }: PagePreviewProps) => {
-  const [mounted, setMounted] = useState(false);
+export const PagePreview = ({ user, site, isMobile = false, className }: PagePreviewProps) => {
+  const storeState = useEditorStore();
+
+  const isHydrated = storeState.isHydrated;
+
+  const getDataSource = () => {
+    if (isHydrated) {
+      return {
+        backgroundColor: storeState.backgroundColor,
+        color: storeState.color,
+        fontSize: storeState.fontSize,
+        fontFamily: storeState.fontFamily,
+        textAlign: storeState.textAlign,
+        socialIcons: storeState.socialIcons,
+        socialIconsAlignment: storeState.socialIconsAlignment,
+        content: storeState.content,
+      };
+    }
+
+    return mapSiteToStoreFormat(site);
+  };
+
   const {
     backgroundColor,
     color,
@@ -27,60 +46,19 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
     textAlign,
     socialIcons,
     socialIconsAlignment,
-  } = useEditorStore();
+  } = getDataSource();
 
   const getSocialIcon = (platform: string) => {
     const IconComponent = PLATFORM_ICONS[platform as keyof typeof PLATFORM_ICONS];
     return IconComponent;
   };
 
-  const maxWidth = useMemo(() => {
-    switch (fontSize) {
-      case FONT_SIZE.S:
-        return "24rem";
-
-      case FONT_SIZE.M:
-        return "28rem";
-
-      case FONT_SIZE.L:
-        return "32rem";
-
-      default:
-        return "28rem";
-    }
-  }, [fontSize]);
-
-  useEffect(() => {
-    if (!mounted) {
-      setMounted(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (!mounted) {
-    return (
-      <main
-        style={{
-          backgroundColor,
-          color,
-          fontSize: `${fontSize}px`,
-          fontFamily: `var(--font-${fontFamily})`,
-          textAlign,
-          minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),
-        }}
-        className={cn("flex-1 p-4 w-full flex items-center justify-center", className)}
-      >
-        <Loader2 className="animate-spin size-8" />
-      </main>
-    );
-  }
-
   return (
     <main
       style={{
         backgroundColor,
         color,
-        fontSize: `${fontSize}px`,
+        fontSize: `${FONT_SIZE_VALUES[fontSize]}px`,
         fontFamily: `var(--font-${fontFamily})`,
         textAlign,
         minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),
@@ -91,8 +69,8 @@ export const PagePreview = ({ user, isMobile = false, className }: PagePreviewPr
       )}
     >
       <div className="w-full flex-1 flex items-center justify-center">
-        <div className="w-full" style={{ maxWidth }}>
-          <TipTapEditor />
+        <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}>
+          <TipTapEditor site={site || null} />
           {socialIcons.length > 0 && (
             <div
               className="flex gap-3 mt-8 md:mt-10"

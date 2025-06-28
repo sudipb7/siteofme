@@ -7,7 +7,7 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 
 import { Button } from "@/components/ui/button";
-import { useEditorStore, type SocialIcon } from "../../../lib/store";
+import { EditorState, type SocialIcon } from "../../../lib/store";
 import { SOCIAL_PLATFORMS, PLATFORM_ICONS } from "@/app/(main)/lib/constants";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { SelectWithSearch, type SelectOption } from "@/components/ui/select-with-search";
@@ -36,10 +36,17 @@ const socialIconSchema = z.object({
 
 type SocialIconInput = z.infer<typeof socialIconSchema>;
 
-export const SocialIconsSection = () => {
+export const SocialIconsSection = ({
+  state,
+  setSocialIcons,
+  setSocialIconsAlignment,
+}: {
+  state: Omit<EditorState, "isHydrated" | "isSaving">;
+  setSocialIcons: (icons: SocialIcon[]) => void;
+  setSocialIconsAlignment: (alignment: "left" | "center" | "right") => void;
+}) => {
   const [open, setOpen] = useState(false);
-  const { socialIcons, setSocialIcons, socialIconsAlignment, setSocialIconsAlignment } =
-    useEditorStore();
+  const { socialIcons, socialIconsAlignment } = state;
 
   const form = useForm<SocialIconInput>({
     resolver: zodResolver(socialIconSchema),

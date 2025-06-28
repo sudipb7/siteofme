@@ -1,3 +1,4 @@
+import { DEFAULT_SITE_CONFIG } from "@/app/(main)/lib/constants";
 import { z } from "zod";
 
 export const signInSchema = z.object({
@@ -41,3 +42,43 @@ export const userSchema = z.object({
 });
 
 export type UserInput = z.infer<typeof userSchema>;
+
+export const createSiteSchema = z.object({
+  slug: z.string().min(1, { message: "Slug is required" }),
+  userId: z.string().min(1, { message: "User ID is required" }),
+});
+
+export type CreateSiteInput = z.infer<typeof createSiteSchema>;
+
+export const updateSiteSchema = z.object({
+  id: z.string().min(1, { message: "ID is required" }),
+  slug: z.string().min(1, { message: "Slug is required" }),
+  version: z.number().default(0),
+  userId: z.string().min(1, { message: "User ID is required" }),
+  color: z.string().min(1, { message: "Color is required" }).default(DEFAULT_SITE_CONFIG.color),
+  backgroundColor: z
+    .string()
+    .min(1, { message: "Background color is required" })
+    .default(DEFAULT_SITE_CONFIG.backgroundColor),
+  textAlign: z.enum(["left", "center", "right"]).default("left"),
+  fontFamily: z
+    .string()
+    .min(1, { message: "Font family is required" })
+    .default(DEFAULT_SITE_CONFIG.fontFamily),
+  fontSize: z.enum(["S", "M", "L"]).default(DEFAULT_SITE_CONFIG.fontSize),
+  content: z.string().min(1, { message: "Content is required" }),
+  socialIcons: z
+    .array(
+      z.object({
+        id: z.string().min(1, { message: "ID is required" }),
+        platform: z.string().min(1, { message: "Platform is required" }),
+        url: z.string().min(1, { message: "URL is required" }),
+      })
+    )
+    .default([]),
+  socialIconsAlignment: z
+    .enum(["left", "center", "right"])
+    .default(DEFAULT_SITE_CONFIG.socialIconsAlignment),
+});
+
+export type UpdateSiteInput = z.infer<typeof updateSiteSchema>;

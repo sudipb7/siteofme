@@ -1,13 +1,17 @@
 import { redirect } from "next/navigation";
-import { currentUser } from "@/lib/queries";
+
 import { MainAppPageClient } from "./page.client";
+import { currentUser, getSiteDraftByUserName } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function MainAppPage() {
   const user = await currentUser();
-  if (!user) {
+  if (!user || !user.username) {
     return redirect("/sign-in");
   }
-  return <MainAppPageClient user={user!} />;
+
+  const site = await getSiteDraftByUserName(user.username);
+
+  return <MainAppPageClient user={user} site={site} />;
 }

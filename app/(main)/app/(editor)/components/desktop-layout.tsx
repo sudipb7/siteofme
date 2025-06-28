@@ -1,13 +1,14 @@
-import { User } from "@/db/schema";
+import { User, Site } from "@/db/schema";
 import { Editor } from "./editor";
 import { PagePreview } from "./page-preview";
 import { getContentMinHeight } from "../lib/utils";
 
 interface DesktopLayoutProps {
   user: User;
+  site: Site | null;
 }
 
-export const DesktopLayout = ({ user }: DesktopLayoutProps) => {
+export const DesktopLayout = ({ user, site }: DesktopLayoutProps) => {
   const contentHeight = getContentMinHeight(!!user?.emailVerified, false);
 
   return (
@@ -15,8 +16,8 @@ export const DesktopLayout = ({ user }: DesktopLayoutProps) => {
       className="max-md:hidden flex-1 flex"
       style={{ minHeight: contentHeight, maxHeight: contentHeight }}
     >
-      <Editor />
-      <PagePreview user={user} isMobile={false} />
+      <Editor site={site} />
+      <PagePreview user={user} site={site} isMobile={false} />
     </div>
   );
 };

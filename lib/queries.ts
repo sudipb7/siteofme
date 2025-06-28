@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 
 import db from "@/db";
 import { auth } from "@/lib/auth";
-import { users, verificationTokens } from "@/db/schema";
+import { redis } from "@/lib/redis";
+import { Site, sites, users, verificationTokens } from "@/db/schema";
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -88,6 +89,48 @@ export const getVerificationTokenByEmail = async (email: string) => {
     return verificationToken;
   } catch (error) {
     console.error("[ERROR >>> getVerificationTokenByEmail]", error);
+    return null;
+  }
+};
+
+export const getSiteBySlug = async (slug: string) => {
+  try {
+    const site = await db.query.sites.findFirst({ where: eq(sites.slug, slug) });
+    if (!site) {
+      return null;
+    }
+
+    return site;
+  } catch (error) {
+    console.error("[ERROR >>> getSiteBySlug]", error);
+    return null;
+  }
+};
+
+export const getSiteByUserId = async (userId: string) => {
+  try {
+    const site = await db.query.sites.findFirst({ where: eq(sites.userId, userId) });
+    if (!site) {
+      return null;
+    }
+
+    return site;
+  } catch (error) {
+    console.error("[ERROR >>> getSiteByUserId]", error);
+    return null;
+  }
+};
+
+export const getSiteDraftByUserName = async (username: string) => {
+  try {
+    const draft = await redis.get(`site:${username}`);
+    if (!draft) {
+      return null;
+    }
+
+    return draft as Site;
+  } catch (error) {
+    console.error("[ERROR >>> getSiteDraftByUserName]", error);
     return null;
   }
 };
