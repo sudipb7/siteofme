@@ -4,6 +4,7 @@ import db from "@/db";
 import { redis } from "./redis";
 import { Site, sites, type UserInsert, users } from "@/db/schema";
 import { DEFAULT_SITE_CONFIG } from "@/app/(main)/lib/constants";
+import { UpdateSiteInput } from "./schemas";
 
 export const updateUser = async (id: string, data: UserInsert) => {
   try {
@@ -45,6 +46,26 @@ export const createSite = async (slug: string, userId: string) => {
     return site[0];
   } catch (error) {
     console.error("[ERROR >>> createSite]", error);
+    return null;
+  }
+};
+
+export const publishSite = async (site: UpdateSiteInput) => {
+  try {
+    const publishedSite = await db
+      .update(sites)
+      .set({
+        ...site,
+        version: site.version + 1,
+      })
+      .where(eq(sites.id, site.id))
+      .returning();
+
+    await redis.set(`site:${site.slug}`, JSON.stringify(publishedSite[0]));
+
+    return publishedSite[0];
+  } catch (error) {
+    console.error("[ERROR >>> publishSite]", error);
     return null;
   }
 };

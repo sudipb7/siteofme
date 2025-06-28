@@ -50,10 +50,10 @@ export const createSiteSchema = z.object({
 
 export type CreateSiteInput = z.infer<typeof createSiteSchema>;
 
-export const updateSiteDraftSchema = z.object({
+export const updateSiteSchema = z.object({
   id: z.string().min(1, { message: "ID is required" }),
   slug: z.string().min(1, { message: "Slug is required" }),
-  version: z.number().min(1, { message: "Version is required" }),
+  version: z.number().default(0),
   userId: z.string().min(1, { message: "User ID is required" }),
   color: z.string().min(1, { message: "Color is required" }).default(DEFAULT_SITE_CONFIG.color),
   backgroundColor: z
@@ -81,4 +81,4 @@ export const updateSiteDraftSchema = z.object({
     .default(DEFAULT_SITE_CONFIG.socialIconsAlignment),
 });
 
-export type UpdateSiteDraftInput = z.infer<typeof updateSiteDraftSchema>;
+export type UpdateSiteInput = z.infer<typeof updateSiteSchema>;

@@ -4,7 +4,7 @@ import { Site } from "@/db/schema";
 import { redis } from "@/lib/redis";
 import { getZodError } from "@/lib/utils";
 import { withUser } from "@/lib/with-user";
-import { updateSiteDraftSchema } from "@/lib/schemas";
+import { updateSiteSchema } from "@/lib/schemas";
 
 export const GET = withUser(
   async ({ user }) => {
@@ -24,7 +24,7 @@ export const GET = withUser(
 export const PATCH = withUser(
   async ({ req, user }) => {
     const body = await req.json();
-    const validated = updateSiteDraftSchema.safeParse(body);
+    const validated = updateSiteSchema.safeParse(body);
     if (!validated.success) {
       return NextResponse.json({ error: getZodError(validated.error) }, { status: 400 });
     }
