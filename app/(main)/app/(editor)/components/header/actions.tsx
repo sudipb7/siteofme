@@ -37,7 +37,20 @@ export const HeaderActions = ({ user }: { user: User }) => {
 
   const handleOnPublish = async () => {
     try {
-      const payload = { ...store };
+      const payload = {
+        backgroundColor: store.backgroundColor,
+        color: store.color,
+        content: store.content,
+        fontFamily: store.fontFamily,
+        fontSize: store.fontSize,
+        id: store.id,
+        slug: store.slug,
+        socialIcons: store.socialIcons,
+        socialIconsAlignment: store.socialIconsAlignment,
+        version: store.version,
+        textAlign: store.textAlign,
+        userId: store.userId,
+      };
       const response = await publishSite(payload);
       if ("error" in response) {
         handleClientError(response.error);
