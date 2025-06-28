@@ -1,11 +1,10 @@
 import debounce from "lodash.debounce";
 
+import { patch } from "@/lib/api";
 import { Site } from "@/db/schema";
 import { LAYOUT_HEIGHTS } from "./constants";
-import { FONT_SIZE, BACKGROUND_COLOR, COLOR, FONT_FAMILY } from "../../../lib/constants";
-import { patch } from "@/lib/api";
+import { FONT_SIZE, DEFAULT_SITE_CONFIG } from "../../../lib/constants";
 import { EditorState, useEditorStore, type SocialIcon } from "./store";
-import type { TextAlign } from "./types";
 
 export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean = false) => {
   const baseHeight = `100dvh - ${LAYOUT_HEIGHTS.HEADER}`;
@@ -26,29 +25,18 @@ export const mapSiteToStoreFormat = (
 ): Omit<EditorState, "isHydrated" | "isSaving"> => {
   if (!site) {
     return {
+      color: DEFAULT_SITE_CONFIG.color,
       id: "",
-      version: 0,
       slug: "",
       userId: "",
-      backgroundColor: BACKGROUND_COLOR.CREAM,
-      color: COLOR.BLACK,
-      fontSize: FONT_SIZE.M,
-      fontFamily: FONT_FAMILY.SPACE_GROTESK,
-      textAlign: "left" as TextAlign,
-      socialIcons: [
-        {
-          id: "3ef024c7-934e-4823-ba54-7efcf714c8df",
-          platform: "website",
-          url: "https://sudip.codes",
-        },
-        {
-          id: "953f397a-7199-432a-844e-c5ebc68fb585",
-          platform: "x",
-          url: "https://x.com/sudipcodes",
-        },
-      ] as SocialIcon[],
-      content: `<p>Hey there, I am <strong>Sudip Biswas.</strong></p><p>I am a full-time Software Engineer and part-time <em>Indie Hacker</em> with interest in creating <strong><em>"consumer products"</em></strong>.</p><p>Don't forget to visit my <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://sudip.codes">portfolio</a> and <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://x.com/sudipcodes">X</a>.</p>`,
-      socialIconsAlignment: "left" as TextAlign,
+      version: DEFAULT_SITE_CONFIG.version!,
+      fontSize: DEFAULT_SITE_CONFIG.fontSize,
+      textAlign: DEFAULT_SITE_CONFIG.textAlign,
+      fontFamily: DEFAULT_SITE_CONFIG.fontFamily,
+      content: DEFAULT_SITE_CONFIG.content,
+      backgroundColor: DEFAULT_SITE_CONFIG.backgroundColor,
+      socialIcons: DEFAULT_SITE_CONFIG.socialIcons as SocialIcon[],
+      socialIconsAlignment: DEFAULT_SITE_CONFIG.socialIconsAlignment,
     };
   }
 
