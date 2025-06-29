@@ -1,10 +1,8 @@
-import { useState, useCallback, useRef } from "react";
+import Image from "next/image";
+import { toast } from "sonner";
+import { useState, useCallback, useRef, useMemo } from "react";
 import { AlignLeft, AlignCenter, AlignRight, Upload, Trash2, Loader2, Pencil } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { EditorState } from "../../../lib/store";
-import { IMAGE_FRAME } from "@/app/(main)/lib/constants";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Dialog,
   DialogContent,
@@ -12,28 +10,49 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { uploadFiles } from "@/lib/uploadthing";
-import Image from "next/image";
+import { EditorState } from "../../../lib/store";
+import { IMAGE_FRAME } from "@/app/(main)/lib/constants";
+import { getImageFrameStyles } from "../../../lib/utils";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const ImageSection = ({
   state,
   setImage,
   setImageAlignment,
-  // setImageFrame, // will be used when frame functionality is implemented
+  setImageFrame,
+  isMobile = false,
 }: {
+  isMobile?: boolean;
   state: Omit<EditorState, "isHydrated" | "isSaving">;
   setImage: (image: string | null) => void;
   setImageAlignment: (alignment: "left" | "center" | "right") => void;
   setImageFrame: (frame: keyof typeof IMAGE_FRAME) => void;
 }) => {
-  const { image, imageAlignment } = state;
+  const { image, imageAlignment, fontSize } = state;
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [framePopoverOpen, setFramePopoverOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const frameOptions = useMemo(
+    () =>
+      Object.entries(IMAGE_FRAME).map(([key, value]) => ({
+        key: key as keyof typeof IMAGE_FRAME,
+        value,
+        name: key
+          .replaceAll("_", " ")
+          .toLowerCase()
+          .replace(/\b\w/g, l => l.toUpperCase()),
+        styles: getImageFrameStyles(value, fontSize),
+      })),
+    [fontSize]
+  );
 
   const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -71,6 +90,7 @@ export const ImageSection = ({
 
         if (res && res.length > 0) {
           const uploadedFile = res[0];
+
           setImage(uploadedFile.serverData?.fileUrl);
 
           toast.success("Image uploaded successfully!");
@@ -212,15 +232,43 @@ export const ImageSection = ({
 
             <div className="flex items-center justify-between">
               <span className="md:text-sm text-base font-medium">Frame</span>
-              <Button
-                variant="ghost"
-                className="gap-2"
-                onClick={() => {
-                  /* TODO: Implement frame selection */
-                }}
-              >
-                <Pencil className="size-4" />
-              </Button>
+              <Popover modal={false} open={framePopoverOpen} onOpenChange={setFramePopoverOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" className="gap-2">
+                    <Pencil className="size-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-72 overflow-y-auto max-h-[450px]"
+                  align={isMobile ? "end" : "start"}
+                >
+                  <div className="grid grid-cols-2 gap-4">
+                    {frameOptions.map(option => (
+                      <button
+                        key={option.value}
+                        onClick={() => {
+                          setImageFrame(option.key);
+                          setFramePopoverOpen(false);
+                        }}
+                        className="flex items-center justify-center p-2 rounded-md hover:bg-accent outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1.5px] transition-all"
+                      >
+                        <Image
+                          src={image}
+                          alt="Frame preview"
+                          width={parseInt(option.styles.width.replace("px", "")) / 1}
+                          height={parseInt(option.styles.height.replace("px", "")) / 1}
+                          className="max-w-full max-h-full"
+                          style={{
+                            ...option.styles,
+                            width: `${parseInt(option.styles.width.replace("px", "")) / 1}px`,
+                            height: `${parseInt(option.styles.height.replace("px", "")) / 1}px`,
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </>
         )}

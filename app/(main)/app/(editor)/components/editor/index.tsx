@@ -13,9 +13,10 @@ interface EditorProps {
   className?: string;
   style?: CSSProperties;
   site: Site | null;
+  isMobile?: boolean;
 }
 
-export const Editor = ({ className, style, site }: EditorProps) => {
+export const Editor = ({ className, style, site, isMobile = false }: EditorProps) => {
   const storeState = useEditorStore();
 
   const getState = () => {
@@ -41,6 +42,7 @@ export const Editor = ({ className, style, site }: EditorProps) => {
           setImage={storeState.setImage}
           setImageAlignment={storeState.setImageAlignment}
           setImageFrame={storeState.setImageFrame}
+          isMobile={isMobile}
         />
         <TextSection
           state={state}

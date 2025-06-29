@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import { memo, useMemo, useCallback } from "react";
 
 import { cn } from "@/lib/utils";
-import { User, Site } from "@/db/schema";
 import { TipTapEditor } from "./tiptap";
+import type { User, Site } from "@/db/schema";
 import { useEditorStore } from "../lib/store";
 import { Button } from "@/components/ui/button";
 import { getContentMinHeight, mapSiteToStoreFormat, getImageFrameStyles } from "../lib/utils";
@@ -16,12 +17,12 @@ interface PagePreviewProps {
   className?: string;
 }
 
-export const PagePreview = ({ user, site, isMobile = false, className }: PagePreviewProps) => {
+export const PagePreview = memo(({ user, site, isMobile = false, className }: PagePreviewProps) => {
   const storeState = useEditorStore();
 
   const isHydrated = storeState.isHydrated;
 
-  const getDataSource = () => {
+  const dataSource = useMemo(() => {
     if (isHydrated) {
       return {
         backgroundColor: storeState.backgroundColor,
@@ -39,7 +40,21 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     }
 
     return mapSiteToStoreFormat(site);
-  };
+  }, [
+    isHydrated,
+    storeState.backgroundColor,
+    storeState.color,
+    storeState.fontSize,
+    storeState.fontFamily,
+    storeState.textAlign,
+    storeState.socialIcons,
+    storeState.socialIconsAlignment,
+    storeState.content,
+    storeState.image,
+    storeState.imageAlignment,
+    storeState.imageFrame,
+    site,
+  ]);
 
   const {
     backgroundColor,
@@ -52,14 +67,17 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     image,
     imageAlignment,
     imageFrame,
-  } = getDataSource();
+  } = dataSource;
 
-  const getSocialIcon = (platform: string) => {
+  const getSocialIcon = useCallback((platform: string) => {
     const IconComponent = PLATFORM_ICONS[platform as keyof typeof PLATFORM_ICONS];
     return IconComponent;
-  };
+  }, []);
 
-  const imageFrameStyles = getImageFrameStyles(imageFrame, fontSize);
+  const imageFrameStyles = useMemo(
+    () => getImageFrameStyles(imageFrame, fontSize),
+    [imageFrame, fontSize]
+  );
 
   return (
     <main
@@ -77,30 +95,36 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
       )}
     >
       <div className="w-full flex-1 flex items-center justify-center">
-        <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}>
-          {image && (
-            <div
-              className="mb-8 md:mb-10 flex"
-              style={{
-                justifyContent:
-                  imageAlignment === "left"
-                    ? "flex-start"
-                    : imageAlignment === "right"
-                      ? "flex-end"
-                      : "center",
-              }}
-            >
+        <div
+          key="main-content"
+          className="w-full"
+          style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}
+        >
+          <div
+            key="image-container-wrapper"
+            className={`mb-8 md:mb-10 flex ${!image ? "h-0 overflow-hidden" : ""}`}
+            style={{
+              justifyContent:
+                imageAlignment === "left"
+                  ? "flex-start"
+                  : imageAlignment === "right"
+                    ? "flex-end"
+                    : "center",
+            }}
+          >
+            {image && (
               <Image
+                key={image}
                 src={image}
                 alt="Profile"
                 quality={100}
                 priority
-                width={+imageFrameStyles.width.replace("px", "")}
-                height={+imageFrameStyles.height.replace("px", "")}
+                width={+imageFrameStyles.width!.toString().replace("px", "")}
+                height={+imageFrameStyles.height!.toString().replace("px", "")}
                 style={imageFrameStyles}
               />
-            </div>
-          )}
+            )}
+          </div>
           <TipTapEditor site={site || null} />
           {socialIcons.length > 0 && (
             <div
@@ -167,4 +191,6 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
       </div>
     </main>
   );
-};
+});
+
+PagePreview.displayName = "PagePreview";
