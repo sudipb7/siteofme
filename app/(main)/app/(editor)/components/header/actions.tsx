@@ -50,6 +50,9 @@ export const HeaderActions = ({ user }: { user: User }) => {
         version: store.version,
         textAlign: store.textAlign,
         userId: store.userId,
+        imageFrame: store.imageFrame,
+        imageAlignment: store.imageAlignment,
+        image: store.image,
       };
       const response = await publishSite(payload);
       if ("error" in response) {

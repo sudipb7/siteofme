@@ -64,6 +64,12 @@ export const MAX_CONTENT_WIDTH = {
   L: 32,
 } as const;
 
+export const IMAGE_SIZE = {
+  S: 16, // 64px
+  M: 20, // 80px
+  L: 24, // 96px
+} as const;
+
 export const ALIGNMENT = {
   LEFT: "left",
   CENTER: "center",
@@ -122,6 +128,134 @@ export const PLATFORM_ICONS = {
   [SOCIAL_PLATFORMS.DISCORD]: Discord,
 } as const;
 
+export const IMAGE_FRAME = {
+  CIRCLE: "circle",
+  CIRCLE_WITH_FRAME: "circle-with-frame",
+  SQUARE: "square",
+  ROUNDED_SQUARE: "rounded-square",
+  ROUNDED_RECTANGLE: "rounded-rectangle",
+  RECTANGLE_HORIZONTAL: "rectangle-horizontal",
+  RECTANGLE_VERTICAL: "rectangle-vertical",
+  ROUNDED_RECTANGLE_HORIZONTAL: "rounded-rectangle-horizontal",
+  ROUNDED_RECTANGLE_VERTICAL: "rounded-rectangle-vertical",
+  TILTED_SQUARE: "tilted-square",
+  TILTED_SQUARE_ROUNDED: "tilted-square-rounded",
+  TILTED_SQUARE_ROUNDED_WITH_FRAME: "tilted-square-rounded-with-frame",
+  TILTED_RECTANGLE_VERTICAL: "tilted-rectangle-vertical",
+  TILTED_RECTANGLE_VERTICAL_ROUNDED: "tilted-rectangle-vertical-rounded",
+  TILTED_RECTANGLE_VERTICAL_ROUNDED_WITH_FRAME: "tilted-rectangle-vertical-rounded-with-frame",
+  TILTED_RECTANGLE_HORIZONTAL: "tilted-rectangle-horizontal",
+  TILTED_RECTANGLE_HORIZONTAL_ROUNDED: "tilted-rectangle-horizontal-rounded",
+  TILTED_RECTANGLE_HORIZONTAL_ROUNDED_WITH_FRAME: "tilted-rectangle-horizontal-rounded-with-frame",
+} as const;
+
+export const IMAGE_FRAME_STYLES = {
+  [IMAGE_FRAME.CIRCLE]: {
+    borderRadius: "50%",
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.CIRCLE_WITH_FRAME]: {
+    borderRadius: "50%",
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+    borderWidth: "4px",
+    borderColor: "#ffffff",
+    boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+  },
+  [IMAGE_FRAME.SQUARE]: {
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.ROUNDED_SQUARE]: {
+    borderRadius: "0.5rem",
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.ROUNDED_RECTANGLE]: {
+    borderRadius: "0.5rem",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.RECTANGLE_HORIZONTAL]: {
+    aspectRatio: "3/2",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.RECTANGLE_VERTICAL]: {
+    aspectRatio: "2/3",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.ROUNDED_RECTANGLE_HORIZONTAL]: {
+    borderRadius: "0.5rem",
+    aspectRatio: "3/2",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.ROUNDED_RECTANGLE_VERTICAL]: {
+    borderRadius: "0.5rem",
+    aspectRatio: "2/3",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_SQUARE]: {
+    transform: "rotate(-6deg)",
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_SQUARE_ROUNDED]: {
+    transform: "rotate(-6deg)",
+    borderRadius: "0.5rem",
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_SQUARE_ROUNDED_WITH_FRAME]: {
+    transform: "rotate(-6deg)",
+    borderRadius: "0.5rem",
+    aspectRatio: "1",
+    objectFit: "cover" as const,
+    borderWidth: "4px",
+    borderColor: "#ffffff",
+    boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+  },
+  [IMAGE_FRAME.TILTED_RECTANGLE_VERTICAL]: {
+    transform: "rotate(-6deg)",
+    aspectRatio: "2/3",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_RECTANGLE_VERTICAL_ROUNDED]: {
+    transform: "rotate(-6deg)",
+    borderRadius: "0.5rem",
+    aspectRatio: "2/3",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_RECTANGLE_VERTICAL_ROUNDED_WITH_FRAME]: {
+    transform: "rotate(-6deg)",
+    borderRadius: "0.5rem",
+    aspectRatio: "2/3",
+    objectFit: "cover" as const,
+    borderWidth: "4px",
+    borderColor: "#ffffff",
+    boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+  },
+  [IMAGE_FRAME.TILTED_RECTANGLE_HORIZONTAL]: {
+    transform: "rotate(-6deg)",
+    aspectRatio: "3/2",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_RECTANGLE_HORIZONTAL_ROUNDED]: {
+    transform: "rotate(-6deg)",
+    borderRadius: "0.5rem",
+    aspectRatio: "3/2",
+    objectFit: "cover" as const,
+  },
+  [IMAGE_FRAME.TILTED_RECTANGLE_HORIZONTAL_ROUNDED_WITH_FRAME]: {
+    transform: "rotate(-6deg)",
+    borderRadius: "0.5rem",
+    aspectRatio: "3/2",
+    objectFit: "cover" as const,
+    borderWidth: "4px",
+    borderColor: "#ffffff",
+    boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+  },
+} as const;
+
 export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
   version: 0,
   color: COLOR.BLACK,
@@ -133,4 +267,7 @@ export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
     '<p>Hey there! 👋🏻</p><p>This is your site. A space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic thoughts</em>, and add <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://your-link.com">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What you do? Let people know!</p>',
   socialIcons: [],
   socialIconsAlignment: ALIGNMENT.LEFT,
+  image: null,
+  imageAlignment: "left",
+  imageFrame: IMAGE_FRAME.SQUARE,
 };

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
+import { memo, useMemo, useCallback } from "react";
 
 import { cn } from "@/lib/utils";
-import { User, Site } from "@/db/schema";
 import { TipTapEditor } from "./tiptap";
+import type { User, Site } from "@/db/schema";
 import { useEditorStore } from "../lib/store";
 import { Button } from "@/components/ui/button";
-import { getContentMinHeight, mapSiteToStoreFormat } from "../lib/utils";
+import { getContentMinHeight, mapSiteToStoreFormat, getImageFrameStyles } from "../lib/utils";
 import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
 
 interface PagePreviewProps {
@@ -16,12 +17,12 @@ interface PagePreviewProps {
   className?: string;
 }
 
-export const PagePreview = ({ user, site, isMobile = false, className }: PagePreviewProps) => {
+export const PagePreview = memo(({ user, site, isMobile = false, className }: PagePreviewProps) => {
   const storeState = useEditorStore();
 
   const isHydrated = storeState.isHydrated;
 
-  const getDataSource = () => {
+  const dataSource = useMemo(() => {
     if (isHydrated) {
       return {
         backgroundColor: storeState.backgroundColor,
@@ -32,11 +33,28 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
         socialIcons: storeState.socialIcons,
         socialIconsAlignment: storeState.socialIconsAlignment,
         content: storeState.content,
+        image: storeState.image,
+        imageAlignment: storeState.imageAlignment,
+        imageFrame: storeState.imageFrame,
       };
     }
 
     return mapSiteToStoreFormat(site);
-  };
+  }, [
+    isHydrated,
+    storeState.backgroundColor,
+    storeState.color,
+    storeState.fontSize,
+    storeState.fontFamily,
+    storeState.textAlign,
+    storeState.socialIcons,
+    storeState.socialIconsAlignment,
+    storeState.content,
+    storeState.image,
+    storeState.imageAlignment,
+    storeState.imageFrame,
+    site,
+  ]);
 
   const {
     backgroundColor,
@@ -46,12 +64,20 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     textAlign,
     socialIcons,
     socialIconsAlignment,
-  } = getDataSource();
+    image,
+    imageAlignment,
+    imageFrame,
+  } = dataSource;
 
-  const getSocialIcon = (platform: string) => {
+  const getSocialIcon = useCallback((platform: string) => {
     const IconComponent = PLATFORM_ICONS[platform as keyof typeof PLATFORM_ICONS];
     return IconComponent;
-  };
+  }, []);
+
+  const imageFrameStyles = useMemo(
+    () => getImageFrameStyles(imageFrame, fontSize),
+    [imageFrame, fontSize]
+  );
 
   return (
     <main
@@ -69,7 +95,36 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
       )}
     >
       <div className="w-full flex-1 flex items-center justify-center">
-        <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}>
+        <div
+          key="main-content"
+          className="w-full"
+          style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}
+        >
+          <div
+            key="image-container-wrapper"
+            className={`mb-8 md:mb-10 flex ${!image ? "h-0 overflow-hidden" : ""}`}
+            style={{
+              justifyContent:
+                imageAlignment === "left"
+                  ? "flex-start"
+                  : imageAlignment === "right"
+                    ? "flex-end"
+                    : "center",
+            }}
+          >
+            {image && (
+              <Image
+                key={image}
+                src={image}
+                alt="Profile"
+                quality={100}
+                priority
+                width={+imageFrameStyles.width!.toString().replace("px", "")}
+                height={+imageFrameStyles.height!.toString().replace("px", "")}
+                style={imageFrameStyles}
+              />
+            )}
+          </div>
           <TipTapEditor site={site || null} />
           {socialIcons.length > 0 && (
             <div
@@ -136,4 +191,6 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
       </div>
     </main>
   );
-};
+});
+
+PagePreview.displayName = "PagePreview";
