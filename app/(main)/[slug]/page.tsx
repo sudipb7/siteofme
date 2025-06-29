@@ -7,13 +7,14 @@ import { PublicSiteContent } from "./components/public-site-content";
 import { getSiteBySlug, getUserById, currentUser } from "@/lib/queries";
 
 interface PublicSitePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PublicSitePageProps): Promise<Metadata> {
-  const site = await getSiteBySlug(params.slug);
+  const { slug } = await params;
+  const site = await getSiteBySlug(slug);
 
   if (!site) {
     return generatePageMetadata({
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }: PublicSitePageProps): Promise
       title,
       description,
       type: "profile",
-      url: `/${params.slug}`,
+      url: `/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -56,13 +57,14 @@ export async function generateMetadata({ params }: PublicSitePageProps): Promise
       description,
     },
     alternates: {
-      canonical: `/${params.slug}`,
+      canonical: `/${slug}`,
     },
   });
 }
 
 export default async function PublicSitePage({ params }: PublicSitePageProps) {
-  const site = await getSiteBySlug(params.slug);
+  const { slug } = await params;
+  const site = await getSiteBySlug(slug);
 
   if (!site) {
     notFound();
