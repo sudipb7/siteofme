@@ -127,10 +127,10 @@ export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
   color: COLOR.BLACK,
   backgroundColor: BACKGROUND_COLOR.CREAM,
   textAlign: ALIGNMENT.LEFT,
-  fontFamily: FONT_FAMILY.MERRIWEATHER,
+  fontFamily: FONT_FAMILY.MANROPE,
   fontSize: FONT_SIZE.M,
   content:
-    '<p>Hey there! 👋🏻</p><p>This is your site. A space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic</em> thoughts, and add <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://your-link.com">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What you do? Let people know!</p>',
+    '<p>Hey there! 👋🏻</p><p>This is your site. A space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic thoughts</em>, and add <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://your-link.com">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What you do? Let people know!</p>',
   socialIcons: [],
   socialIconsAlignment: ALIGNMENT.LEFT,
 };

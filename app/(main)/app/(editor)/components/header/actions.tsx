@@ -66,15 +66,7 @@ export const HeaderActions = ({ user }: { user: User }) => {
       }
       store.setVersion(payload.version + 1);
       router.refresh();
-      toast.success("Your site is published successfully", {
-        action: {
-          label: "View site",
-          onClick: () => {
-            window.open(`${SITE_URL}/${user.username}`, "_blank");
-            toast.dismiss();
-          },
-        },
-      });
+      toast.success("Your site is published successfully");
     } catch (error) {
       handleClientError(error);
     }
