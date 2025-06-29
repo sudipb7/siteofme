@@ -73,6 +73,7 @@ export const ImageSection = ({
     setPreviewUrl(url);
 
     uploadFile(file);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const uploadFile = useCallback(
