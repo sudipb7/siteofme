@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { BackgroundSection } from "./sections/background-section";
 import { TextSection } from "./sections/text-section";
 import { SocialIconsSection } from "./sections/social-icons-section";
+import { ImageSection } from "./sections/image-section";
 import { Site } from "@/db/schema";
 import { useEditorStore } from "../../lib/store";
 import { mapSiteToStoreFormat } from "../../lib/utils";
@@ -35,6 +36,12 @@ export const Editor = ({ className, style, site }: EditorProps) => {
     >
       <div>
         <BackgroundSection state={state} setBackgroundColor={storeState.setBackgroundColor} />
+        <ImageSection
+          state={state}
+          setImage={storeState.setImage}
+          setImageAlignment={storeState.setImageAlignment}
+          setImageFrame={storeState.setImageFrame}
+        />
         <TextSection
           state={state}
           setFontFamily={storeState.setFontFamily}

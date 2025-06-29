@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { Site } from "@/db/schema";
 import type { TextAlign } from "./types";
 import { debouncedSave, mapSiteToStoreFormat } from "./utils";
-import { FONT_SIZE, DEFAULT_SITE_CONFIG } from "../../../lib/constants";
+import { FONT_SIZE, DEFAULT_SITE_CONFIG, IMAGE_FRAME } from "../../../lib/constants";
 
 export interface SocialIcon {
   id: string;
@@ -25,6 +25,9 @@ export type EditorState = {
   isSaving: boolean;
   id: string;
   userId: string;
+  image: string | null;
+  imageAlignment: TextAlign;
+  imageFrame: keyof typeof IMAGE_FRAME;
 };
 
 type EditorSetters = {
@@ -42,6 +45,9 @@ type EditorSetters = {
   setSocialIconsAlignment: (align: TextAlign) => void;
   setContent: (content: string) => void;
   hydrate: (site: Site | null) => void;
+  setImage: (image: string | null) => void;
+  setImageAlignment: (align: TextAlign) => void;
+  setImageFrame: (frame: keyof typeof IMAGE_FRAME) => void;
 };
 
 interface EditorStore extends EditorState, EditorSetters {}
@@ -61,6 +67,12 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   slug: "",
   userId: "",
   isSaving: false,
+  image: DEFAULT_SITE_CONFIG.image!,
+  imageAlignment: DEFAULT_SITE_CONFIG.imageAlignment,
+  imageFrame: DEFAULT_SITE_CONFIG.imageFrame as keyof typeof IMAGE_FRAME,
+  setImage: (image: string | null) => set({ image }),
+  setImageAlignment: (align: TextAlign) => set({ imageAlignment: align }),
+  setImageFrame: (frame: keyof typeof IMAGE_FRAME) => set({ imageFrame: frame }),
   setId: (id: string) => set({ id }),
   setIsSaving: (isSaving: boolean) => set({ isSaving }),
   setVersion: (version: number) => set({ version }),
@@ -102,6 +114,9 @@ useEditorStore.subscribe(state => {
     slug: state.slug,
     userId: state.userId,
     id: state.id,
+    image: state.image,
+    imageAlignment: state.imageAlignment,
+    imageFrame: state.imageFrame,
   };
 
   if (JSON.stringify(currentState) === JSON.stringify(prevState)) {

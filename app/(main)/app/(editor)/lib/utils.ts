@@ -3,7 +3,7 @@ import debounce from "lodash.debounce";
 import { patch } from "@/lib/api";
 import { Site } from "@/db/schema";
 import { LAYOUT_HEIGHTS } from "./constants";
-import { FONT_SIZE, DEFAULT_SITE_CONFIG } from "../../../lib/constants";
+import { FONT_SIZE, DEFAULT_SITE_CONFIG, IMAGE_FRAME } from "../../../lib/constants";
 import { EditorState, useEditorStore, type SocialIcon } from "./store";
 
 export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean = false) => {
@@ -29,6 +29,9 @@ export const mapSiteToStoreFormat = (
       id: "",
       slug: "",
       userId: "",
+      image: DEFAULT_SITE_CONFIG.image!,
+      imageAlignment: DEFAULT_SITE_CONFIG.imageAlignment,
+      imageFrame: DEFAULT_SITE_CONFIG.imageFrame as keyof typeof IMAGE_FRAME,
       version: DEFAULT_SITE_CONFIG.version!,
       fontSize: DEFAULT_SITE_CONFIG.fontSize,
       textAlign: DEFAULT_SITE_CONFIG.textAlign,
@@ -47,6 +50,9 @@ export const mapSiteToStoreFormat = (
     userId: site.userId,
     backgroundColor: site.backgroundColor,
     color: site.color,
+    image: site.image,
+    imageAlignment: site.imageAlignment,
+    imageFrame: site.imageFrame as keyof typeof IMAGE_FRAME,
     fontSize: FONT_SIZE[site.fontSize as keyof typeof FONT_SIZE],
     fontFamily: site.fontFamily,
     textAlign: site.textAlign,

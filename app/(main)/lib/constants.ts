@@ -122,6 +122,26 @@ export const PLATFORM_ICONS = {
   [SOCIAL_PLATFORMS.DISCORD]: Discord,
 } as const;
 
+export const IMAGE_FRAME = {
+  CIRCLE: "circle",
+  SQUARE: "square",
+  ROUNDED_SQUARE: "rounded-square",
+  ROUNDED_RECTANGLE: "rounded-rectangle",
+  RECTANGLE_HORIZONTAL: "rectangle-horizontal",
+  RECTANGLE_VERTICAL: "rectangle-vertical",
+  ROUNDED_RECTANGLE_HORIZONTAL: "rounded-rectangle-horizontal",
+  ROUNDED_RECTANGLE_VERTICAL: "rounded-rectangle-vertical",
+  TILTED_SQUARE: "tilted-square",
+  TILTED_SQUARE_ROUNDED: "tilted-square-rounded",
+  TILTED_SQUARE_ROUNDED_WITH_FRAME: "tilted-square-rounded-with-frame",
+  TILTED_RECTANGLE_VERTICAL: "tilted-rectangle-vertical",
+  TILTED_RECTANGLE_VERTICAL_ROUNDED: "tilted-rectangle-vertical-rounded",
+  TILTED_RECTANGLE_VERTICAL_ROUNDED_WITH_FRAME: "tilted-rectangle-vertical-rounded-with-frame",
+  TILTED_RECTANGLE_HORIZONTAL: "tilted-rectangle-horizontal",
+  TILTED_RECTANGLE_HORIZONTAL_ROUNDED: "tilted-rectangle-horizontal-rounded",
+  TILTED_RECTANGLE_HORIZONTAL_ROUNDED_WITH_FRAME: "tilted-rectangle-horizontal-rounded-with-frame",
+} as const;
+
 export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
   version: 0,
   color: COLOR.BLACK,
@@ -133,4 +153,7 @@ export const DEFAULT_SITE_CONFIG: Omit<SiteInsert, "slug" | "userId" | "id"> = {
     '<p>Hey there! 👋🏻</p><p>This is your site. A space to tell your story.</p><p>You can write <strong>bold</strong> words, <em>italic thoughts</em>, and add <a target="_blank" rel="noopener noreferrer nofollow" class="underline underline-offset-2" href="https://your-link.com">links to your work</a> or social profiles.</p><p>Start by introducing yourself. Who are you? What you do? Let people know!</p>',
   socialIcons: [],
   socialIconsAlignment: ALIGNMENT.LEFT,
+  image: null,
+  imageAlignment: "left",
+  imageFrame: IMAGE_FRAME.SQUARE,
 };
