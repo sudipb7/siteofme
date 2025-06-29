@@ -25,7 +25,7 @@ export const VerificationAlert = () => {
   }
 
   return (
-    <div className="w-full h-10 bg-amber-100 flex items-center justify-center">
+    <div className="w-full h-10 bg-amber-100 border-b flex items-center justify-center">
       <p className="font-medium text-sm">
         To avoid deleting the account, verify it by clicking the link we&apos;ve sent to your email.
       </p>{" "}

@@ -35,9 +35,7 @@ export const ImageSection = ({
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [framePopoverOpen, setFramePopoverOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const frameOptions = useMemo(
@@ -68,10 +66,6 @@ export const ImageSection = ({
       return;
     }
 
-    setSelectedFile(file);
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-
     uploadFile(file);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -96,12 +90,6 @@ export const ImageSection = ({
 
           toast.success("Image uploaded successfully!");
           setUploadDialogOpen(false);
-
-          if (previewUrl) {
-            URL.revokeObjectURL(previewUrl);
-          }
-          setSelectedFile(null);
-          setPreviewUrl(null);
           setUploadProgress(0);
         }
       } catch (error) {
@@ -110,7 +98,7 @@ export const ImageSection = ({
         setIsUploading(false);
       }
     },
-    [setImage, previewUrl]
+    [setImage]
   );
 
   const handleUploadClick = useCallback(() => {
@@ -144,55 +132,48 @@ export const ImageSection = ({
                   Upload file
                 </Button>
               </DialogTrigger>
-              <DialogContent className="!max-w-sm" aria-describedby="upload-image-dialog">
+              <DialogContent className="!max-w-md" aria-describedby="upload-image-dialog">
                 <DialogHeader>
                   <DialogTitle>Upload Image</DialogTitle>
                 </DialogHeader>
 
-                {!selectedFile && !isUploading && (
-                  <div>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileSelect}
-                      className="hidden"
-                    />
-                    <Button onClick={handleUploadClick} className="w-full gap-2" variant="outline">
-                      <Upload className="size-4" />
-                      Upload Image
-                    </Button>
-                  </div>
-                )}
-
-                {selectedFile && previewUrl && (
-                  <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
-                    <Image
-                      src={previewUrl}
-                      alt="Preview"
-                      fill
-                      className="w-full h-full object-cover"
-                    />
+                <div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
+                  <Button
+                    onClick={handleUploadClick}
+                    className="w-full gap-2 relative overflow-hidden"
+                    variant="outline"
+                    disabled={isUploading}
+                  >
                     {isUploading && (
-                      <>
-                        <div
-                          className="absolute inset-0 bg-success/50 transition-all duration-300 ease-linear"
-                          style={{
-                            clipPath: `inset(${100 - uploadProgress}% 0% 0% 0%)`,
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-muted-foreground/50 flex items-center justify-center">
-                          <div className="flex flex-col items-center gap-2 text-background">
-                            <Loader2 className="size-8 animate-spin" />
-                            <span className="text-sm font-medium">
-                              Uploading... {Math.round(uploadProgress)}%
-                            </span>
-                          </div>
-                        </div>
-                      </>
+                      <div
+                        className="absolute inset-0 bg-muted transition-all ease-in-out"
+                        style={{
+                          width: `${Math.min(100, uploadProgress)}%`,
+                        }}
+                      />
                     )}
-                  </div>
-                )}
+                    <span className="relative z-10 flex items-center gap-2">
+                      {isUploading ? (
+                        <>
+                          <Loader2 className="size-4 animate-spin" />
+                          Uploading... {Math.round(Math.min(100, uploadProgress))}%
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="size-4" />
+                          Upload Image
+                        </>
+                      )}
+                    </span>
+                  </Button>
+                </div>
               </DialogContent>
             </Dialog>
           </div>
@@ -255,6 +236,7 @@ export const ImageSection = ({
                       >
                         <Image
                           src={image}
+                          loading="lazy"
                           alt="Frame preview"
                           width={parseInt(option.styles.width.replace("px", "")) / 1}
                           height={parseInt(option.styles.height.replace("px", "")) / 1}
