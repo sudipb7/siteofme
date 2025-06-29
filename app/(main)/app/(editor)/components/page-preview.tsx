@@ -6,7 +6,7 @@ import { User, Site } from "@/db/schema";
 import { TipTapEditor } from "./tiptap";
 import { useEditorStore } from "../lib/store";
 import { Button } from "@/components/ui/button";
-import { getContentMinHeight, mapSiteToStoreFormat } from "../lib/utils";
+import { getContentMinHeight, mapSiteToStoreFormat, getImageFrameStyles } from "../lib/utils";
 import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
 
 interface PagePreviewProps {
@@ -32,6 +32,9 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
         socialIcons: storeState.socialIcons,
         socialIconsAlignment: storeState.socialIconsAlignment,
         content: storeState.content,
+        image: storeState.image,
+        imageAlignment: storeState.imageAlignment,
+        imageFrame: storeState.imageFrame,
       };
     }
 
@@ -46,12 +49,17 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     textAlign,
     socialIcons,
     socialIconsAlignment,
+    image,
+    imageAlignment,
+    imageFrame,
   } = getDataSource();
 
   const getSocialIcon = (platform: string) => {
     const IconComponent = PLATFORM_ICONS[platform as keyof typeof PLATFORM_ICONS];
     return IconComponent;
   };
+
+  const imageFrameStyles = getImageFrameStyles(imageFrame, fontSize);
 
   return (
     <main
@@ -70,6 +78,29 @@ export const PagePreview = ({ user, site, isMobile = false, className }: PagePre
     >
       <div className="w-full flex-1 flex items-center justify-center">
         <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[fontSize]}rem` }}>
+          {image && (
+            <div
+              className="mb-8 md:mb-10 flex"
+              style={{
+                justifyContent:
+                  imageAlignment === "left"
+                    ? "flex-start"
+                    : imageAlignment === "right"
+                      ? "flex-end"
+                      : "center",
+              }}
+            >
+              <Image
+                src={image}
+                alt="Profile"
+                quality={100}
+                priority
+                width={+imageFrameStyles.width.replace("px", "")}
+                height={+imageFrameStyles.height.replace("px", "")}
+                style={imageFrameStyles}
+              />
+            </div>
+          )}
           <TipTapEditor site={site || null} />
           {socialIcons.length > 0 && (
             <div

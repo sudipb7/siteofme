@@ -3,7 +3,13 @@ import debounce from "lodash.debounce";
 import { patch } from "@/lib/api";
 import { Site } from "@/db/schema";
 import { LAYOUT_HEIGHTS } from "./constants";
-import { FONT_SIZE, DEFAULT_SITE_CONFIG, IMAGE_FRAME } from "../../../lib/constants";
+import {
+  FONT_SIZE,
+  DEFAULT_SITE_CONFIG,
+  IMAGE_FRAME,
+  IMAGE_FRAME_STYLES,
+  IMAGE_SIZE,
+} from "../../../lib/constants";
 import { EditorState, useEditorStore, type SocialIcon } from "./store";
 
 export const getContentMinHeight = (isEmailVerified: boolean, isMobile: boolean = false) => {
@@ -71,3 +77,43 @@ export const debouncedSave = debounce(async (state: Partial<Site>) => {
     setIsSaving(false);
   }
 }, 500);
+
+export const getImageFrameStyles = (
+  frame: keyof typeof IMAGE_FRAME | string,
+  size: keyof typeof IMAGE_SIZE
+) => {
+  // Handle both enum key (e.g., 'TILTED_SQUARE') and string value (e.g., 'tilted-square')
+  const frameValue =
+    typeof frame === "string" && frame in IMAGE_FRAME_STYLES
+      ? frame
+      : IMAGE_FRAME[frame as keyof typeof IMAGE_FRAME];
+
+  const baseStyles =
+    IMAGE_FRAME_STYLES[frameValue as keyof typeof IMAGE_FRAME_STYLES] ||
+    IMAGE_FRAME_STYLES[IMAGE_FRAME.SQUARE]; // Fallback to square if not found
+
+  const sizeValue = IMAGE_SIZE[size];
+  const baseSizePx = sizeValue * 4;
+
+  // Calculate width and height based on aspect ratio
+  let width = baseSizePx;
+  let height = baseSizePx;
+
+  if ("aspectRatio" in baseStyles) {
+    const aspectRatio = baseStyles.aspectRatio;
+
+    if (aspectRatio === "3/2") {
+      // Horizontal rectangle (wider)
+      width = baseSizePx * 1.25;
+    } else if (aspectRatio === "2/3") {
+      // Vertical rectangle (taller)
+      height = baseSizePx * 1.25;
+    }
+  }
+
+  return {
+    ...baseStyles,
+    width: `${width}px`,
+    height: `${height}px`,
+  };
+};

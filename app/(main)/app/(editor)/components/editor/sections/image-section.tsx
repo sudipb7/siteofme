@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react";
-import { AlignLeft, AlignCenter, AlignRight, Upload, Trash2, Edit, Loader2 } from "lucide-react";
+import { AlignLeft, AlignCenter, AlignRight, Upload, Trash2, Loader2, Pencil } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { EditorState } from "../../../lib/store";
@@ -213,14 +213,13 @@ export const ImageSection = ({
             <div className="flex items-center justify-between">
               <span className="md:text-sm text-base font-medium">Frame</span>
               <Button
-                variant="outline"
+                variant="ghost"
                 className="gap-2"
                 onClick={() => {
                   /* TODO: Implement frame selection */
                 }}
               >
-                <Edit className="size-4" />
-                Edit
+                <Pencil className="size-4" />
               </Button>
             </div>
           </>

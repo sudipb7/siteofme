@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PublicSiteEditor } from "./public-site-editor";
 import { SocialIcon } from "../../app/(editor)/lib/store";
 import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
+import { getImageFrameStyles } from "../../app/(editor)/lib/utils";
 
 interface PublicSiteContentProps {
   site: Site;
@@ -17,6 +18,7 @@ export const PublicSiteContent = ({ site }: PublicSiteContentProps) => {
     return IconComponent;
   };
 
+  const imageFrameStyles = getImageFrameStyles(site.imageFrame, site.fontSize);
   const socialIcons = Array.isArray(site.socialIcons) ? site.socialIcons : [];
 
   return (
@@ -33,6 +35,29 @@ export const PublicSiteContent = ({ site }: PublicSiteContentProps) => {
     >
       <div className="w-full flex-1 flex items-center justify-center">
         <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[site.fontSize]}rem` }}>
+          {site.image && (
+            <div
+              className="mb-8 md:mb-10 flex"
+              style={{
+                justifyContent:
+                  site.imageAlignment === "left"
+                    ? "flex-start"
+                    : site.imageAlignment === "right"
+                      ? "flex-end"
+                      : "center",
+              }}
+            >
+              <Image
+                src={site.image}
+                alt="Profile"
+                quality={100}
+                priority
+                width={+imageFrameStyles.width.replace("px", "")}
+                height={+imageFrameStyles.height.replace("px", "")}
+                style={imageFrameStyles}
+              />
+            </div>
+          )}
           <PublicSiteEditor content={site.content} />
           {socialIcons.length > 0 && (
             <div
