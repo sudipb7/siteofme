@@ -79,6 +79,12 @@ export const updateSiteSchema = z.object({
   socialIconsAlignment: z
     .enum(["left", "center", "right"])
     .default(DEFAULT_SITE_CONFIG.socialIconsAlignment),
+  image: z.string().nullable(),
+  imageAlignment: z.enum(["left", "center", "right"]).default(DEFAULT_SITE_CONFIG.imageAlignment),
+  imageFrame: z
+    .string()
+    .min(1, { message: "Image frame is required" })
+    .default(DEFAULT_SITE_CONFIG.imageFrame),
 });
 
 export type UpdateSiteInput = z.infer<typeof updateSiteSchema>;
