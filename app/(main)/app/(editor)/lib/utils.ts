@@ -56,7 +56,7 @@ export const mapSiteToStoreFormat = (
     userId: site.userId,
     backgroundColor: site.backgroundColor,
     color: site.color,
-    image: site.image,
+    image: site.image || null,
     imageAlignment: site.imageAlignment,
     imageFrame: site.imageFrame as keyof typeof IMAGE_FRAME,
     fontSize: FONT_SIZE[site.fontSize as keyof typeof FONT_SIZE],

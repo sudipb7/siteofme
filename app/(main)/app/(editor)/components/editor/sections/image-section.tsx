@@ -85,8 +85,7 @@ export const ImageSection = ({
 
         if (res && res.length > 0) {
           const uploadedFile = res[0];
-
-          setImage(uploadedFile.serverData?.fileUrl);
+          setImage(uploadedFile.ufsUrl || null);
 
           toast.success("Image uploaded successfully!");
           setUploadDialogOpen(false);
