@@ -52,7 +52,7 @@ export const HeaderActions = ({ user }: { user: User }) => {
         userId: store.userId,
         imageFrame: store.imageFrame,
         imageAlignment: store.imageAlignment,
-        image: store.image,
+        image: store.image || null,
       };
       const response = await publishSite(payload);
       if ("error" in response) {

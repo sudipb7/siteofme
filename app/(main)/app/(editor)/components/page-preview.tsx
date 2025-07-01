@@ -33,7 +33,7 @@ export const PagePreview = memo(({ user, site, isMobile = false, className }: Pa
         socialIcons: storeState.socialIcons,
         socialIconsAlignment: storeState.socialIconsAlignment,
         content: storeState.content,
-        image: storeState.image,
+        image: storeState.image || null,
         imageAlignment: storeState.imageAlignment,
         imageFrame: storeState.imageFrame,
       };

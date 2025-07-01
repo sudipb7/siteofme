@@ -114,7 +114,7 @@ useEditorStore.subscribe(state => {
     slug: state.slug,
     userId: state.userId,
     id: state.id,
-    image: state.image,
+    image: state.image || null,
     imageAlignment: state.imageAlignment,
     imageFrame: state.imageFrame,
   };

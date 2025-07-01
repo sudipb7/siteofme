@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         hostname: "cv9j7aamp7.ufs.sh",
         protocol: "https",
-        pathname: "/**",
+        pathname: "/f/*",
       },
     ],
   },
