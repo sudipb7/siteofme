@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { LinkIcon, LogOut, Mail, Settings, UserIcon } from "lucide-react";
+import { LinkIcon, LogOut, Mail, UserIcon } from "lucide-react";
 
 import type { User } from "@/db/schema";
 import {
@@ -92,15 +92,17 @@ export const HeaderActions = ({ user }: { user: User }) => {
         <DropdownMenuContent>
           <p className="font-medium text-sm px-2 py-1">{user.email}</p>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-foreground" asChild>
+          {/* <DropdownMenuItem className="text-foreground" asChild>
             <Link href="/app/settings">
               <Settings className="size-4" /> Settings
             </Link>
+          </DropdownMenuItem> */}
+          <DropdownMenuItem className="text-foreground" asChild>
+            <Link href="https://x.com/sudipcodes" target="_blank">
+              <Mail className="size-4" /> Contact us
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="text-foreground">
-            <Mail className="size-4" /> Contact us
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          {/* <DropdownMenuSeparator /> */}
           <DropdownMenuItem onClick={handleOnLogout}>
             <LogOut className="size-4" /> <span>Log out</span>
           </DropdownMenuItem>

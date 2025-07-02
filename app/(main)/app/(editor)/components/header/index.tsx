@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { HeaderActions } from "./actions";
 import { currentUser } from "@/lib/queries";
-import { VerificationAlert } from "./verification-alert";
+// import { VerificationAlert } from "./verification-alert";
 
 export const AppHeader = async () => {
   const user = await currentUser();
@@ -14,7 +14,7 @@ export const AppHeader = async () => {
 
   return (
     <>
-      {!user.emailVerified && <VerificationAlert />}
+      {/* {!user.emailVerified && <VerificationAlert />} */}
       <header className="h-14 border-b w-full bg-background sticky top-0 z-30 inset-x-0">
         <div className="min-h-full flex items-center justify-between px-4">
           <div>

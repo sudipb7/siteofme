@@ -22,7 +22,7 @@ export default async function SignUpPage({
           <div className="space-y-2">
             <h1 className="heading_secondary">Create the &ldquo;site of you&rdquo;</h1>
             <p className="description">
-              You are just three empty fields away from creating your own personal mini-site.
+              You&apos;re just a few quick steps away from launching your personal mini-site.
             </p>
           </div>
           <SignUpForm slug={slug} />
