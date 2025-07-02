@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { UsernameForm } from "./username";
 import { FullNameForm } from "./full-name";
 import { useCurrentUser } from "@/hooks/queries";
-import { EmailVerificationMessage } from "./verification";
 
 export const OnboardingStep = () => {
   const router = useRouter();
@@ -27,8 +26,6 @@ export const OnboardingStep = () => {
       return UsernameForm;
     } else if (!user.name) {
       return FullNameForm;
-    } else if (!user.emailVerified) {
-      return EmailVerificationMessage;
     } else {
       return null;
     }

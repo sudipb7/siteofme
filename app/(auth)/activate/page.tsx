@@ -64,10 +64,9 @@ export default async function AccountActivationPage({
     <main className="flex w-full min-h-dvh flex-col items-center justify-center p-4">
       <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
         <div className="space-y-2">
-          <h1 className="heading_secondary">All set! You&apos;ve secured your username!</h1>
+          <h1 className="heading_secondary">Your account is now verified 🎉</h1>
           <p className="description">
-            Thanks for verifying your email. Your username is securely yours, and no one else can
-            claim it.
+            Your username is now yours. You can start creating your site now.
           </p>
         </div>
         <Button className="w-full" asChild>
