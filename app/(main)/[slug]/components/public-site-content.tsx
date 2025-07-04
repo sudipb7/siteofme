@@ -2,10 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Site } from "@/db/schema";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PublicSiteEditor } from "./public-site-editor";
 import { SocialIcon } from "../../app/(editor)/lib/store";
-import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
+import { PLATFORM_ICONS, FONT_SIZE_CLASSES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
 import { getImageFrameStyles } from "../../app/(editor)/lib/utils";
 
 interface PublicSiteContentProps {
@@ -26,12 +27,14 @@ export const PublicSiteContent = ({ site }: PublicSiteContentProps) => {
       style={{
         backgroundColor: site.backgroundColor,
         color: site.color,
-        fontSize: `${FONT_SIZE_VALUES[site.fontSize]}px`,
         fontFamily: `var(--font-${site.fontFamily})`,
         textAlign: site.textAlign,
         minHeight: "100dvh",
       }}
-      className="flex-1 p-4 w-full flex flex-col font-medium items-center justify-center"
+      className={cn(
+        "flex-1 p-4 w-full flex flex-col font-medium items-center justify-center",
+        FONT_SIZE_CLASSES[site.fontSize]
+      )}
     >
       <div className="w-full flex-1 flex items-center justify-center">
         <div className="w-full" style={{ maxWidth: `${MAX_CONTENT_WIDTH[site.fontSize]}rem` }}>

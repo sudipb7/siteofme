@@ -8,7 +8,7 @@ import type { User, Site } from "@/db/schema";
 import { useEditorStore } from "../lib/store";
 import { Button } from "@/components/ui/button";
 import { getContentMinHeight, mapSiteToStoreFormat, getImageFrameStyles } from "../lib/utils";
-import { PLATFORM_ICONS, FONT_SIZE_VALUES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
+import { PLATFORM_ICONS, FONT_SIZE_CLASSES, MAX_CONTENT_WIDTH } from "@/app/(main)/lib/constants";
 
 interface PagePreviewProps {
   user: User;
@@ -84,13 +84,13 @@ export const PagePreview = memo(({ user, site, isMobile = false, className }: Pa
       style={{
         backgroundColor,
         color,
-        fontSize: `${FONT_SIZE_VALUES[fontSize]}px`,
         fontFamily: `var(--font-${fontFamily})`,
         textAlign,
         minHeight: getContentMinHeight(!!user?.emailVerified, isMobile),
       }}
       className={cn(
         "flex-1 p-4 w-full flex flex-col font-medium items-center justify-center",
+        FONT_SIZE_CLASSES[fontSize],
         className
       )}
     >

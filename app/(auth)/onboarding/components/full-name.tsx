@@ -73,7 +73,9 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
     <>
       <div className="space-y-2">
         <h1 className="heading_secondary">What should we call you?</h1>
-        <p className="description">Don&apos;t worry, your name stays private unless you share it.</p>
+        <p className="description">
+          Don&apos;t worry, your name stays private unless you share it.
+        </p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">

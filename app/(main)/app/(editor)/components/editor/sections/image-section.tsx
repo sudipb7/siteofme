@@ -107,7 +107,7 @@ export const ImageSection = ({
   return (
     <div className="space-y-2.5 border-b px-4 py-6">
       <div className="flex items-center justify-between">
-        <h3 className="md:text-base text-lg font-semibold">Image</h3>
+        <h3 className="text-base font-semibold">Image</h3>
         {image && (
           <Button
             size="sm"
@@ -123,7 +123,7 @@ export const ImageSection = ({
       <div className="space-y-3">
         {!image ? (
           <div className="flex items-center justify-between">
-            <span className="md:text-sm text-base font-medium">File</span>
+            <span className="text-sm font-medium">File</span>
             <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="gap-2">
@@ -179,7 +179,7 @@ export const ImageSection = ({
         ) : (
           <>
             <div className="flex items-center justify-between">
-              <span className="md:text-sm text-base font-medium">Position</span>
+              <span className="text-sm font-medium">Position</span>
               <ToggleGroup
                 type="single"
                 value={imageAlignment}
@@ -212,7 +212,7 @@ export const ImageSection = ({
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="md:text-sm text-base font-medium">Frame</span>
+              <span className="text-sm font-medium">Frame</span>
               <Popover modal={false} open={framePopoverOpen} onOpenChange={setFramePopoverOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="ghost" className="gap-2">

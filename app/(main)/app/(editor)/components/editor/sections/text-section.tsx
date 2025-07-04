@@ -62,11 +62,11 @@ export const TextSection = ({
 
   return (
     <div className="space-y-2.5 border-b px-4 py-6">
-      <h3 className="md:text-base text-lg font-semibold">Text</h3>
+      <h3 className="text-base font-semibold">Text</h3>
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <span className="md:text-sm text-base font-medium">Font</span>
+          <span className="text-sm font-medium">Font</span>
           <div className="w-40">
             <SelectWithSearch
               isFontFamilySelect
@@ -79,7 +79,7 @@ export const TextSection = ({
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="md:text-sm text-base font-medium">Size</span>
+          <span className="text-sm font-medium">Size</span>
           <ToggleGroup
             type="single"
             value={fontSize.toString()}
@@ -102,7 +102,7 @@ export const TextSection = ({
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="md:text-sm text-base font-medium">Align</span>
+          <span className="text-sm font-medium">Align</span>
           <ToggleGroup
             type="single"
             value={textAlign}

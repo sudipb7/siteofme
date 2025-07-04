@@ -29,20 +29,25 @@ export const VerificationAlert = ({
   }
 
   return (
-    <div className="w-full h-10 bg-amber-100 border-b flex items-center justify-center">
-      <p className="font-medium text-sm">
-        Please verify your email to publish your site.
-        {!isInitialEmailVerificationMailExpired && " Check your inbox for the verification link."}
-      </p>
-      {!isSent && (
-        <button
-          disabled={isPending}
-          className="cursor-pointer font-semibold underline underline-offset-2 text-sm p-1 text-primary disabled:cursor-default disabled:opacity-75 transition-colors"
-          onClick={handleSendVerificationMail}
-        >
-          Resend verification email
-        </button>
-      )}
+    <div className="w-full bg-warning text-warning-foreground flex items-center justify-center p-2.5 text-center">
+      <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-1">
+        <p className="font-medium text-sm">
+          Please verify your email to publish your site.
+          {!isInitialEmailVerificationMailExpired && (
+            <span className="max-sm:hidden"> Check your inbox for the verification link.</span>
+          )}
+        </p>
+        {!isSent && (
+          <button
+            disabled={isPending}
+            className="cursor-pointer font-semibold underline underline-offset-2 text-sm disabled:cursor-default disabled:opacity-75 transition-colors"
+            onClick={handleSendVerificationMail}
+          >
+            <span className="sm:hidden">Resend</span>
+            <span className="max-sm:hidden">Resend verification email</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 };

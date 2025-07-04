@@ -30,11 +30,11 @@ export const BackgroundSection = ({
 
   return (
     <div className="space-y-2.5 px-4 py-6 border-b">
-      <h3 className="md:text-base text-lg font-semibold">Background</h3>
+      <h3 className="text-base font-semibold">Background</h3>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="md:text-sm text-base font-medium">Color</span>
+          <span className="text-sm font-medium">Color</span>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" className="gap-2">
