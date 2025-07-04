@@ -72,12 +72,8 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
   return (
     <>
       <div className="space-y-2">
-        <h1 className="heading_secondary">
-          You&apos;ve made it through!
-          <br />
-          But what should we call you?
-        </h1>
-        <p className="description">No worries, we&apos;ll keep your name to ourselves</p>
+        <h1 className="heading_secondary">What should we call you?</h1>
+        <p className="description">Don&apos;t worry, your name stays private unless you share it.</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -86,7 +82,7 @@ export const FullNameForm = ({ user }: FullNameFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your full name</FormLabel>
+                <FormLabel>Full name</FormLabel>
                 <FormControl>
                   <Input
                     type="text"

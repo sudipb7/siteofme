@@ -6,7 +6,7 @@ import { generatePageMetadata } from "@/lib/metadata";
 
 export const metadata = generatePageMetadata({
   title: "Reset password",
-  description: "Reset your password.",
+  description: "Choose a new password.",
 });
 
 export default async function ResetPasswordPage({
@@ -27,7 +27,7 @@ export default async function ResetPasswordPage({
         <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
           <div className="space-y-2">
             <h1 className="heading_secondary">Reset your password</h1>
-            <p className="description">Enter your new password below.</p>
+            <p className="description">Set your new password below.</p>
           </div>
           <ResetPasswordForm token={token} />
         </div>

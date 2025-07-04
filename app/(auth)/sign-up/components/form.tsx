@@ -66,7 +66,7 @@ export const SignUpForm = ({
   async function onSubmit(values: SignUpInput) {
     try {
       if (!isUsernameAvailable) {
-        toast.error("The username is already claimed. Try another one.");
+        toast.error("Gotta be quicker! That username's already taken.");
         return;
       }
 
@@ -107,7 +107,7 @@ export const SignUpForm = ({
 
       const res = await checkUsername(username);
       if ("error" in res) {
-        form.setError("username", { message: res.error, type: "pattern" }, { shouldFocus: true });
+        form.setError("username", { message: "This one's taken, sorry!" });
         setIsUsernameAvailable(false);
         setTextState("unavailable");
       } else {
@@ -158,18 +158,16 @@ export const SignUpForm = ({
                       />
                     </div>
                   </FormControl>
-                  {textState !== "idle" && (
-                    <AnimatedText
-                      currentState={textState}
-                      states={USERNAME_TEXT_STATES}
-                      className={cn(
-                        "description text-sm",
-                        textState === "available" && "text-success-foreground",
-                        textState === "unavailable" && "text-destructive",
-                        ["invalid", "special"].includes(textState) && "text-warning-foreground"
-                      )}
-                    />
-                  )}
+                  <AnimatedText
+                    currentState={textState}
+                    states={USERNAME_TEXT_STATES}
+                    className={cn(
+                      "description text-sm",
+                      textState === "available" && "text-success-foreground",
+                      textState === "unavailable" && "text-destructive",
+                      ["invalid", "special"].includes(textState) && "text-warning-foreground"
+                    )}
+                  />
                 </FormItem>
               )}
             />
