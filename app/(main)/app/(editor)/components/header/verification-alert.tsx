@@ -6,7 +6,11 @@ import { useState } from "react";
 import { handleClientError } from "@/lib/utils";
 import { useResendVerificationMail } from "../../lib/hooks";
 
-export const VerificationAlert = () => {
+export const VerificationAlert = ({
+  isInitialEmailVerificationMailExpired,
+}: {
+  isInitialEmailVerificationMailExpired: boolean;
+}) => {
   const [isSent, setIsSent] = useState(false);
   const { mutateAsync: resendVerificationMail, isPending } = useResendVerificationMail();
 
@@ -27,8 +31,9 @@ export const VerificationAlert = () => {
   return (
     <div className="w-full h-10 bg-amber-100 border-b flex items-center justify-center">
       <p className="font-medium text-sm">
-        To avoid deleting the account, verify it by clicking the link we&apos;ve sent to your email.
-      </p>{" "}
+        Please verify your email to publish your site.
+        {!isInitialEmailVerificationMailExpired && " Check your inbox for the verification link."}
+      </p>
       {!isSent && (
         <button
           disabled={isPending}
