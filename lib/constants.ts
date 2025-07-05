@@ -40,6 +40,7 @@ export const SITE_CONFIG = {
   description:
     'Forget plain link lists. Create your "site of you" a simple, beautiful mini-site built around who you are, not just where to find you.',
   ogImage: `${SITE_URL}/opengraph-image.png`,
+  twitterImage: `${SITE_URL}/twitter-image.png`,
   links: {
     twitter: "https://x.com/sudipcodes",
   },

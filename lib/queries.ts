@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { eq } from "drizzle-orm";
+import { eq, gt } from "drizzle-orm";
 
 import db from "@/db";
 import { auth } from "@/lib/auth";
@@ -134,3 +134,13 @@ export const getSiteDraftByUserName = async (username: string) => {
     return null;
   }
 };
+
+export async function getAllPublishedSites() {
+  return db.query.sites.findMany({
+    where: gt(sites.version, 0),
+    columns: {
+      slug: true,
+      updatedAt: true,
+    },
+  });
+}

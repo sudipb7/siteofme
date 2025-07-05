@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_CONFIG, SITE_URL } from "@/lib/constants";
 import { handleClientError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useEditorStore } from "../../lib/store";
@@ -98,7 +98,7 @@ export const HeaderActions = ({ user }: { user: User }) => {
             </Link>
           </DropdownMenuItem> */}
           <DropdownMenuItem className="text-foreground" asChild>
-            <Link href="https://x.com/sudipcodes" target="_blank">
+            <Link href={SITE_CONFIG.links.twitter} target="_blank">
               <Mail className="size-4" /> Contact us
             </Link>
           </DropdownMenuItem>

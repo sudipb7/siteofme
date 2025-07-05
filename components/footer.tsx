@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/constants";
 
 export const Footer = () => {
   return (
@@ -9,7 +10,7 @@ export const Footer = () => {
           <Link href="/faq">FAQ</Link>
         </li> */}
         <li>
-          <Link href="https://x.com/sudipcodes" target="_blank">
+          <Link href={SITE_CONFIG.links.twitter} target="_blank">
             Contact
           </Link>
         </li>
