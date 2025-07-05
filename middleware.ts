@@ -8,17 +8,6 @@ export default auth(async req => {
   const isLoggedIn = !!req.auth;
   const user = req.auth?.user;
 
-  // Redirect to WIP page in production
-  // ! Only till we launch the product
-  if (process.env.NODE_ENV === "production") {
-    if (nextUrl.hostname === "siteof.me") {
-      if (nextUrl.pathname !== "/") {
-        return NextResponse.redirect(new URL("/", nextUrl));
-      }
-      return NextResponse.rewrite(new URL("/wip", nextUrl));
-    }
-  }
-
   if (nextUrl.pathname.startsWith("/api")) {
     return NextResponse.next();
   }
