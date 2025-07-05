@@ -1,4 +1,5 @@
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+export const RESEND_DOMAIN = process.env.NEXT_PUBLIC_RESEND_DOMAIN;
 
 export const WHY_CHOOSE_SITEOF_ME = [
   {

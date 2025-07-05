@@ -9,7 +9,7 @@ import { getZodError } from "@/lib/utils";
 import { createSite } from "@/lib/actions";
 import { signUpSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/lib/queries";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationMail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/token";
 
 export async function POST(req: NextRequest) {
@@ -46,7 +46,10 @@ export async function POST(req: NextRequest) {
     )[0];
 
     const verificationToken = await generateVerificationToken(email);
-    await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
+    await sendVerificationMail({
+      email: verificationToken.identifier,
+      token: verificationToken.token,
+    });
 
     await signIn("credentials", {
       email,

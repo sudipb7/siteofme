@@ -19,19 +19,19 @@ export const dynamic = "force-dynamic";
 export default async function AccountActivationPage({
   searchParams,
 }: {
-  searchParams: Promise<{ key: string }>;
+  searchParams: Promise<{ token: string }>;
 }) {
   const user = await currentUser();
   if (user?.emailVerified) {
     redirect("/app");
   }
 
-  const key = (await searchParams).key;
-  if (!key) {
+  const token = (await searchParams).token;
+  if (!token) {
     return notFound();
   }
 
-  const verificationToken = await getVerificationTokenByToken(key);
+  const verificationToken = await getVerificationTokenByToken(token);
   if (
     !verificationToken ||
     verificationToken.identifier !== user?.email ||
@@ -56,7 +56,7 @@ export default async function AccountActivationPage({
 
   await Promise.all([
     updateUser(user.id, { emailVerified: new Date(), email: user.email }),
-    db.delete(verificationTokens).where(eq(verificationTokens.token, key)),
+    db.delete(verificationTokens).where(eq(verificationTokens.token, token)),
   ]);
 
   return (
