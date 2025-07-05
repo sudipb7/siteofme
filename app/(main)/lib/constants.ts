@@ -52,6 +52,12 @@ export const FONT_SIZE = {
   L: "L",
 } as const;
 
+export const FONT_SIZE_CLASSES = {
+  S: "text-sm md:text-base",
+  M: "text-base md:text-lg",
+  L: "text-lg md:text-[22px]",
+} as const;
+
 export const FONT_SIZE_VALUES = {
   S: 16,
   M: 18,

@@ -65,10 +65,8 @@ export const ForgotPasswordForm = ({ className, ...props }: ComponentProps<"div"
   if (isSubmitted) {
     return (
       <div className={cn("space-y-2", className)} {...props}>
-        <h1 className="heading_secondary">Check your email</h1>
-        <p className="description">
-          Check your email inbox for instructions from us on how to reset your password.
-        </p>
+        <h1 className="heading_secondary">Check your inbox</h1>
+        <p className="description">We&apos;ve sent instructions to reset your password.</p>
       </div>
     );
   }
@@ -77,7 +75,7 @@ export const ForgotPasswordForm = ({ className, ...props }: ComponentProps<"div"
     <div className={cn("space-y-6", className)} {...props}>
       <div className="space-y-2">
         <h1 className="heading_secondary">Forgot your password?</h1>
-        <p className="description">No worries! We&apos;ll help you reset it.</p>
+        <p className="description">No stress, we&apos;ll help you reset it.</p>
       </div>
 
       <Form {...form}>
@@ -108,7 +106,8 @@ export const ForgotPasswordForm = ({ className, ...props }: ComponentProps<"div"
             currentState={buttonState}
             disabled={isLoading}
             aria-label="Send Reset Link"
-            className="w-full"
+            data-success={buttonState === "success"}
+            className="w-full data-[success=true]:bg-success-foreground data-[success=true]:text-success"
           />
         </form>
       </Form>

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { HeaderActions } from "./actions";
 import { currentUser } from "@/lib/queries";
-// import { VerificationAlert } from "./verification-alert";
+import { VerificationAlert } from "./verification-alert";
 
 export const AppHeader = async () => {
   const user = await currentUser();
@@ -12,10 +12,17 @@ export const AppHeader = async () => {
     return redirect("/sign-in");
   }
 
+  const isInitialEmailVerificationMailExpired =
+    Date.now() - new Date(user.createdAt).getTime() > 3600 * 1000;
+
   return (
     <>
-      {/* {!user.emailVerified && <VerificationAlert />} */}
-      <header className="h-14 border-b w-full bg-background sticky top-0 z-30 inset-x-0">
+      {!user.emailVerified && (
+        <VerificationAlert
+          isInitialEmailVerificationMailExpired={isInitialEmailVerificationMailExpired}
+        />
+      )}
+      <header className="h-14 border-y border-t-warning-foreground/30 w-full bg-background sticky top-0 z-30 inset-x-0">
         <div className="min-h-full flex items-center justify-between px-4">
           <div>
             <Link href="/app" className="flex items-center gap-x-1.5 sm:gap-x-2">

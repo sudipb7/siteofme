@@ -53,7 +53,7 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
   async function onSubmit(values: Pick<SignUpInput, "username">) {
     try {
       if (!isUsernameAvailable) {
-        toast.error("The username is already claimed. Try another one.");
+        toast.error("Gotta be quicker! That username's already taken.");
         return;
       }
 
@@ -101,7 +101,7 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
 
       const res = await checkUsername(username);
       if ("error" in res) {
-        form.setError("username", { message: res.error, type: "pattern" }, { shouldFocus: true });
+        form.setError("username", { message: "This one's taken, sorry!" });
         setIsUsernameAvailable(false);
         setTextState("unavailable");
       } else {
@@ -129,8 +129,8 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
   return (
     <>
       <div className="space-y-2">
-        <h1 className="heading_secondary">Where should we host your site?</h1>
-        <p className="description">We&apos;ll use this username to host your site.</p>
+        <h1 className="heading_secondary">What should your link be?</h1>
+        <p className="description">We&apos;ll use this to host your site.</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -161,18 +161,16 @@ export const UsernameForm = ({ user }: UsernameFormProps) => {
               </FormItem>
             )}
           />
-          {textState !== "idle" && (
-            <AnimatedText
-              currentState={textState}
-              states={USERNAME_TEXT_STATES}
-              className={cn(
-                "description text-sm",
-                textState === "available" && "text-success-foreground",
-                textState === "unavailable" && "text-destructive",
-                ["invalid", "special"].includes(textState) && "text-warning-foreground"
-              )}
-            />
-          )}
+          <AnimatedText
+            currentState={textState}
+            states={USERNAME_TEXT_STATES}
+            className={cn(
+              "description text-sm",
+              textState === "available" && "text-success-foreground",
+              textState === "unavailable" && "text-destructive",
+              ["invalid", "special"].includes(textState) && "text-warning-foreground"
+            )}
+          />
           <AnimatedButton
             states={buttonStates}
             currentState={buttonState}

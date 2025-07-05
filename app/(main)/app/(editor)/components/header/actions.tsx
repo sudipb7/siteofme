@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { toast } from "sonner";
+import { useState } from "react";
 import confetti from "canvas-confetti";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { LinkIcon, LogOut, Mail, UserIcon } from "lucide-react";
+import { LinkIcon, Loader2, LogOut, Mail, UserIcon } from "lucide-react";
 
 import type { User } from "@/db/schema";
 import {
@@ -15,16 +16,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SITE_URL } from "@/lib/constants";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { SITE_CONFIG, SITE_URL } from "@/lib/constants";
 import { handleClientError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/animated-button";
 import { useEditorStore } from "../../lib/store";
-import { usePublishSite } from "../../lib/hooks";
+import { usePublishSite, useResendVerificationMail } from "../../lib/hooks";
 
 export const HeaderActions = ({ user }: { user: User }) => {
   const router = useRouter();
   const store = useEditorStore();
+  const [isSent, setIsSent] = useState(false);
   const { mutateAsync: publishSite, isPending } = usePublishSite();
+  const { mutateAsync: resendVerificationMail, isPending: isResendPending } =
+    useResendVerificationMail();
 
   const handleOnLinkCopy = () => {
     navigator.clipboard.writeText(`${SITE_URL}/${user.username}`);
@@ -33,6 +39,21 @@ export const HeaderActions = ({ user }: { user: User }) => {
 
   const handleOnLogout = async () => {
     await signOut({ redirectTo: "/" });
+  };
+
+  const handleSendVerificationMail = async () => {
+    try {
+      if (isSent) return;
+      const res = await resendVerificationMail();
+      if (res && "error" in res) {
+        handleClientError(res);
+        return;
+      }
+      toast.success(res?.message || "Verification email sent successfully");
+      setIsSent(true);
+    } catch (error) {
+      handleClientError(error);
+    }
   };
 
   const handleOnPublish = async () => {
@@ -80,9 +101,43 @@ export const HeaderActions = ({ user }: { user: User }) => {
       <Button variant="secondary" size="sm" onClick={handleOnLinkCopy} aria-label="Copy link">
         <LinkIcon className="size-4" />
       </Button>
-      <Button size="sm" aria-label="Publish" onClick={handleOnPublish} disabled={isPending}>
-        Publish
-      </Button>
+      {!!user?.emailVerified ? (
+        <Button size="sm" aria-label="Publish" onClick={handleOnPublish} disabled={isPending}>
+          Publish
+        </Button>
+      ) : (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button size="sm" aria-label="Publish">
+              Publish
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="space-y-3">
+              <div className="space-y-1 font-medium">
+                <p>Verify your email to publish</p>
+                <p className="text-sm text-muted-foreground leading-snug">
+                  You need to verify your email before your site goes live.
+                </p>
+              </div>
+              <AnimatedButton
+                size="sm"
+                onClick={handleSendVerificationMail}
+                disabled={isResendPending || isSent}
+                className={`w-full ${
+                  isSent ? "bg-success-foreground text-success hover:bg-success-foreground" : ""
+                }`}
+                states={{
+                  idle: "Send verification email",
+                  sending: <Loader2 className="size-4 animate-spin" />,
+                  success: "Email sent! Check your inbox.",
+                }}
+                currentState={isSent ? "success" : isResendPending ? "sending" : "idle"}
+              />
+            </div>
+          </PopoverContent>
+        </Popover>
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="sm">
@@ -98,7 +153,7 @@ export const HeaderActions = ({ user }: { user: User }) => {
             </Link>
           </DropdownMenuItem> */}
           <DropdownMenuItem className="text-foreground" asChild>
-            <Link href="https://x.com/sudipcodes" target="_blank">
+            <Link href={SITE_CONFIG.links.twitter} target="_blank">
               <Mail className="size-4" /> Contact us
             </Link>
           </DropdownMenuItem>

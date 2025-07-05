@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { ComponentProps, useState } from "react";
@@ -63,7 +62,7 @@ export const ResetPasswordForm = ({
 
       setTimeout(() => {
         router.push("/app");
-      }, 1000);
+      }, 500);
     } catch (error) {
       handleClientError(error);
       setButtonState("idle");
@@ -79,15 +78,7 @@ export const ResetPasswordForm = ({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex justify-between">
-                  Password
-                  <Link
-                    href="/forgot-password"
-                    className="text-sm leading-none underline font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Forgot password?
-                  </Link>
-                </FormLabel>
+                <FormLabel className="flex justify-between">Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
@@ -119,7 +110,8 @@ export const ResetPasswordForm = ({
             currentState={buttonState}
             disabled={isLoading}
             aria-label="Reset password"
-            className="w-full"
+            data-success={buttonState === "success"}
+            className="w-full data-[success=true]:bg-success-foreground data-[success=true]:text-success"
           />
         </form>
       </Form>

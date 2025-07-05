@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
 import {
-  FONT_SIZE_VALUES,
+  FONT_SIZE_CLASSES,
   MAX_CONTENT_WIDTH,
   DEFAULT_SITE_CONFIG,
 } from "@/app/(main)/lib/constants";
@@ -13,12 +14,14 @@ export const DashboardPrompt = () => {
       style={{
         backgroundColor: DEFAULT_SITE_CONFIG.backgroundColor,
         color: DEFAULT_SITE_CONFIG.color,
-        fontSize: `${FONT_SIZE_VALUES[DEFAULT_SITE_CONFIG.fontSize]}px`,
         fontFamily: `var(--font-${DEFAULT_SITE_CONFIG.fontFamily})`,
         textAlign: DEFAULT_SITE_CONFIG.textAlign,
         minHeight: "100dvh",
       }}
-      className="flex-1 p-4 w-full flex flex-col font-medium items-center justify-center"
+      className={cn(
+        "flex-1 p-4 w-full flex flex-col font-medium items-center justify-center",
+        FONT_SIZE_CLASSES[DEFAULT_SITE_CONFIG.fontSize]
+      )}
     >
       <div className="w-full flex-1 flex items-center justify-center">
         <div

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getZodError } from "@/lib/utils";
 import { signInSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/lib/queries";
-import { sendResetPasswordEmail } from "@/lib/mail";
+import { sendForgotPasswordMail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/token";
 
 export async function POST(req: NextRequest) {
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     const verificationToken = await generateVerificationToken(email);
-    await sendResetPasswordEmail(email, verificationToken.token);
+    await sendForgotPasswordMail({ email, token: verificationToken.token });
 
     return NextResponse.json({ message: "Reset password email sent" }, { status: 200 });
   } catch (error) {

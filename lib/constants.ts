@@ -1,34 +1,35 @@
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+export const RESEND_DOMAIN = process.env.NEXT_PUBLIC_RESEND_DOMAIN;
 
 export const WHY_CHOOSE_SITEOF_ME = [
   {
     icon: "⚡",
-    title: "Simple & fast",
-    description: "Build your personal site in minutes, no technical skills required.",
+    title: "Stupid simple",
+    description: "Launch your personal site in minutes no tech skills needed.",
   },
   {
     icon: "✨",
-    title: "Looks professional",
-    description: "Clean, modern designs that make you stand out from the crowd.",
+    title: "Looks sharp",
+    description: "Modern, clean design that helps you stand out, instantly.",
   },
   {
     icon: "🔗",
-    title: "One link",
-    description: "Share your complete online presence with a single, memorable link.",
+    title: "One page, your vibe",
+    description: "Your profile picture, words, and links all together on a clean, personal page.",
   },
   {
     icon: "🎯",
-    title: "Built for everyone",
-    description: "Perfect for creators, professionals, and anyone wanting an online presence.",
+    title: "Made for everyone",
+    description: "Creators, professionals, side-hustlers if you've got a story, siteof.me fits.",
   },
 ];
 
 export const USERNAME_TEXT_STATES = {
-  idle: "Claim your username before it's too late!",
-  available: "It's available... this username is available! 😃",
-  unavailable: "This username is already taken, you're a little late.😐",
-  invalid: "5 characters look better as username 🖐",
-  special: "You are already so special, why a special character? 😉",
+  idle: "Grab your username before it's gone!",
+  available: "Nice this one's available! 😃",
+  unavailable: "Taken you're a little late. 😐",
+  invalid: "Go for at least 5 characters trust us, it looks better. ✨",
+  special: "You're already special, no need for fancy symbols 😉",
 };
 
 export const SITE_CONFIG = {
@@ -36,10 +37,11 @@ export const SITE_CONFIG = {
   url: SITE_URL,
   logo: "/logo.png",
   favicon: "/favicon.ico",
-  shortDescription: 'Go beyond the links. Tell your "story", beautifully.',
+  shortDescription: "You're more than a link. Share your story.",
   description:
-    'Create a "site of you" — a mini-site built around "you". Not just where to find you, but "who you are".',
+    'Forget plain link lists. Create your "site of you" a simple, beautiful mini-site built around who you are, not just where to find you.',
   ogImage: `${SITE_URL}/opengraph-image.png`,
+  twitterImage: `${SITE_URL}/twitter-image.png`,
   links: {
     twitter: "https://x.com/sudipcodes",
   },

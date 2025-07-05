@@ -4,7 +4,7 @@ import { generatePageMetadata } from "@/lib/metadata";
 
 export const metadata = generatePageMetadata({
   title: "Sign up",
-  description: "Create your own personal mini-site.",
+  description: "Build your personal mini-site.",
 });
 
 export default async function SignUpPage({
@@ -20,9 +20,9 @@ export default async function SignUpPage({
       <main className="flex w-full min-h-[calc(100dvh-3.5rem)] flex-col items-center justify-center p-4">
         <div className="mx-auto flex flex-col justify-center space-y-6 w-full max-w-sm">
           <div className="space-y-2">
-            <h1 className="heading_secondary">Create the &ldquo;site of you&rdquo;</h1>
+            <h1 className="heading_secondary">Create your “site of you”</h1>
             <p className="description">
-              You&apos;re just a few quick steps away from launching your personal mini-site.
+              You&apos;re just a few quick steps from launching your own space online.
             </p>
           </div>
           <SignUpForm slug={slug} />

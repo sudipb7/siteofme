@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { withUser } from "@/lib/with-user";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationMail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/token";
 
 export const POST = withUser(
@@ -11,7 +11,10 @@ export const POST = withUser(
       return NextResponse.json({ error: "Failed to generate verification token" }, { status: 500 });
     }
 
-    await sendVerificationEmail(verificationToken.identifier, verificationToken.token);
+    await sendVerificationMail({
+      email: verificationToken.identifier,
+      token: verificationToken.token,
+    });
 
     return NextResponse.json({ message: "Verification email sent" });
   },

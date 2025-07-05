@@ -6,7 +6,7 @@ import { auth, signIn } from "@/lib/auth";
 import { getZodError } from "@/lib/utils";
 import { signInSchema } from "@/lib/schemas";
 import { getUserByEmail } from "@/lib/queries";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationMail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/token";
 
 export async function POST(req: NextRequest) {
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     if (!user.emailVerified) {
       const token = await generateVerificationToken(email);
-      await sendVerificationEmail(token.identifier, token.token);
+      await sendVerificationMail({ email: token.identifier, token: token.token });
     }
 
     await signIn("credentials", {

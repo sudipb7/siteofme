@@ -4,7 +4,7 @@ import { ForgotPasswordForm } from "./components/form";
 
 export const metadata = generatePageMetadata({
   title: "Forgot password",
-  description: "Forgot your password? We'll help you reset it.",
+  description: "Let's help you reset your password.",
 });
 
 export default function ForgotPasswordPage() {
