@@ -83,7 +83,7 @@ export const SignUpForm = ({
 
       setTimeout(() => {
         router.push("/onboarding");
-      }, 1000);
+      }, 500);
     } catch (error) {
       handleClientError(error);
       setButtonState("idle");
@@ -230,7 +230,8 @@ export const SignUpForm = ({
             currentState={buttonState}
             disabled={!isUsernameAvailable || isLoading || buttonState === "loading"}
             aria-label="Continue with Email"
-            className="w-full"
+            data-success={buttonState === "success"}
+            className="w-full data-[success=true]:bg-success-foreground data-[success=true]:text-success"
           />
         </form>
       </Form>

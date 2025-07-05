@@ -106,7 +106,8 @@ export const ForgotPasswordForm = ({ className, ...props }: ComponentProps<"div"
             currentState={buttonState}
             disabled={isLoading}
             aria-label="Send Reset Link"
-            className="w-full"
+            data-success={buttonState === "success"}
+            className="w-full data-[success=true]:bg-success-foreground data-[success=true]:text-success"
           />
         </form>
       </Form>

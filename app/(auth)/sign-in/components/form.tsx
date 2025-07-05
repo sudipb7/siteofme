@@ -68,7 +68,7 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
 
       setTimeout(() => {
         router.push("/app");
-      }, 1000);
+      }, 500);
     } catch (error) {
       handleClientError(error);
       setButtonState("idle");
@@ -147,7 +147,8 @@ export const SignInForm = ({ className, ...props }: ComponentProps<"div">) => {
             currentState={buttonState}
             disabled={isLoading}
             aria-label="Continue with Email"
-            className="w-full"
+            data-success={buttonState === "success"}
+            className="w-full data-[success=true]:bg-success-foreground data-[success=true]:text-success"
           />
         </form>
       </Form>
