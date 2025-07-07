@@ -32,7 +32,10 @@ export const Editor = ({ className, style, site, isMobile = false }: EditorProps
 
   return (
     <div
-      className={cn("w-full max-w-72 min-h-full bg-background md:border-r overflow-y-auto", className)}
+      className={cn(
+        "w-full max-w-72 min-h-full bg-background md:border-r overflow-y-auto",
+        className
+      )}
       style={style}
     >
       <div>

@@ -1,4 +1,5 @@
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 import { extractRouterConfig } from "uploadthing/server";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
         <QueryProvider>
           {children} <Toaster richColors />
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );
