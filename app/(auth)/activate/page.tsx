@@ -22,8 +22,8 @@ export default async function AccountActivationPage({
   searchParams: Promise<{ token: string }>;
 }) {
   const user = await currentUser();
-  if (user?.emailVerified) {
-    redirect("/app");
+  if (!!user?.emailVerified) {
+    return redirect("/app");
   }
 
   const token = (await searchParams).token;
