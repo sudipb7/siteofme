@@ -28,7 +28,7 @@ export const USERNAME_TEXT_STATES = {
   idle: "Grab your username before it's gone!",
   available: "Nice this one's available! 😃",
   unavailable: "Taken you're a little late. 😐",
-  invalid: "Go for at least 5 characters trust us, it looks better. ✨",
+  invalid: "Go for at least 3 characters trust us, it looks better. ✨",
   special: "You're already special, no need for fancy symbols 😉",
 };
 

@@ -11,7 +11,7 @@ export type SignInInput = z.infer<typeof signInSchema>;
 export const signUpSchema = signInSchema.extend({
   username: z
     .string()
-    .min(5, { message: "5 characters look better as username 🖐" })
+    .min(3, { message: "3 characters look better as username 🖐" })
     .regex(/^[a-zA-Z0-9]+$/, {
       message: "You are already so special, why a special character? 😉",
     }),
