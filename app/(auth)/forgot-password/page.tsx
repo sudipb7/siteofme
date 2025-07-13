@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 import { generatePageMetadata } from "@/lib/metadata";
-import { ForgotPasswordForm } from "./components/form";
+import { ForgotPasswordForm } from "@/components/auth/forms/forgot-password";
 
 export const metadata = generatePageMetadata({
   title: "Forgot password",

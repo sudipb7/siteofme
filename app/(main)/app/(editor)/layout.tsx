@@ -1,4 +1,4 @@
-import { AppHeader } from "./components/header";
+import { AppHeader } from "@/components/editor/header";
 
 export default function MainAppLayout({ children }: { children: React.ReactNode }) {
   return (

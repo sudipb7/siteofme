@@ -1,10 +1,10 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { generatePageMetadata } from "@/lib/metadata";
-import { DashboardPrompt } from "./components/dashboard-prompt";
-import { PublicSiteContent } from "./components/public-site-content";
+import { DashboardPrompt } from "@/components/site/dashboard-prompt";
 import { getSiteBySlug, getUserById, currentUser } from "@/lib/queries";
+import { PublicSiteContent } from "@/components/site/public-site-content";
 
 interface PublicSitePageProps {
   params: Promise<{

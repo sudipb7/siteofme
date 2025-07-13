@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { User, Site } from "@/db/schema";
-import { MobileLayout } from "./components/mobile-layout";
-import { DesktopLayout } from "./components/desktop-layout";
-import { TabNavigation } from "./components/tab-navigation";
-import { StoreHydrator } from "./components/store-hydrator";
-import { TABS, type TabType } from "./lib/constants";
+import type { User, Site } from "@/db/schema";
+import { TABS, type TabType } from "@/lib/constants/editor";
+import { TabNavigation } from "@/components/editor/tab-navigation";
+import { StoreHydrator } from "@/components/editor/store-hydrator";
+import { DesktopLayout, MobileLayout } from "@/components/editor/layouts";
 
 interface MainAppPageClientProps {
   user: User;

@@ -1,6 +1,4 @@
-import { SVGProps } from "react";
-
-export type IconProps = SVGProps<SVGSVGElement>;
+import type { IconProps } from "@/types";
 
 export const Google = (props: IconProps) => (
   <svg {...props} strokeLinejoin="round" viewBox="0 0 16 16" style={{ color: "currentcolor" }}>

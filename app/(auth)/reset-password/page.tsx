@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { Header } from "@/components/header";
-import { ResetPasswordForm } from "./components/form";
 import { generatePageMetadata } from "@/lib/metadata";
+import { ResetPasswordForm } from "@/components/auth/forms/reset-password";
 
 export const metadata = generatePageMetadata({
   title: "Reset password",

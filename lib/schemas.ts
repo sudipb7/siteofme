@@ -1,5 +1,11 @@
-import { DEFAULT_SITE_CONFIG } from "@/app/(main)/lib/constants";
 import { z } from "zod";
+import { DEFAULT_SITE_CONFIG } from "./constants/site";
+
+export const fullNameSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+});
+
+export type FullNameInput = z.infer<typeof fullNameSchema>;
 
 export const signInSchema = z.object({
   email: z.string().min(1, { message: "Email is required" }).email({ message: "Email is invalid" }),
@@ -88,3 +94,10 @@ export const updateSiteSchema = z.object({
 });
 
 export type UpdateSiteInput = z.infer<typeof updateSiteSchema>;
+
+export const socialIconSchema = z.object({
+  platform: z.string().min(1, "Platform is required"),
+  url: z.string().url("Please enter a valid URL"),
+});
+
+export type SocialIconInput = z.infer<typeof socialIconSchema>;
