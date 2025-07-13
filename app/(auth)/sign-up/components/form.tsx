@@ -164,7 +164,7 @@ export const SignUpForm = ({
                     className={cn(
                       "description text-sm",
                       textState === "available" && "text-success-foreground",
-                      textState === "unavailable" && "text-destructive",
+                      ["unavailable", "reserved"].includes(textState) && "text-destructive",
                       ["invalid", "special"].includes(textState) && "text-warning-foreground"
                     )}
                   />

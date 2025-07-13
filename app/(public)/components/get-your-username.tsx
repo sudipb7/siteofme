@@ -55,7 +55,11 @@ export const GetYourUsername = () => {
       const res = await checkUsername(username);
       if ("error" in res) {
         setIsUsernameAvailable(false);
-        setTextState("unavailable");
+        if (res.error.includes("unavailable")) {
+          setTextState("reserved");
+        } else {
+          setTextState("unavailable");
+        }
       } else {
         setIsUsernameAvailable(true);
         setTextState("available");
@@ -146,7 +150,7 @@ export const GetYourUsername = () => {
         className={cn(
           "description text-sm mt-3",
           textState === "available" && "text-success-foreground",
-          textState === "unavailable" && "text-destructive",
+          ["unavailable", "reserved"].includes(textState) && "text-destructive",
           ["invalid", "special"].includes(textState) && "text-warning-foreground"
         )}
       />
