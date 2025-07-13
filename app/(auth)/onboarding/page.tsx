@@ -1,5 +1,5 @@
 import { generatePageMetadata } from "@/lib/metadata";
-import { OnboardingStep } from "./components/onboarding-step";
+import { OnboardingStep } from "@/components/auth/onboarding";
 
 export const metadata = generatePageMetadata({
   title: "Just a few more steps",

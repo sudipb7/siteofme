@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { Header } from "@/components/header";
-import { SignInForm } from "./components/form";
 import { generatePageMetadata } from "@/lib/metadata";
+import { SignInForm } from "@/components/auth/forms/sign-in";
 
 export const metadata = generatePageMetadata({
   title: "Sign in",

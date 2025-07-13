@@ -2,9 +2,9 @@ import { eq } from "drizzle-orm";
 
 import db from "@/db";
 import { redis } from "./redis";
+import type { UpdateSiteInput } from "./schemas";
+import { DEFAULT_SITE_CONFIG } from "./constants/site";
 import { Site, sites, type UserInsert, users } from "@/db/schema";
-import { DEFAULT_SITE_CONFIG } from "@/app/(main)/lib/constants";
-import { UpdateSiteInput } from "./schemas";
 
 export const updateUser = async (id: string, data: UserInsert) => {
   try {

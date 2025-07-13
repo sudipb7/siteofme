@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
-import { SignUpForm } from "./components/form";
 import { generatePageMetadata } from "@/lib/metadata";
+import { SignUpForm } from "@/components/auth/forms/sign-up";
 
 export const metadata = generatePageMetadata({
   title: "Sign up",
