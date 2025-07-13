@@ -30,6 +30,7 @@ export const USERNAME_TEXT_STATES = {
   unavailable: "Taken you're a little late. 😐",
   invalid: "Go for at least 3 characters trust us, it looks better. ✨",
   special: "You're already special, no need for fancy symbols 😉",
+  reserved: "This username is unavailable",
 };
 
 export const SITE_CONFIG = {
@@ -46,3 +47,27 @@ export const SITE_CONFIG = {
     twitter: "https://x.com/sudipcodes",
   },
 };
+
+export const RESERVED_SLUG = [
+  "blog",
+  "contact",
+  "faq",
+  "pricing",
+  "blog",
+  "showcase",
+  "gallery",
+  "sign-in",
+  "sign-up",
+  "reset-password",
+  "forgot-password",
+  "activate",
+  "onboarding",
+  "app",
+  "privacy",
+  "terms-of-service",
+  "terms",
+  "dashboard",
+  "settings",
+  "billing",
+  "upgrade",
+];

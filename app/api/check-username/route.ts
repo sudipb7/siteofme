@@ -5,6 +5,7 @@ import db from "@/db";
 import { users } from "@/db/schema";
 import { getZodError } from "@/lib/utils";
 import { signUpSchema } from "@/lib/schemas";
+import { RESERVED_SLUG } from "@/lib/constants";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,6 +17,10 @@ export async function POST(req: NextRequest) {
     }
 
     const { username } = validated.data;
+
+    if (RESERVED_SLUG.includes(username)) {
+      return NextResponse.json({ error: "This username is unavailable" }, { status: 400 });
+    }
 
     const user = await db.select().from(users).where(eq(users.username, username)).limit(1);
     if (user.length > 0) {
