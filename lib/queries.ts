@@ -5,6 +5,7 @@ import { sql, and, gte } from "drizzle-orm";
 import db from "@/db";
 import { auth } from "@/lib/auth";
 import { redis } from "@/lib/redis";
+import { SITE } from "@/lib/constants/keys";
 import { Site, sites, users, verificationTokens } from "@/db/schema";
 
 export const getUserByEmail = async (email: string) => {
@@ -124,7 +125,7 @@ export const getSiteByUserId = async (userId: string) => {
 
 export const getSiteDraftByUserName = async (username: string) => {
   try {
-    const draft = await redis.get(`site:${username}`);
+    const draft = await redis.get(`${SITE}:${username}`);
     if (!draft) {
       return null;
     }

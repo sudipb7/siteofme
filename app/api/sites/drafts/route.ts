@@ -4,11 +4,12 @@ import { Site } from "@/db/schema";
 import { redis } from "@/lib/redis";
 import { getZodError } from "@/lib/utils";
 import { withUser } from "@/lib/with-user";
+import { SITE } from "@/lib/constants/keys";
 import { updateSiteSchema } from "@/lib/schemas";
 
 export const GET = withUser(
   async ({ user }) => {
-    const siteDraft = await redis.get(`site:${user.username}`);
+    const siteDraft = await redis.get(`${SITE}:${user.username}`);
     if (!siteDraft) {
       return NextResponse.json({ error: "Site draft not found" }, { status: 404 });
     }
@@ -31,7 +32,7 @@ export const PATCH = withUser(
 
     const { slug, userId, ...rest } = validated.data;
 
-    const siteDraft = (await redis.get(`site:${slug}`)) as Site | null;
+    const siteDraft = (await redis.get(`${SITE}:${slug}`)) as Site | null;
     if (!siteDraft) {
       return NextResponse.json({ error: "Site draft not found" }, { status: 404 });
     }
@@ -41,7 +42,7 @@ export const PATCH = withUser(
 
     const updatedSite = { ...siteDraft, ...rest };
 
-    await redis.set(`site:${slug}`, JSON.stringify(updatedSite));
+    await redis.set(`${SITE}:${slug}`, JSON.stringify(updatedSite));
 
     return NextResponse.json({ message: "Site draft updated successfully" }, { status: 200 });
   },

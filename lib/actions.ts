@@ -1,9 +1,10 @@
 import { eq } from "drizzle-orm";
 
 import db from "@/db";
-import { redis } from "./redis";
-import type { UpdateSiteInput } from "./schemas";
-import { DEFAULT_SITE_CONFIG } from "./constants/site";
+import { redis } from "@/lib/redis";
+import { SITE } from "@/lib/constants/keys";
+import type { UpdateSiteInput } from "@/lib/schemas";
+import { DEFAULT_SITE_CONFIG } from "@/lib/constants/site";
 import { Site, sites, type UserInsert, users } from "@/db/schema";
 
 export const updateUser = async (id: string, data: UserInsert) => {
@@ -22,7 +23,7 @@ export const updateUser = async (id: string, data: UserInsert) => {
 
 export const createSiteDraft = async (site: Site) => {
   try {
-    const siteDraft = await redis.set(`site:${site.slug}`, JSON.stringify(site));
+    const siteDraft = await redis.set(`${SITE}:${site.slug}`, JSON.stringify(site));
     return siteDraft;
   } catch (error) {
     console.error("[ERROR >>> createSiteDraft]", error);
@@ -61,7 +62,7 @@ export const publishSite = async (site: UpdateSiteInput) => {
       .where(eq(sites.id, site.id))
       .returning();
 
-    await redis.set(`site:${site.slug}`, JSON.stringify(publishedSite[0]));
+    await redis.set(`${SITE}:${site.slug}`, JSON.stringify(publishedSite[0]));
 
     return publishedSite[0];
   } catch (error) {
