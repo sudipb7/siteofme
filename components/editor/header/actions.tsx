@@ -154,7 +154,7 @@ export const HeaderActions = ({ user }: { user: User }) => {
             </Link>
           </DropdownMenuItem> */}
           <DropdownMenuItem className="text-foreground" asChild>
-            <Link href={SITE_CONFIG.links.twitter} target="_blank">
+            <Link href={SITE_CONFIG.links.contact} target="_blank">
               <Mail className="size-4" /> Contact us
             </Link>
           </DropdownMenuItem>

@@ -25,7 +25,7 @@ export const BASE_METADATA: Metadata = {
   icons: {
     icon: SITE_CONFIG.favicon,
   },
-  creator: "Sudip Biswas",
+  creator: SITE_CONFIG.author.name,
   keywords: [
     "siteof",
     "siteof.me",
@@ -38,10 +38,17 @@ export const BASE_METADATA: Metadata = {
     "site builder",
     "website builder",
   ],
-  authors: [{ name: "Sudip Biswas", url: SITE_CONFIG.links.twitter }],
+  authors: [{ name: SITE_CONFIG.author.name, url: SITE_CONFIG.author.twitter }],
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   applicationName: SITE_CONFIG.name,
 };

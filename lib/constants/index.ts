@@ -35,7 +35,7 @@ export const USERNAME_TEXT_STATES = {
 };
 
 export const SITE_CONFIG = {
-  name: "siteof.me",
+  name: "SiteOf",
   url: SITE_URL,
   logo: "/logo.png",
   favicon: "/favicon.ico",
@@ -45,6 +45,11 @@ export const SITE_CONFIG = {
   ogImage: `${SITE_URL}/opengraph-image.png`,
   twitterImage: `${SITE_URL}/twitter-image.png`,
   links: {
+    contact: "mailto:support@siteof.me",
+    twitter: "https://x.com/siteofdotme",
+  },
+  author: {
+    name: "Sudip Biswas",
     twitter: "https://x.com/sudipcodes",
   },
 };
