@@ -8,10 +8,6 @@ export default auth(async req => {
   const isLoggedIn = !!req.auth;
   const user = req.auth?.user;
 
-  if (nextUrl.pathname.startsWith("/api")) {
-    return NextResponse.next();
-  }
-
   if (nextUrl.pathname.startsWith("/app") && !isLoggedIn) {
     return NextResponse.redirect(new URL("/sign-in", nextUrl));
   }
@@ -46,7 +42,21 @@ export default auth(async req => {
   return NextResponse.next();
 });
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    {
+      source: "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+      missing: [
+        { type: "header", key: "next-router-prefetch" },
+        { type: "header", key: "purpose", value: "prefetch" },
+      ],
+    },
+  ],
 };

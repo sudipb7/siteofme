@@ -1,5 +1,5 @@
 import { WHY_CHOOSE_SITEOF_ME } from "@/lib/constants";
-import { GetYourUsername } from "../../components/get-your-username";
+import { GetYourUsername } from "@/components/get-your-username";
 
 export default function HomePage() {
   return (
