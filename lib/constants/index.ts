@@ -45,7 +45,7 @@ export const SITE_CONFIG = {
   ogImage: `${SITE_URL}/opengraph-image.png`,
   twitterImage: `${SITE_URL}/twitter-image.png`,
   links: {
-    contact: "mailto:support@siteof.me",
+    contact: "mailto:sudip@siteof.me",
     twitter: "https://x.com/siteofdotme",
   },
   author: {
