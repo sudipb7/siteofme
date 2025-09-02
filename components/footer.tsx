@@ -10,15 +10,15 @@ export const Footer = () => {
           <Link href="/faq">FAQ</Link>
         </li> */}
         <li className="px-1">
-          <Link href={SITE_CONFIG.links.twitter} target="_blank">
+          <Link href={SITE_CONFIG.author.twitter} target="_blank">
             Twitter/X
           </Link>
         </li>
-        <li className="px-1">
+        {/* <li className="px-1">
           <Link href={SITE_CONFIG.links.contact} target="_blank">
             Contact
           </Link>
-        </li>
+        </li> */}
         {/* <li>
           <Link href="/privacy-policy">Privacy Policy</Link>
         </li>
