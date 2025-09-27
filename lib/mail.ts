@@ -5,7 +5,7 @@ import { VerificationEmail } from "@/components/emails/email-verification";
 import { ForgotPasswordEmail } from "@/components/emails/forgot-password";
 import { RESEND_DOMAIN, SITE_URL } from "./constants";
 
-const from = `SiteOf <noreply@${RESEND_DOMAIN}>`;
+const from = `SiteOf <siteof@${RESEND_DOMAIN}>`;
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendVerificationMail({ email, token }: { email: string; token: string }) {
