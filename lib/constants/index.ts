@@ -45,12 +45,12 @@ export const SITE_CONFIG = {
   ogImage: `${SITE_URL}/opengraph-image.png`,
   twitterImage: `${SITE_URL}/twitter-image.png`,
   links: {
-    contact: "mailto:sudip@siteof.me",
-    twitter: "https://x.com/siteofdotme",
+    contact: "mailto:hey@sudipbiswas.me",
+    twitter: "https://x.com/realsudipbiswas",
   },
   author: {
     name: "Sudip Biswas",
-    twitter: "https://x.com/sudipcodes",
+    twitter: "https://x.com/realsudipbiswas",
   },
 };
 
